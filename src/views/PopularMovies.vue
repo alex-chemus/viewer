@@ -1,5 +1,5 @@
 <template>
-  <h1>PopularMovies</h1>
+  <h2>{{ $route.path }}</h2>
 </template>
 
 

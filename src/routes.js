@@ -1,8 +1,7 @@
-import PopularMovies from '@views/PopularMovies/PopularMovies.vue'
-import PopularSeries from '@views/PopularSeries/PopularSeries.vue'
-import Page from '@views/Page/Page.vue'
-import Watchlist from '@views/Watchlist/Watchlist.vue'
-//import Watchlist from './views/Watchlist/Watchlist'
+import PopularMovies from '@views/PopularMovies.vue'
+import PopularSeries from '@views/PopularSeries.vue'
+import Page from '@views/Page.vue'
+import Watchlist from '@views/Watchlist.vue'
 
 const routes = [
   { path: '/', component: PopularMovies, alias: '/popular-movies' },

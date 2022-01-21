@@ -1,18 +1,59 @@
 <template>
-  <h1>I am App</h1>
+  <nav class="nav shadow-sm justify-content-start">
+    <div class="nav-item">
+      <router-link 
+        to='/watchlist' 
+        :class="$route.path==='/watchlist' 
+          ? 'nav-link text-primary' 
+          : 'nav-link text-secondary'"
+      >
+        Watchlist
+      </router-link>
+    </div>
+    <div class="nav-item">
+      <router-link 
+        to="/popular-movies" 
+        :class="$route.path==='/popular-movies' || $route.path==='/' 
+          ? 'nav-link btn-hide text-primary' 
+          : 'nav-link btn-hide text-secondary'"
+      >
+        Popular movies
+      </router-link>
+    </div>
+    <div class="nav-item">
+      <router-link 
+        to='/popular-series' 
+        :class="$route.path==='/popular-series' 
+          ? 'nav-link btn-hide text-primary' 
+          : 'nav-link btn-hide text-secondary'"
+      >
+        Popular series
+      </router-link>
+    </div>
+  </nav>
   <router-view></router-view>
-  <router-link to='/popular-series'>Popular series</router-link>
-  <router-link to='/popular-movies'>Popular series</router-link>
 </template>
 
 
 <script>
+import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+
 export default {
-  name: 'App'
+  name: 'App',
 }
 </script>
 
 
-<style lang='scss'>
+<style lang='scss' scoped>
   @import '@src/style.scss';
+
+  .btn-hide {
+    @media (min-width: 0) {
+      display: none;
+    }
+    @include media-breakpoint-up(sm) {
+      display: block;
+    }
+  }
 </style>
