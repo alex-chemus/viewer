@@ -19,6 +19,7 @@ export default {
     const moviesList = ref(null)
 
     const moviesCards = computed(() => state.moviesCards)
+    console.log(moviesCards.value.length)
 
     if (moviesCards.value.length) {
       moviesList.value = moviesCards
@@ -26,7 +27,7 @@ export default {
       axios
         .get(`${state.url}/MostPopularMovies/${state.apiKey}`)
         .then(res => {
-          console.log('fetch')
+          console.log('fetch', res.data.items)
           moviesList.value = res.data.items
           const list = []
           res.data.items.forEach(item => {

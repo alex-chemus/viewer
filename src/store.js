@@ -20,6 +20,7 @@ const initStore = {
     },
 
     addMoviesCards(state, value) {
+      console.log('from store', value)
       state.moviesCards.push(...value)
     },
 
