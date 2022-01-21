@@ -1,10 +1,10 @@
-//import * as Vue from 'vue'
 import App from './App.vue'
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
 import { createRouter, createWebHistory } from 'vue-router'
 import initStore from './store'
 import routes from './routes'
+import './style.scss'
 
 const store = createStore(initStore)
 const router = createRouter({

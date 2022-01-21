@@ -46,7 +46,11 @@ export default {
 
 
 <style lang='scss' scoped>
-  @import '@src/style.scss';
+  @import '@src/common.scss';
+
+  #app {
+    @include fullscreen();
+  }
 
   .btn-hide {
     @media (min-width: 0) {

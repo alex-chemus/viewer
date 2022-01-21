@@ -8,17 +8,24 @@
 const initStore = {
   state: {
     pages: [],
-    cards: []
+    moviesCards: [],
+    seriesCards: [],
+    apiKey: 'k_zealvkev',
+    url: 'https://imdb-api.com/en/API'
   },
 
   mutations: {
     addPage(state, value) {
-      state.pages.push(value)
+      state.pages.push(...value)
     },
 
-    addCard(state, value) {
-      state.cards.push(value)
+    addMoviesCards(state, value) {
+      state.moviesCards.push(...value)
     },
+
+    addSeriesCards(state, value) {
+      state.seriesCards.push(...value)
+    }
   }
 }
 

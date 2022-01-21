@@ -1,0 +1,11 @@
+@import '~bootstrap/scss/bootstrap';
+
+@mixin fullscreen() {
+  height: 100%;
+}
+
+@mixin flex($jc, $ai) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $ai;
+}
