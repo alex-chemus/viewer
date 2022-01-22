@@ -32,7 +32,8 @@
         </router-link>
       </div>
       <div class="nav-item toggle px-2 py-1">
-        <button class="btn" @click="toggleTheme" width="16" height="16">
+        <!-- <button class="btn" @click="toggleTheme"> -->
+        <button class="btn btn-primary" @click="toggleTheme">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="8.00001" cy="8.00001" r="5.46366" stroke="currentColor" stroke-width="1"/>
             <rect x="7.60976" width="1" height="2.34146" fill="currentColor"/>
@@ -88,7 +89,8 @@ export default {
   main.dark {
     background: $dark;
     --bg-color: #262626; // $dark
-    --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);;
+    --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    --large-shadow: 0 .5rem 2rem rgba(0, 0, 0, .25);
     --text-color: #FBFBFB; //$light;
     --secondary-color: #eee;
   }
@@ -96,18 +98,35 @@ export default {
   main.light {
     --bg-color: #fbfbfb; // $light
     --shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    --large-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
     --text-color: #262626; //$dark;
     --secondary-color: #6c757d; //$secondary;
   }
 
   main {
+    --primary-color: #1266F1;
+    --accent-color: #FFA900;
+    --small-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+
     height: 100%;
+    max-width: 100vw;
     display: grid;
     grid-template-rows: auto 1fr;
+    //@include flex(flex-start, stretch);
+    //flex-direction: column;
   }
 
   .nav {
-    box-shadow: var(--shadow);
+    box-shadow: var(--large-shadow);
+    background-color: var(--bg-color);
+    position: sticky;
+    top: 0;
+    //position: -webkit-sticky;
+    //align-self: flex-start;
+    flex-grow: 0;
+    width: 100%;
+    z-index: 1;
+    //justify-self: start;
   }
 
   .nav-item {
@@ -128,22 +147,11 @@ export default {
     align-self: center;
 
     button {
-      color: var(--text-color);
-      background-color: var(--bg-color);
-      border: 1px solid var(--text-color);
       aspect-ratio: 1 / 1;
       @include flex(center, center);
       padding: .5rem;
       border-radius: 20%;
-
-      &:hover {
-        color: var(--secondary-color);
-      }
-
-      svg {
-        height: 1rem;
-        width: 1rem;
-      }
+      //transition: all .15s, color none;
     }
   }
 

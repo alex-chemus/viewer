@@ -10,8 +10,6 @@ body, html, #app {
   grid-template: 1fr / 1fr;
 }
 
-/*@media (prefers-color-scheme: dark) {
-  #app {
-    background-color: $dark;
-  }
-}*/
+* {
+  transition: all .15s;
+}
