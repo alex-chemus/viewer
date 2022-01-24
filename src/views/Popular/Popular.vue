@@ -15,7 +15,7 @@
 import axios from 'axios'
 import { ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import Loader from '@components/Loader/Loader.vue'
 import Card from '@components/Card/Card.vue'
@@ -29,10 +29,15 @@ export default {
   setup() {
     const { state } = useStore()
     const route = useRoute()
+    const router = useRouter()
     const cardsList = ref(null)
 
     const type = route.params.type
     console.log('route params', route.params)
+    if (type !== 'movies' && type !== 'series') {
+      console.log('wrong type:', type==='movies')
+      router.push('/notfound')
+    }
     const storageItem = type==='movies' ? 'popularMovies' : 'popularSeries'
     const urlRequest = type==='movies' ? 'MostPopularMovies' : 'MostPopularTVs'
 

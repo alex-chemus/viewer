@@ -14,7 +14,14 @@
       <p class="card-text mb-3 year">{{ data.year }}</p> -->
       
       <div class="image-container">
-        <img :src="data.image" alt="Image" class="mb-3">
+        <!--<img :src="data.image" alt="Image" class="mb-3">-->
+        <ImageItem 
+          :url="data.image" 
+          :styles="{
+            maxHeight: '100%',
+            maxWidth: '100%'
+          }"
+        ></ImageItem>
       </div>
 
       <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
@@ -34,10 +41,14 @@
 
 
 <script>
+import ImageItem from '@components/ImageItem/ImageItem.vue'
+
 export default {
   name: 'Card',
 
   props: ['data'],
+
+  components: { ImageItem },
 
   methods: {
     dyeCard(rating) {
@@ -64,10 +75,10 @@ export default {
     width: 100%;
     @include flex(center, center);
 
-    img {
+    /*img {
       max-height: 100%;
       max-width: 100%;
-    }
+    }*/
   }
 
   .wrapper {

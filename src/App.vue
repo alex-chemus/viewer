@@ -92,7 +92,7 @@ export default {
     --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
     --large-shadow: 0 .5rem 2rem rgba(0, 0, 0, .25);
     --text-color: #FBFBFB; //$light;
-    --secondary-color: #eee;
+    --secondary-color: #bbb;
   }
 
   main.light {
