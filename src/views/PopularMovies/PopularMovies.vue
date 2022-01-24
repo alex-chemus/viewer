@@ -1,7 +1,7 @@
 <template>
   <section v-if="moviesList" class="container pt-5">
     <div class="row justify-content-center">
-      <div v-for="movie in moviesList" :key="movie.i" class="col-lg-3 col-sm-6 col-8 py-2">
+      <div v-for="movie in moviesList" :key="movie.i" class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3">
         <Card :data="movie"></Card>
       </div>
     </div>

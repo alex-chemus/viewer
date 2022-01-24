@@ -6,12 +6,19 @@
         <img :src="data.image" alt="Image">
       </div> -->
       <img :src="data.image" alt="Image" class="mb-3">
-      <div class="wrapper">
+      <!-- <div class="wrapper">
         <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
         <p :class="dyeCard(data.imDbRating)">{{ data.imDbRating }}</p>
       </div>
       
-      <p class="card-text mb-3 year">{{ data.year }}</p>
+      <p class="card-text mb-3 year">{{ data.year }}</p> -->
+      
+      <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
+
+      <div class="wrapper mb-3">
+        <p class="card-text year m-0">{{ data.year }}</p>
+        <p :class="dyeCard(data.imDbRating)">{{ data.imDbRating }}</p>
+      </div>
 
       <div class="wrapper">
         <button class="btn btn-primary">Add</button>
@@ -34,7 +41,7 @@ export default {
       if (rating > 8) colorClass = 'text-success'
       else if (rating > 6) colorClass = 'text-warning'
       else colorClass = 'text-danger'
-      return `card-text rating ${colorClass}`
+      return `card-text rating ${colorClass} m-0`
     }
   }
 }
@@ -66,7 +73,7 @@ export default {
   }
 
   .card-title {
-    width: 70%;
+    //width: 70%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
