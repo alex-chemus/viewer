@@ -1,0 +1,28 @@
+<template>
+  <div class="container">
+    <h2 class="mb-3">Soryy, but nothing found</h2>
+    <h3>¯\_(ツ)_/¯</h3>
+  </div>
+</template>
+
+
+<script>
+export default {
+  name: 'NotFound'
+}
+</script>
+
+
+<style lang="scss" scoped>
+  @import '@src/common.scss';
+
+  .container {
+    @include flex(center, center);
+    flex-direction: column;
+  }
+
+  h2, h3 {
+    text-align: center;
+    color: var(--text-color);
+  }
+</style>
