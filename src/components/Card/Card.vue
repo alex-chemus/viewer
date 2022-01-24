@@ -5,7 +5,7 @@
       <!-- <div class="card-img-top mb">
         <img :src="data.image" alt="Image">
       </div> -->
-      <img :src="data.image" alt="Image" class="mb-3">
+      
       <!-- <div class="wrapper">
         <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
         <p :class="dyeCard(data.imDbRating)">{{ data.imDbRating }}</p>
@@ -13,6 +13,10 @@
       
       <p class="card-text mb-3 year">{{ data.year }}</p> -->
       
+      <div class="image-container">
+        <img :src="data.image" alt="Image" class="mb-3">
+      </div>
+
       <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
 
       <div class="wrapper mb-3">
@@ -55,6 +59,17 @@ export default {
     box-shadow: var(--shadow);
   }
 
+  .image-container {
+    height: 200px;
+    width: 100%;
+    @include flex(center, center);
+
+    img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+  }
+
   .wrapper {
     @include flex(space-between, center);
   }
@@ -67,10 +82,10 @@ export default {
     font-weight: bold;
   }
 
-  img {
+  /*img {
     display: block;
     margin: 0 auto;
-  }
+  }*/
 
   .card-title {
     //width: 70%;

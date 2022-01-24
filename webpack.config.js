@@ -14,12 +14,16 @@ module.exports = {
   },
   output: {
     filename: '[name].[contenthash].js',
+    publicPath: '/',
     path: path.resolve(__dirname, 'dist')
   },
   devServer: {
     port: 8080,
     //open: true,
-    historyApiFallback: true
+    //historyApiFallback: true
+    historyApiFallback: {
+      index: 'index.html'
+    }
   },
   resolve: {
     alias: {

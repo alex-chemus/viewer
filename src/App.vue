@@ -13,7 +13,7 @@
       </div>
       <div class="nav-item">
         <router-link 
-          to="/popular-movies" 
+          to="/popular/movies" 
           :class="$route.path==='/popular-movies' || $route.path==='/' 
             ? 'nav-link btn-hide text-primary' 
             : 'nav-link btn-hide'"
@@ -23,7 +23,7 @@
       </div>
       <div class="nav-item">
         <router-link 
-          to='/popular-series' 
+          to='/popular/series' 
           :class="$route.path==='/popular-series' 
             ? 'nav-link btn-hide text-primary' 
             : 'nav-link btn-hide'"
@@ -48,7 +48,7 @@
         </button>
       </div>
     </nav>
-    <router-view></router-view>
+    <router-view :key="$route.fullPath"></router-view>
   </main>
 </template>
 
