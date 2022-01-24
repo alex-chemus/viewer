@@ -6,42 +6,52 @@
       </div>
     </div>
   </section>
+  <ConnectionError v-else-if="moviesList === 'Error'"></ConnectionError>
   <Loader v-else></Loader>
 </template>
 
 
 <script>
-import Loader from '@components/Loader/Loader.vue'
-import Card from '@components/Card/Card.vue'
 import axios from 'axios'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
+import Loader from '@components/Loader/Loader.vue'
+import Card from '@components/Card/Card.vue'
+import ConnectionError from '@components/ConnectionError/ConnectionError.vue'
+
 export default {
   name: 'PopularMovies',
 
-  components: { Loader, Card },
+  components: { Loader, Card, ConnectionError },
 
   setup() {
     const { state } = useStore()
     const moviesList = ref(null)
 
     const fetchData = async () => {
-      const res = await axios.get(`${state.url}/MostPopularMovies/${state.apiKey}`)
-      console.log('fetch data')
-      moviesList.value = res.data.items
-      const list = []
-      res.data.items.forEach((item, i) => {
-        list.push({
-          title: item.title,
-          year: item.year,
-          imDbRating: item.imDbRating,
-          image: item.image,
-          i
+      try {
+        const res = await axios.get(`${state.url}/MostPopularMovies/${state.apiKey}`)
+        if (res.errorMessage !== '') throw new Error('Error')
+        console.log('response: ', data)
+        console.log('fetch data')
+        moviesList.value = res.data.items
+        const list = []
+        res.data.items.forEach((item, i) => {
+          list.push({
+            title: item.title,
+            year: item.year,
+            imDbRating: item.imDbRating,
+            image: item.image,
+            i
+          })
         })
-      })
-      localStorage.setItem('popularMovies', JSON.stringify({ list, time: Date.now() }))
-      return null
+        localStorage.setItem('popularMovies', JSON.stringify({ list, time: Date.now() }))
+        return null
+      } catch (err) {
+        moviesList.value = 'Error'
+        return null
+      }
     }
 
     // if data is stored locally, retrieve it to the ref 

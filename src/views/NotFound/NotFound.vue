@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2 class="mb-3">Soryy, but nothing found</h2>
+    <h2 class="mb-3">Sorry, but nothing found</h2>
     <h3>¯\_(ツ)_/¯</h3>
   </div>
 </template>
