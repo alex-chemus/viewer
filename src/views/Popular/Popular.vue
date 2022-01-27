@@ -17,9 +17,9 @@ import { ref, watch, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
-import Loader from '@src/components/Loader/Loader.vue'
-import Card from '@src/components/Card/Card.vue'
-import ConnectionError from '@src/components/ConnectionError/ConnectionError.vue'
+import Loader from '@/components/Loader/Loader.vue'
+import Card from '@/components/Card/Card.vue'
+import ConnectionError from '@/components/ConnectionError/ConnectionError.vue'
 
 export default {
   name: 'Popular',
@@ -98,7 +98,7 @@ export default {
 
 
 <style lang='scss' scoped>
-  @import '@src/common.scss';
+  @import '@/common.scss';
 
   .container {
     min-width: 0;

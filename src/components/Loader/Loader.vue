@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@src/common.scss';
+  @import '@/common.scss';
 
   .wrapper {
     @include flex(center, center);

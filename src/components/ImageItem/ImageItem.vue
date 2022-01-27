@@ -37,7 +37,7 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import '@src/common.scss';
+  @import '@/common.scss';
 
   .placeholder {
     height: 100%;

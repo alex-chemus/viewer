@@ -14,7 +14,7 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import '@src/common.scss';
+  @import '@/common.scss';
 
   .container {
     @include flex(center, center);

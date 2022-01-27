@@ -1,20 +1,7 @@
 <template>
-  <article class="card">
-    <!-- <img :src="data.image" alt="Image" class="card-img-top"> -->
+  <article class="card" v-if="data" data-test="card">
     <div class="card-body">
-      <!-- <div class="card-img-top mb">
-        <img :src="data.image" alt="Image">
-      </div> -->
-      
-      <!-- <div class="wrapper">
-        <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
-        <p :class="dyeCard(data.imDbRating)">{{ data.imDbRating }}</p>
-      </div>
-      
-      <p class="card-text mb-3 year">{{ data.year }}</p> -->
-      
       <div class="image-container mb-3">
-        <!--<img :src="data.image" alt="Image" class="mb-3">-->
         <ImageItem 
           :url="data.image" 
           :styles="{
@@ -37,11 +24,14 @@
       </div>
     </div>
   </article>
+
+  <article v-else class="card card-placeholder">
+  </article>
 </template>
 
 
 <script>
-import ImageItem from '@src/components/ImageItem/ImageItem.vue'
+import ImageItem from '@/components/ImageItem/ImageItem.vue'
 
 export default {
   name: 'Card',
@@ -64,21 +54,20 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import '@src/common.scss';
+  @import '@/common.scss';
 
   .card {
     box-shadow: var(--shadow);
+
+    &-placeholder {
+      height: 350px;
+    }
   }
 
   .image-container {
     height: 200px;
     width: 100%;
     @include flex(center, center);
-
-    /*img {
-      max-height: 100%;
-      max-width: 100%;
-    }*/
   }
 
   .wrapper {
@@ -93,13 +82,7 @@ export default {
     font-weight: bold;
   }
 
-  /*img {
-    display: block;
-    margin: 0 auto;
-  }*/
-
   .card-title {
-    //width: 70%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

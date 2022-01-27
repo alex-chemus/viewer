@@ -12,8 +12,9 @@ describe('ImageItem.vue', () => {
 
   test('should be a placeholder on start', () => {
     const img = wrapper.find('img').exists()
-    expect(img).toBe(false)
     const placeholder = wrapper.find('.placeholder').exists()
-    expect(placeholder).toBe(true)
+
+    expect(img).toBeFalsy()
+    expect(placeholder).toBeTruthy()
   })
 })
