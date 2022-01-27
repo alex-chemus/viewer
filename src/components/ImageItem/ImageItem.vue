@@ -28,11 +28,6 @@ export default {
 
     onMounted(() => {
       observer.observe(placeholder.value)
-      if (img.value) {
-        for (let prop in props.styles) {
-          img.value.style[prop] = props.styles[prop]
-        }
-      }
     })
 
     return { src, img, placeholder }
