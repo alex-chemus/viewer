@@ -1,7 +1,7 @@
-import Popular from '@views/Popular/Popular.vue'
-import Page from '@views/Page/Page.vue'
-import Watchlist from '@views/Watchlist/Watchlist.vue'
-import NotFound from '@views/NotFound/NotFound.vue'
+import Popular from '@src/views/Popular/Popular.vue'
+import Page from '@src/views/Page/Page.vue'
+import Watchlist from '@src/views/Watchlist/Watchlist.vue'
+import NotFound from '@src/views/NotFound/NotFound.vue'
 
 const routes = [
   { path: '/', redirect: '/popular/movies' },

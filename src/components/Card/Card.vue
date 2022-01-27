@@ -13,7 +13,7 @@
       
       <p class="card-text mb-3 year">{{ data.year }}</p> -->
       
-      <div class="image-container">
+      <div class="image-container mb-3">
         <!--<img :src="data.image" alt="Image" class="mb-3">-->
         <ImageItem 
           :url="data.image" 
@@ -41,7 +41,7 @@
 
 
 <script>
-import ImageItem from '@components/ImageItem/ImageItem.vue'
+import ImageItem from '@src/components/ImageItem/ImageItem.vue'
 
 export default {
   name: 'Card',

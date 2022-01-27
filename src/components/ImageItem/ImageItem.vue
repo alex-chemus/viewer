@@ -1,5 +1,5 @@
 <template>
-  <img v-if="src" :src="src" alt="">
+  <img v-if="src" :src="src" :style="styles" alt="">
   <div v-else class="placeholder" ref="placeholder"></div>
 </template>
 
