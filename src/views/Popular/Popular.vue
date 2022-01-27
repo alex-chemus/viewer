@@ -13,7 +13,7 @@
 
 <script>
 import axios from 'axios'
-import { ref, watch, watchEffect } from 'vue'
+import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -32,10 +32,12 @@ export default {
     const router = useRouter()
     const cardsList = ref(null)
 
+    console.log('render Popular')
+
     const type = route.params.type
-    console.log('route params', route.params)
+    //console.log('route params', route.params)
     if (type !== 'movies' && type !== 'series') {
-      console.log('wrong type:', type==='movies')
+      //console.log('wrong type:', type==='movies')
       router.push('/notfound')
     }
     const storageItem = type==='movies' ? 'popularMovies' : 'popularSeries'
@@ -43,10 +45,9 @@ export default {
 
     const fetchData = async () => {
       try {
+        console.log('fetch data')
         const res = await axios.get(`${state.url}/${urlRequest}/${state.apiKey}`)
         if (res.data.errorMessage !== '' || res.status !== 200) throw new Error('Error')
-        //console.log('response: ', data)
-        //console.log('fetch data')
         cardsList.value = res.data.items
         const list = []
         res.data.items.forEach((item, i) => {
@@ -68,8 +69,6 @@ export default {
     }
 
     const getData = () => {
-      console.log('storage item:', storageItem)
-      console.log('type:', type)
       // if data is stored locally, retrieve it to the ref 
       if (JSON.parse(localStorage.getItem(storageItem))) {
         const localData = JSON.parse(localStorage.getItem(storageItem))
@@ -78,18 +77,13 @@ export default {
         // if the data is expired (1h), fetch it again
         if (Date.now() - localData.time > 3_600_000) {
           fetchData()
-            /*.then(() => {
-              cardsList.value = JSON.parse(localStorage.getItem(storageItem)).list
-            })*/
         }
       } else { // fetch data if it's not stored locally
-        console.log('fetch data')
         fetchData()
       }
     }
 
     watch(() => route.params, getData())
-    //watchEffect(getData)
 
     return { cardsList }
   }
