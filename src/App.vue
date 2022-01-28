@@ -84,7 +84,7 @@ export default {
 
 
 <style lang='scss' scoped>
-  @import '@src/common.scss';
+  @import '@/common.scss';
 
   main.dark {
     background: $dark;
