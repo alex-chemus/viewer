@@ -32,8 +32,6 @@ export default {
     const router = useRouter()
     const cardsList = ref(null)
 
-    console.log('render Popular')
-
     const type = route.params.type
     //console.log('route params', route.params)
     if (type !== 'movies' && type !== 'series') {
@@ -45,7 +43,6 @@ export default {
 
     const fetchData = async () => {
       try {
-        console.log('fetch data')
         const res = await axios.get(`${state.url}/${urlRequest}/${state.apiKey}`)
         if (res.data.errorMessage !== '' || res.status !== 200) throw new Error('Error')
         cardsList.value = res.data.items
@@ -62,7 +59,6 @@ export default {
         localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }))
         return null
       } catch (err) {
-        console.log('error in fetchData')
         cardsList.value = 'Error'
         return null
       }
@@ -73,7 +69,6 @@ export default {
       if (JSON.parse(localStorage.getItem(storageItem))) {
         const localData = JSON.parse(localStorage.getItem(storageItem))
         cardsList.value = localData.list
-        console.log('get data from local storage', localData)
         // if the data is expired (1h), fetch it again
         if (Date.now() - localData.time > 3_600_000) {
           fetchData()
