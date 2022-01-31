@@ -20,7 +20,7 @@
 
       <div class="wrapper">
         <button class="btn btn-primary">Add</button>
-        <router-link to="/" class="btn btn-warning">Info</router-link>
+        <router-link :to="`/${data.type}/${data.id}`" class="btn btn-warning">Info</router-link>
       </div>
     </div>
   </article>

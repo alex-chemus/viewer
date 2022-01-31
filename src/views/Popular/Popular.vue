@@ -7,6 +7,7 @@
     </div>
     <div class="row justify-content-center">
       <button 
+        v-if="cardsList.length < 100"
         class="btn btn-primary loadMore col-auto mb-3"
         @click="loadMore"
       >Load more</button>
@@ -33,7 +34,7 @@ export default {
   components: { Loader, Card, ConnectionError },
 
   setup() {
-    const { state } = useStore()
+    const { getters } = useStore()
     const route = useRoute()
     const router = useRouter()
     const cardsList = ref(null)
@@ -48,10 +49,9 @@ export default {
 
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${state.url}/${urlRequest}/${state.apiKey}`)
+        const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`)
         if (res.data.errorMessage !== '' || res.status !== 200) throw new Error('Error')
         cardsList.value = res.data.items.slice(0, loadTo.value)
-        //console.log(res.data.items)
         const list = []
         res.data.items.forEach((item, i) => {
           list.push({
@@ -59,6 +59,8 @@ export default {
             year: item.year,
             imDbRating: item.imDbRating,
             image: item.image,
+            id: item.id,
+            type,
             i
           })
         })
@@ -90,9 +92,6 @@ export default {
       loadTo.value += 20
       getData()
     }
-
-    /*axios('https://imdb-api.com/en/API/Images/k_zealvkev/tt1375666/Short')
-      .then(res => console.log(res))*/
 
     return { cardsList, loadMore }
   }
