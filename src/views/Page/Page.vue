@@ -1,8 +1,15 @@
 <template>
-  <div class="container pt-5">
-    <div class="wrapper">
+  <section v-if="data" class="container-md pt-5">
+    <div class="row">
+      <div class="col-12 col-xl-4 col-md-6">
+        <img :src="data.image" alt="Poster" class="poster">
+      </div>
+
+      <PageContent :data="data" />
     </div>
-  </div>
+  </section>
+
+  <Loader v-else />
 </template>
 
 
@@ -12,10 +19,15 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
+import Loader from '@/components/Loader/Loader.vue'
+import PageContent from '@/components/PageContent/PageContent.vue'
+
 export default {
   name: 'Page',
 
-  setup(props) {
+  components: { Loader, PageContent },
+
+  setup() {
     const data = ref(null)
 
     const { commit, getters } = useStore()
@@ -46,12 +58,42 @@ export default {
         })
     }
 
-    return { data }
+    const getBadgeClasses = (rating) => {
+      let cls = ['badge']
+      if (rating > 8) {
+        cls.push('bg-success')
+      } else if (rating > 6) {
+        cls.push('bg-warning')
+        cls.push('text-dark')
+      } else {
+        cls.push('bg-danger')
+      }
+      return cls.join(' ')
+    }
+
+    return { data, getBadgeClasses }
   }
 }
 </script>
 
 
-<style lang='scss'>
+<style lang='scss' scoped>
   @import '@/common.scss';
+
+  .poster {
+    max-width: 100%;
+
+    @media (max-width: 768px) {
+      max-height: 70vh;
+      box-shadow: var(--large-shadow);
+    }
+  }
+
+  * {
+    color: var(--text-color);
+  }
+
+  .col-12 {
+    @include flex(center, center);
+  }
 </style>

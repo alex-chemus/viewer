@@ -87,7 +87,7 @@ export default {
   @import '@/common.scss';
 
   main.dark {
-    background: $dark;
+    --main-bg-color: #212529;
     --bg-color: #262626; // $dark
     --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
     --large-shadow: 0 .5rem 2rem rgba(0, 0, 0, .25);
@@ -96,6 +96,7 @@ export default {
   }
 
   main.light {
+    --main-bg-color: #fbfbfb;
     --bg-color: #fbfbfb; // $light
     --shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
     --large-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
@@ -108,6 +109,7 @@ export default {
     --accent-color: #FFA900;
     --small-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 
+    background-color: var(--main-bg-color);
     height: 100%;
     max-width: 100vw;
     display: grid;
