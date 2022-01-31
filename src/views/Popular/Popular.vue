@@ -41,7 +41,6 @@ export default {
 
     const type = route.params.type
     if (type !== 'movies' && type !== 'series') {
-      //console.log('wrong type:', type==='movies')
       router.push('/notfound')
     }
     const storageItem = type==='movies' ? 'popularMovies' : 'popularSeries'
@@ -52,7 +51,7 @@ export default {
         const res = await axios.get(`${state.url}/${urlRequest}/${state.apiKey}`)
         if (res.data.errorMessage !== '' || res.status !== 200) throw new Error('Error')
         cardsList.value = res.data.items.slice(0, loadTo.value)
-        console.log(res.data.items)
+        //console.log(res.data.items)
         const list = []
         res.data.items.forEach((item, i) => {
           list.push({
@@ -76,7 +75,6 @@ export default {
       if (JSON.parse(localStorage.getItem(storageItem))) {
         const localData = JSON.parse(localStorage.getItem(storageItem))
         cardsList.value = localData.list.slice(0, loadTo.value)
-        console.log(cardsList.value)
         // if the data is expired (1h), fetch it again
         if (Date.now() - localData.time > 3_600_000) {
           fetchData()
@@ -93,8 +91,8 @@ export default {
       getData()
     }
 
-    axios('https://imdb-api.com/en/API/Images/k_zealvkev/tt1375666/Short')
-      .then(res => console.log(res))
+    /*axios('https://imdb-api.com/en/API/Images/k_zealvkev/tt1375666/Short')
+      .then(res => console.log(res))*/
 
     return { cardsList, loadMore }
   }
