@@ -1,32 +1,91 @@
 <template>
-  <div class="col content p-4">
-    <h1 class="mb-3">{{ data.title }}</h1>
-    <h5>
+  <div class="col content px-5 py-4">
+    <h1 class="mb-4">{{ data.title }}</h1>
+
+    <h5 class="mb-3">
       Rating:
       <span :class="getBadgeClasses(data.imDbRating)">
         {{ data.imDbRating }}
       </span>
     </h5>
-    <h5>
-      Genres:
-      <!-- <span v-for="genre in data.genres"></span> -->
-    </h5>
+
+    <div class="wrapper mb-3">
+      <h5 class="m-0">Genres:</h5>
+      <p class="m-0 ms-2">
+        <span 
+          v-for="genre in getKeyedGenres()" 
+          :key="genre.key"
+          class="badge bg-primary ms-2"
+        >
+          {{ genre.value }}
+        </span>
+      </p>
+    </div>
+
+    <h5>Description</h5>
+    <p class="mb-3">{{ data.plot }}</p>
+
+    <Paragraph 
+      v-if="data.year"
+      title="Year"
+      :data="data.year"
+    />
+
+    <Paragraph 
+      v-if="data.directors"
+      title="Directors"
+      :data="data.directors"
+    />
+
+    <Paragraph 
+      v-if="data.stars"
+      title="Stars"
+      :data="data.stars"
+    />
+
+    <Paragraph
+      v-if="data.runtimeStr"
+      title="Time"
+      :data="data.runtimeStr"
+    />
+
+    <Paragraph 
+      v-if="data.companies"
+      title="Companies"
+      :data="data.companies"
+    />
+
+    <div v-if="data.boxOffice" class="mb-3">
+      <h5 class="mb-2">Box Office:</h5>
+      <p class="mb-1">Budget: {{ data.boxOffice.budget }}</p>
+      <p>Cumulative Worlwide Gross: {{ data.boxOffice.cumulativeWorldwideGross }}</p>
+    </div>
+
+    <Paragraph 
+      v-if="data.countries"
+      title="Countries"
+      :data="data.countries"
+    />
   </div>
 </template>
 
 
 <script>
+import Paragraph from '@/components/Paragraph/Paragraph.vue'
+
 export default {
   name: 'PageContent',
 
-  props: ['data'],
+  props: ['data', 'type'],
 
-  setup() {
-    const getBadgeClasses = (rating) => {
-      let cls = ['badge']
-      if (rating > 8) {
+  components: { Paragraph },
+
+  setup(props) {
+    const getBadgeClasses = () => {
+      let cls = ['badge', 'ms-2']
+      if (props.data.imDbRating > 8) {
         cls.push('bg-success')
-      } else if (rating > 6) {
+      } else if (props.data.imDbRating > 6) {
         cls.push('bg-warning')
         cls.push('text-dark')
       } else {
@@ -35,7 +94,14 @@ export default {
       return cls.join(' ')
     }
 
-    return { getBadgeClasses }
+    const getKeyedGenres = () => {
+      return props.data.genreList.map((item, i) => {
+        item.key = i
+        return item
+      })
+    }
+
+    return { getBadgeClasses, getKeyedGenres }
   }
 }
 </script>
@@ -46,11 +112,17 @@ export default {
 
   .content {
     @media (max-width: 768px) {
-      //border: 1px solid green;
       margin-top: -15vh !important;
-      //box-shadow: var(--large-shadow);
       box-shadow: 0 -5vh 1.2rem rgba(0, 0, 0, .5);
       background-color: var(--main-bg-color);
     }
   }
+
+  .wrapper {
+    @include flex(flex-start, baseline);
+  }
+
+  /*p, h5, h1 {
+    color: var(--text-color);
+  }*/
 </style>

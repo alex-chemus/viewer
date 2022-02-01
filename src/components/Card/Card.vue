@@ -1,9 +1,9 @@
 <template>
-  <article class="card" v-if="data" data-test="card">
+  <article class="card" v-if="card" data-test="card">
     <div class="card-body">
       <div class="image-container mb-3">
         <ImageItem 
-          :url="data.image" 
+          :url="card.image" 
           :styles="{
             maxHeight: '100%',
             maxWidth: '100%'
@@ -11,16 +11,16 @@
         ></ImageItem>
       </div>
 
-      <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
+      <h5 class="card-title mb-1" :title="card.title">{{ card.title }}</h5>
 
       <div class="wrapper mb-3">
-        <p class="card-text year m-0">{{ data.year }}</p>
-        <p :class="dyeCard(data.imDbRating)">{{ data.imDbRating }}</p>
+        <p v-if="card.year" class="card-text year m-0">{{ card.year }}</p>
+        <p :class="dyeCard(card.imDbRating)">{{ card.imDbRating }}</p>
       </div>
 
       <div class="wrapper">
         <button class="btn btn-primary">Add</button>
-        <router-link :to="`/${data.type}/${data.id}`" class="btn btn-warning">Info</router-link>
+        <router-link :to="`/${card.type}/${card.id}`" class="btn btn-warning">Info</router-link>
       </div>
     </div>
   </article>
@@ -31,6 +31,11 @@
 
 
 <script>
+import { ref, toRefs, computed, toRef, toRaw, reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+
 import ImageItem from '@/components/ImageItem/ImageItem.vue'
 
 export default {
@@ -48,6 +53,45 @@ export default {
       else colorClass = 'text-danger'
       return `card-text rating ${colorClass} m-0`
     }
+  },
+
+  setup(props) {
+    // check if data has title and other fields
+    // if not, get full page by id and set it to the store
+
+    const { getters, commit } = useStore()
+    const router = useRouter()
+
+    const data = reactive(toRaw(props.data))
+    console.log(data.value.title)
+
+    //const { data } = toRefs(props)
+    //const data = toRef(props, 'data')
+    //console.log(data.value)
+
+    /*if (!card.value.type) {
+      console.log('fetch page from card')
+      axios(`${getters.url}/Title/${getters.apiKey}/${card.value.id}`)
+        .then(res => {
+          if (res.data.errorMessage?.length || res.status !== 200) {
+            throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+          }
+          card.value = {
+            title: res.data.title,
+            year: res.data.year,
+            imgDbRating: res.data.imgDbRating,
+            type: res.data.type === 'Movie' ? 'movie' : 'series',
+            image: res.data.image
+          }
+          commit('addPage', card.value)
+        })
+        .catch(err => {
+          console.log('error in Card:', err)
+          router.push('/notfound')
+        })
+    }*/
+
+    //return { card }
   }
 }
 </script>
@@ -58,6 +102,8 @@ export default {
 
   .card {
     box-shadow: var(--shadow);
+    background-color: #fbfbfb;
+    color: #262626;
 
     &-placeholder {
       height: 350px;

@@ -40,7 +40,8 @@ export default {
     const cardsList = ref(null)
     const loadTo = ref(21)
 
-    const type = route.params.type
+    const type = route.params.type ?? 'movies'
+    console.log('type:', type)
     if (type !== 'movies' && type !== 'series') {
       router.push('/notfound')
     }
