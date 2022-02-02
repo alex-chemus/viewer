@@ -52,7 +52,7 @@ export default {
       try {
         const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`)
         if (res.data.errorMessage !== '' || res.status !== 200) throw new Error('Error')
-        cardsList.value = res.data.items.slice(0, loadTo.value)
+        //cardsList.value = res.data.items.slice(0, loadTo.value)
         const list = []
         res.data.items.forEach((item, i) => {
           list.push({
@@ -65,6 +65,7 @@ export default {
             i
           })
         })
+        cardsList.value = list.slice(0, loadTo.value)
         localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }))
         return null
       } catch (err) {

@@ -19,7 +19,7 @@
       </div>
 
       <div class="wrapper">
-        <button class="btn btn-primary">Add</button>
+        <button @click="addCard" class="btn btn-primary">Add</button>
         <button @click="seeInfo" class="btn btn-warning">Info</button>
       </div>
     </div>
@@ -31,7 +31,7 @@
 
 
 <script>
-import { toRaw } from 'vue'
+import { toRaw, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -64,10 +64,36 @@ export default {
 
     const data = toRaw(props.data)
 
+    const defineType = () => {
+      if (!data.type) {
+        console.log('fetch page from card')
+        console.log('data', data)
+        axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
+          .then(res => {
+            if (res.data.errorMessage?.length || res.status !== 200) {
+              throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+            }
+            commit('addPage', res.data)
+            const type = res.data.type === 'Movie' ? 'movies' : 'seires'
+            return type
+            //router.push(`/${type}/${data.id}`)
+          })
+          .catch(err => {
+            console.log('error in Card:', err)
+            router.push('/notfound')
+          })
+      } else {
+        //console.log(data)
+        //router.push(`/${data.type}/${data.id}`)
+        return data.type
+      }
+    }
+
     const seeInfo = event => {
       event.preventDefault()
-
-      if (!data.type) {
+      const type = defineType()
+      router.push(`/${type}/${data.id}`)
+      /*if (!data.type) {
         console.log('fetch page from card')
         console.log('data', data)
         axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
@@ -86,10 +112,31 @@ export default {
       } else {
         //console.log(data)
         router.push(`/${data.type}/${data.id}`)
-      }
+      }*/
     }
 
-    return { seeInfo }
+    const addCard = () => {
+      if (!localStorage.getItem('watchlist')) {
+        const watchlist = {
+          movies: [],
+          series: []
+        }
+        localStorage.setItem('watchlist', JSON.stringify(watchlist))
+      }
+      const watchlist = JSON.parse(localStorage.getItem('watchlist'))
+      const type = defineType()
+      if (watchlist[type].find(item => item.id === data.id)) return
+      console.log('type', type)
+      watchlist[type].push({
+        title: data.title,
+        rating: data.imDbRating,
+        type,
+        id: data.id
+      })
+      localStorage.setItem('watchlist', JSON.stringify(watchlist))
+    }
+
+    return { seeInfo, addCard }
   }
 }
 </script>
