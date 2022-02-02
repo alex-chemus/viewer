@@ -69,6 +69,7 @@ export default {
             throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
           }
           data.value = res.data
+          //console.log(data.value)
           commit('addPage', data.value)
         })
         .catch(err => {

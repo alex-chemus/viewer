@@ -1,9 +1,9 @@
 <template>
-  <article class="card" v-if="card" data-test="card">
+  <article class="card" v-if="data" data-test="card">
     <div class="card-body">
       <div class="image-container mb-3">
         <ImageItem 
-          :url="card.image" 
+          :url="data.image" 
           :styles="{
             maxHeight: '100%',
             maxWidth: '100%'
@@ -11,16 +11,16 @@
         ></ImageItem>
       </div>
 
-      <h5 class="card-title mb-1" :title="card.title">{{ card.title }}</h5>
+      <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
 
-      <div class="wrapper mb-3">
-        <p v-if="card.year" class="card-text year m-0">{{ card.year }}</p>
-        <p :class="dyeCard(card.imDbRating)">{{ card.imDbRating }}</p>
+      <div class="wrapper mb-3 text-wrapper">
+        <p v-if="data.year" class="card-text year m-0">{{ data.year }}</p>
+        <p :class="dyeCard(data.imDbRating)">{{ data.imDbRating }}</p>
       </div>
 
       <div class="wrapper">
         <button class="btn btn-primary">Add</button>
-        <router-link :to="`/${card.type}/${card.id}`" class="btn btn-warning">Info</router-link>
+        <button @click="seeInfo" class="btn btn-warning">Info</button>
       </div>
     </div>
   </article>
@@ -31,7 +31,7 @@
 
 
 <script>
-import { ref, toRefs, computed, toRef, toRaw, reactive } from 'vue'
+import { toRaw } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -62,36 +62,34 @@ export default {
     const { getters, commit } = useStore()
     const router = useRouter()
 
-    const data = reactive(toRaw(props.data))
-    console.log(data.value.title)
+    const data = toRaw(props.data)
 
-    //const { data } = toRefs(props)
-    //const data = toRef(props, 'data')
-    //console.log(data.value)
+    const seeInfo = event => {
+      event.preventDefault()
 
-    /*if (!card.value.type) {
-      console.log('fetch page from card')
-      axios(`${getters.url}/Title/${getters.apiKey}/${card.value.id}`)
-        .then(res => {
-          if (res.data.errorMessage?.length || res.status !== 200) {
-            throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
-          }
-          card.value = {
-            title: res.data.title,
-            year: res.data.year,
-            imgDbRating: res.data.imgDbRating,
-            type: res.data.type === 'Movie' ? 'movie' : 'series',
-            image: res.data.image
-          }
-          commit('addPage', card.value)
-        })
-        .catch(err => {
-          console.log('error in Card:', err)
-          router.push('/notfound')
-        })
-    }*/
+      if (!data.type) {
+        console.log('fetch page from card')
+        console.log('data', data)
+        axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
+          .then(res => {
+            if (res.data.errorMessage?.length || res.status !== 200) {
+              throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+            }
+            commit('addPage', res.data)
+            const type = res.data.type === 'Movie' ? 'movies' : 'seires'
+            router.push(`/${type}/${data.id}`)
+          })
+          .catch(err => {
+            console.log('error in Card:', err)
+            router.push('/notfound')
+          })
+      } else {
+        //console.log(data)
+        router.push(`/${data.type}/${data.id}`)
+      }
+    }
 
-    //return { card }
+    return { seeInfo }
   }
 }
 </script>
@@ -118,6 +116,10 @@ export default {
 
   .wrapper {
     @include flex(space-between, center);
+  }
+
+  .text-wrapper {
+    min-height: 1em;
   }
 
   .year {
