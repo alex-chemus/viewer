@@ -31,7 +31,7 @@
 
 
 <script>
-import { toRaw, watch } from 'vue'
+import { toRaw } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -66,23 +66,6 @@ export default {
 
     const defineType = async () => {
       if (!data.type) {
-        //console.log('fetch page from card')
-        //console.log('data', data)
-        /*axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
-          .then(res => {
-            if (res.data.errorMessage?.length || res.status !== 200) {
-              throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
-            }
-            commit('addPage', res.data)
-            const type = res.data.type === 'Movie' ? 'movies' : 'seires'
-            console.log(res.data)
-            return type
-            //router.push(`/${type}/${data.id}`)
-          })
-          .catch(err => {
-            console.log('error in Card:', err)
-            router.push('/notfound')
-          })*/
         try {
           const res = await axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
           if (res.data.errorMessage?.length || res.status !== 200) {

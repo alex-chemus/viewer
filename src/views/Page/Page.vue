@@ -1,10 +1,14 @@
 <template>
   <section v-if="data" class="container-md pt-5">
-    <div class="row mb-4">
+    <div class="row">
       <div class="col-12 col-xl-4 col-md-6 poster-container">
         <img :src="data.image" alt="Poster" class="poster">
       </div>
       <PageContent :data="data" :type="type" />
+    </div>
+
+    <div class="row justify-content-center mb-5">
+      <button class="col-auto btn btn-primary" @click="add">Add to the watchlist</button>
     </div>
 
     <h3 class="text-center mb-3">Similars</h3>
@@ -54,8 +58,6 @@ export default {
       router.push('/notfound')
     }
 
-    //console.log('route.params', route.params)
-
     if (getters.hasPage(id)) {
       console.log('get Page data from storage')
       data.value = getters.getPage(id)
@@ -78,11 +80,31 @@ export default {
         })
     }
 
+    const add = async () => {
+      if (!localStorage.getItem('watchlist')) {
+        const watchlist = {
+          movies: [],
+          series: []
+        }
+        localStorage.setItem('watchlist', JSON.stringify(watchlist))
+      }
+      const watchlist = JSON.parse(localStorage.getItem('watchlist'))
+      if (watchlist[type.value].find(item => item.id === data.value.id)) return
+      //console.log('type', type)
+      watchlist[type.value].push({
+        title: data.value.title,
+        rating: data.value.imDbRating,
+        type: type.value,
+        id: data.value.id
+      })
+      localStorage.setItem('watchlist', JSON.stringify(watchlist))
+    }
+
     const getSimilars = () => {
       return data.value.similars.map((item, i) => ({ ...item, i }))
     }
 
-    return { data, type, getSimilars }
+    return { data, type, getSimilars, add }
   }
 }
 </script>
