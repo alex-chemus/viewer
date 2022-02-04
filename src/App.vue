@@ -54,8 +54,7 @@
 
 
 <script>
-import { useRoute } from 'vue-router'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 // todo: theme swither with svg
 

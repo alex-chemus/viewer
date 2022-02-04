@@ -57,6 +57,9 @@ export default {
       const urlType = props.type === 'movies' ? 'SearchMovie' : 'SearchSeries'
       axios(`${getters.url}/${urlType}/${getters.apiKey}/${inputValue}`)
         .then(res => {
+          if (res.data.errorMessage?.length || res.status !== 200) {
+            throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+          }
           //console.log('response:', res)
           isLoading.value = 'false'
           searchedList.value = res.data
@@ -65,6 +68,8 @@ export default {
           console.log(`failed to search ${props.type}`, err)
         })
     }
+
+    const onInput = useDebounce(getSearchedData, 1000)
 
     const handleClick = e => {
       if (!form.value.contains(e.target)) {
@@ -81,8 +86,6 @@ export default {
     onBeforeUnmount(() => {
       document.removeEventListener('click', handleClick)
     })    
-
-    const onInput = useDebounce(getSearchedData, 1000)
 
     return { onFormSubmit, onInput, searchedList, isLoading, popupVisible, form }
   }
@@ -105,6 +108,7 @@ svg {
 form {
   @include flex(center, center);
   position: relative;
+  //max-width: 100vw;
 }
 
 input {

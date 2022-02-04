@@ -20,7 +20,7 @@
     </div>
   </section>
 
-  <Loader v-else />
+  <Loader v-else size="180" />
 </template>
 
 
@@ -50,22 +50,22 @@ export default {
     const id = route.params.id
 
     if (type.value !== 'movies' && type.value !== 'series') {
-      console.log('redirect from type check. type.value:', type.value)
+      //console.log('redirect from type check. type.value:', type.value)
       router.push('/notfound')
     }
 
-    console.log('route.params', route.params)
+    //console.log('route.params', route.params)
 
     if (getters.hasPage(id)) {
       console.log('get Page data from storage')
       data.value = getters.getPage(id)
     } else {
-      console.log('fetch Page data')
+      //console.log('fetch Page data')
       axios(`${getters.url}/Title/${getters.apiKey}/${id}`)
         .then(res => {
           if (res.data.errorMessage?.length || res.status !== 200) {
-            console.log('error message length', res.data.errorMessage?.length)
-            console.log('res.data', res.data)
+            //console.log('error message length', res.data.errorMessage?.length)
+            //console.log('res.data', res.data)
             throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
           }
           data.value = res.data

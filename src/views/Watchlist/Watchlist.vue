@@ -46,7 +46,7 @@ export default {
 
     const getLocalData = () => {
       if (localStorage.getItem('watchlist')) {
-        console.log('got watchlist from localstorage')
+        //console.log('got watchlist from localstorage')
         const localData = JSON.parse(localStorage.getItem('watchlist'))
         movies.value = localData.movies.map((item, i) => ({ ...item, i }))
         series.value = localData.series.map((item, i) => ({ ...item, i }))

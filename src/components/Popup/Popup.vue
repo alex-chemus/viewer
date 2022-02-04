@@ -5,39 +5,43 @@
       <Loader size="70" />
     </div>
 
-    <h1 v-else-if="isLoading === 'false'">
-      Data loaded
-    </h1>
+    <ul v-else-if="isLoading === 'false' && list" class="list-group">
+      <PopupItem v-for="item in list" :key="item.i" :item="item" />
+    </ul>
   </div>
 </template>
 
 
 <script>
+import { toRaw, watchEffect, ref } from 'vue'
 import Loader from '@/components/Loader/Loader.vue'
+import PopupItem from '@/components/PopupItem/PopupItem.vue'
 
 export default {
   name: 'Popup',
 
   props: ['searchedList', 'isLoading'],
 
-  components: { Loader },
+  components: { Loader, PopupItem },
 
-  /*setup() {
-    const popup = ref(null)
-    const visible = ref(true)
+  setup(props) {
+    const list = ref(null)
 
-    const handleClick = e => {
-      console.log('clicked, should handle it')
-      if (!popup.value.contains(e.target)) {
-        console.log('clicked outside popup')
-        visible.value = false
-      }
-    }
+    //console.log('searched list from setup', props.searchedList)
 
-    document.addEventListener('click', handleClick)
+    watchEffect(() => {
+      //console.log('triggered getList. isLoading', props.isLoading)
+      const searchedList = toRaw(props.searchedList)
+      if (!searchedList) return
+      const localList = searchedList.results.map((item, i) => {
+        item.i = i
+        return item
+      })
+      list.value = localList
+    })
 
-    return { popup, visible }
-  }*/
+    return { list }
+  }
 }
 </script>
 
@@ -46,21 +50,27 @@ export default {
 @import '@/common.scss';
 
 .popup {
+  //border: 1px solid red;
   width: 100%;
   min-height: 100px;
   background: white;
   position: absolute;
-  top: 110%;
+  top: 120%;
   left: 0;
   z-index: 1;
   border-radius: .25rem;
+  box-shadow: var(--large-shadow);
 }
 
 .loader-container {
   width: 100%;
-  //height: 100%;
   @include flex(center, center);
-  //margin: 0 auto;
   padding-top: 15px;
+}
+
+ul {
+  max-width: 100vw;
+  min-width: 0;
+  //border: 1px solid red;
 }
 </style>

@@ -64,58 +64,52 @@ export default {
 
     const data = toRaw(props.data)
 
-    const defineType = () => {
+    const defineType = async () => {
       if (!data.type) {
-        console.log('fetch page from card')
-        console.log('data', data)
-        axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
+        //console.log('fetch page from card')
+        //console.log('data', data)
+        /*axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
           .then(res => {
             if (res.data.errorMessage?.length || res.status !== 200) {
               throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
             }
             commit('addPage', res.data)
             const type = res.data.type === 'Movie' ? 'movies' : 'seires'
+            console.log(res.data)
             return type
             //router.push(`/${type}/${data.id}`)
           })
           .catch(err => {
             console.log('error in Card:', err)
             router.push('/notfound')
-          })
+          })*/
+        try {
+          const res = await axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
+          if (res.data.errorMessage?.length || res.status !== 200) {
+            throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+          }
+          commit('addPage', res.data)
+          const type = res.data.type === 'Movie' ? 'movies' : 'seires'
+          //console.log(res.data)
+           return type
+        } catch (err) {
+          //console.log('failed to fetch in Card:', err)
+          router.push('/notfound')
+        }
       } else {
         //console.log(data)
         //router.push(`/${data.type}/${data.id}`)
-        return data.type
+        return data.type._value
       }
     }
 
-    const seeInfo = event => {
+    const seeInfo = async event => {
       event.preventDefault()
-      const type = defineType()
+      const type = await defineType()
       router.push(`/${type}/${data.id}`)
-      /*if (!data.type) {
-        console.log('fetch page from card')
-        console.log('data', data)
-        axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
-          .then(res => {
-            if (res.data.errorMessage?.length || res.status !== 200) {
-              throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
-            }
-            commit('addPage', res.data)
-            const type = res.data.type === 'Movie' ? 'movies' : 'seires'
-            router.push(`/${type}/${data.id}`)
-          })
-          .catch(err => {
-            console.log('error in Card:', err)
-            router.push('/notfound')
-          })
-      } else {
-        //console.log(data)
-        router.push(`/${data.type}/${data.id}`)
-      }*/
     }
 
-    const addCard = () => {
+    const addCard = async () => {
       if (!localStorage.getItem('watchlist')) {
         const watchlist = {
           movies: [],
@@ -124,9 +118,9 @@ export default {
         localStorage.setItem('watchlist', JSON.stringify(watchlist))
       }
       const watchlist = JSON.parse(localStorage.getItem('watchlist'))
-      const type = defineType()
+      const type = await defineType()
       if (watchlist[type].find(item => item.id === data.id)) return
-      console.log('type', type)
+      //console.log('type', type)
       watchlist[type].push({
         title: data.title,
         rating: data.imDbRating,

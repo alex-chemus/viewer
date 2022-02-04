@@ -51,7 +51,7 @@ export default {
     const loadTo = ref(21)
 
     const type = ref(route.params.type ?? 'movies')
-    console.log('type:', type.value)
+    //console.log('type:', type.value)
     if (type.value !== 'movies' && type.value !== 'series') {
       router.push('/notfound')
     }
