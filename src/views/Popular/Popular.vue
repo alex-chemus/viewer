@@ -1,10 +1,19 @@
 <template>
   <section v-if="cardsList?.length > 0" class="container pt-5">
+    <div class="row justify-content-center mb-3">
+      <div class="col-xl-6 col-lg-8 col-12">
+        <Search 
+          :type="type"
+        />
+      </div>
+    </div>
+
     <div class="row justify-content-center mb-4">
       <div v-for="card in cardsList" :key="card.i" class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3">
         <Card :data="card"></Card>
       </div>
     </div>
+
     <div class="row justify-content-center">
       <button 
         v-if="cardsList.length < 100"
@@ -14,7 +23,7 @@
     </div>
   </section>
   <ConnectionError v-else-if="cardsList === 'Error'"></ConnectionError>
-  <Loader v-else></Loader>
+  <Loader v-else size="180" />
 </template>
 
 
@@ -27,11 +36,12 @@ import { useRoute, useRouter } from 'vue-router'
 import Loader from '@/components/Loader/Loader.vue'
 import Card from '@/components/Card/Card.vue'
 import ConnectionError from '@/components/ConnectionError/ConnectionError.vue'
+import Search from '@/components/Search/Search.vue'
 
 export default {
   name: 'Popular',
 
-  components: { Loader, Card, ConnectionError },
+  components: { Loader, Card, ConnectionError, Search },
 
   setup() {
     const { getters } = useStore()
@@ -40,13 +50,13 @@ export default {
     const cardsList = ref(null)
     const loadTo = ref(21)
 
-    const type = route.params.type ?? 'movies'
-    console.log('type:', type)
-    if (type !== 'movies' && type !== 'series') {
+    const type = ref(route.params.type ?? 'movies')
+    console.log('type:', type.value)
+    if (type.value !== 'movies' && type.value !== 'series') {
       router.push('/notfound')
     }
-    const storageItem = type==='movies' ? 'popularMovies' : 'popularSeries'
-    const urlRequest = type==='movies' ? 'MostPopularMovies' : 'MostPopularTVs'
+    const storageItem = type.value === 'movies' ? 'popularMovies' : 'popularSeries'
+    const urlRequest = type.value === 'movies' ? 'MostPopularMovies' : 'MostPopularTVs'
 
     const fetchData = async () => {
       try {
@@ -95,20 +105,20 @@ export default {
       getData()
     }
 
-    return { cardsList, loadMore }
+    return { cardsList, loadMore, type }
   }
 }
 </script>
 
 
 <style lang='scss' scoped>
-  @import '@/common.scss';
+@import '@/common.scss';
 
-  .container {
-    min-width: 0;
-  }
+.container {
+  min-width: 0;
+}
 
-  .loadMore {
-    margin: 0 auto;
-  }
+.loadMore {
+  margin: 0 auto;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :style="style">
     <div class="lds-ripple">
       <div></div>
       <div></div>
@@ -10,7 +10,18 @@
 
 <script>
 export default {
-  name: 'Loader'
+  name: 'Loader',
+
+  props: ['size'],
+
+  setup(props) {
+    const style = `
+      width: ${props.size}px;
+      height: ${props.size}px;
+    `
+
+    return { style }
+  }
 }
 </script>
 
@@ -22,12 +33,15 @@ export default {
   }
 
   .lds-ripple {
+    //border: 1px solid red;
     height: 100%;
     margin: 0 auto;
     display: inline-block;
     position: relative;
-    width: 180px;
-    height: 180px;
+    //width: 180px;
+    //height: 180px;
+    width: 100%;
+    height: 100%;
     //background: black;
   }
 
