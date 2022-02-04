@@ -1,5 +1,5 @@
 <template>
-  <form @submit="onFormSubmit">
+  <form @submit="onFormSubmit" ref="form">
     <input 
       type="text" 
       class="form-control me-2"
@@ -18,7 +18,7 @@
     </button>
 
     <Popup 
-      v-if="isLoading"
+      v-if="isLoading && popupVisible"
       :searchedList="searchedList"
       :isLoading="isLoading"
     />
@@ -27,12 +27,10 @@
 
 
 <script>
-import useThrottle from '@/hooks/useThrottle.js'
 import useDebounce from '@/hooks/useDebounce.js'
 import axios from 'axios'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
-
+import { ref, onBeforeUnmount } from 'vue'
 import Popup from '@/components/Popup/Popup.vue'
 
 export default {
@@ -45,6 +43,8 @@ export default {
   setup(props) {
     const searchedList = ref(null)
     const isLoading = ref(null)
+    const popupVisible = ref(true)
+    const form = ref(null)
     const { getters } = useStore()
 
     const onFormSubmit = e => { e.preventDefault() }
@@ -52,20 +52,39 @@ export default {
     const getSearchedData = e => {
       if (e.target.value.trim() === '') return
       isLoading.value = 'true'
-      console.log('debounced', isLoading.value)
+      //console.log('debounced', isLoading.value)
       const inputValue = e.target.value
       const urlType = props.type === 'movies' ? 'SearchMovie' : 'SearchSeries'
       axios(`${getters.url}/${urlType}/${getters.apiKey}/${inputValue}`)
         .then(res => {
-          console.log('response:', res)
+          //console.log('response:', res)
           isLoading.value = 'false'
           searchedList.value = res.data
         })
+        .catch(err => {
+          console.log(`failed to search ${props.type}`, err)
+        })
     }
+
+    const handleClick = e => {
+      if (!form.value.contains(e.target)) {
+        //console.log('hide popup')
+        popupVisible.value = false
+      }
+      else {
+        //console.log('show popup')
+        popupVisible.value = true
+      }
+    }
+
+    document.addEventListener('click', handleClick)
+    onBeforeUnmount(() => {
+      document.removeEventListener('click', handleClick)
+    })    
 
     const onInput = useDebounce(getSearchedData, 1000)
 
-    return { onFormSubmit, onInput, searchedList, isLoading }
+    return { onFormSubmit, onInput, searchedList, isLoading, popupVisible, form }
   }
 }
 </script>

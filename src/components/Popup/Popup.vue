@@ -20,7 +20,24 @@ export default {
 
   props: ['searchedList', 'isLoading'],
 
-  components: { Loader }
+  components: { Loader },
+
+  /*setup() {
+    const popup = ref(null)
+    const visible = ref(true)
+
+    const handleClick = e => {
+      console.log('clicked, should handle it')
+      if (!popup.value.contains(e.target)) {
+        console.log('clicked outside popup')
+        visible.value = false
+      }
+    }
+
+    document.addEventListener('click', handleClick)
+
+    return { popup, visible }
+  }*/
 }
 </script>
 
