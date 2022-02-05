@@ -30,7 +30,7 @@ export default {
 
   .wrapper {
     @include flex(center, center);
-    border: 1px solid red;
+    //border: 1px solid red;
     justify-self: center;
     align-self: center;
   }

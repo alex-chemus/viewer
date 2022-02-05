@@ -6,7 +6,7 @@
       :placeholder="`Search ${type}`"
       @input="onInput"
     />
-    <button
+    <!-- <button
       class="btn btn-primary"
     >
       <svg class="svg-icon search-icon" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
@@ -15,7 +15,7 @@
           <circle cx="8" cy="8" r="7"/>
         </g>
       </svg>
-    </button>
+    </button> --> 
 
     <Popup 
       v-if="isLoading && popupVisible"
@@ -73,11 +73,9 @@ export default {
 
     const handleClick = e => {
       if (!form.value.contains(e.target)) {
-        //console.log('hide popup')
         popupVisible.value = false
       }
       else {
-        //console.log('show popup')
         popupVisible.value = true
       }
     }

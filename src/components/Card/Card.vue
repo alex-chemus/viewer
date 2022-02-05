@@ -19,7 +19,7 @@
       </div>
 
       <div class="wrapper">
-        <button @click="addCard" class="btn btn-primary">Add</button>
+        <button @click="addCard" class="btn btn-primary" data-test="addBtn">Add</button>
         <button @click="seeInfo" class="btn btn-warning">Info</button>
       </div>
     </div>
@@ -65,9 +65,9 @@ export default {
     const data = toRaw(props.data)
 
     const defineType = async () => {
-      if (!data.type) {
+      if (!data?.type) {
         try {
-          const res = await axios(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
+          const res = await axios.get(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
           if (res.data.errorMessage?.length || res.status !== 200) {
             throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
           }
@@ -80,7 +80,7 @@ export default {
           router.push('/notfound')
         }
       } else {
-        //console.log(data)
+        console.log('data:', data)
         //router.push(`/${data.type}/${data.id}`)
         return data.type._value
       }
