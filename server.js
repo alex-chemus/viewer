@@ -11,8 +11,6 @@ app.use(history())
 app.use(express.static('dist'))
 app.use(parser.json())
 
-//global.Blob = Blob
-
 app.get('/', (req, res) => {
   res.sendFile('./dist/index.html')
 })
