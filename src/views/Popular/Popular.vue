@@ -72,10 +72,11 @@ export default {
             imDbRating: item.imDbRating,
             image: item.image,
             id: item.id,
-            type,
+            type: type.value,
             i
           })
         })
+        //console.log('assign cardsList', type.value)
         cardsList.value = list.slice(0, loadTo.value)
         localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }))
         return null

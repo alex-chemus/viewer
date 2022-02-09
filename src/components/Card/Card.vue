@@ -31,7 +31,7 @@
 
 
 <script>
-import { toRaw } from 'vue'
+import { toRaw, reactive, computed, toRef } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -63,9 +63,11 @@ export default {
     const router = useRouter()
 
     const data = toRaw(props.data)
+    //console.log('data.value is', props.data.value)
 
     const defineType = async () => {
       if (!data?.type) {
+        //console.log('data is not defined')
         try {
           const res = await axios.get(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
           if (res.data.errorMessage?.length || res.status !== 200) {
@@ -76,19 +78,20 @@ export default {
           //console.log(res.data)
            return type
         } catch (err) {
-          //console.log('failed to fetch in Card:', err)
+          console.log('failed to fetch in Card:', err)
           router.push('/notfound')
         }
       } else {
-        console.log('data:', data)
+        //console.log('data:', data)
         //router.push(`/${data.type}/${data.id}`)
-        return data.type._value
+        return data.type
       }
     }
 
     const seeInfo = async event => {
       event.preventDefault()
       const type = await defineType()
+      //console.log(type)
       router.push(`/${type}/${data.id}`)
     }
 

@@ -3,7 +3,7 @@
     <div class="row justify-content-around">
       <div class="col-xxl-4 col-md-6 mb-5 mw-100vw">
         <h3 class="text-center mb-4">Movies</h3>
-        <ul v-if="movies.length" class="list-group">
+        <ul v-if="movies?.length" class="list-group">
           <WatchlistItem 
             v-for="movie in movies"
             :key="movie.i"
@@ -16,7 +16,7 @@
 
       <div class="col-xxl-4 col-md-6 mb-5 mw-100vw">
         <h3 class="text-center mb-4">Series</h3>
-        <ul v-if="series.length" class="list-group">
+        <ul v-if="series?.length" class="list-group">
           <WatchlistItem 
             v-for="serie in series"
             :key="serie.i"

@@ -11,6 +11,7 @@ module.exports = {
   devServer: {
     historyApiFallback: {
       index: '/index.html'
-    }
+    },
+    port: process.env.PORT
   }
 }

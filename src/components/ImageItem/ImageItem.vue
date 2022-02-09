@@ -19,14 +19,24 @@ export default {
     const img = ref(null)
 
     const getLocalSrc = async () => {
+      //fetch from server
       try {
-        const res = await fetch(props.url)
-        const blob = await res.blob()
-        const pressedBlob = await imageCompression(blob, {
-          maxWidthOrHeight: 500
+        const res = await fetch('/api/get-img', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            url: props.url
+          })
         })
-        const url = URL.createObjectURL(pressedBlob)
-        return url
+        const buffer = await res.arrayBuffer()
+        //console.log(buffer, res.headers.get('Content-Type').split(';')[0])
+        const blob = new Blob([buffer], {
+          type: res.headers.get('Content-Type').split(';')[0]
+        })
+        //console.log(blob)
+        return URL.createObjectURL(blob)
       } catch (err) {
         console.log('failed to get local src', err)
       }
