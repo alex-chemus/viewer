@@ -12,7 +12,8 @@ app.use(express.static('dist'))
 app.use(parser.json())
 
 app.get('/', (req, res) => {
-  res.sendFile('./dist/index.html')
+  //res.sendFile('./dist/index.html')
+  res.sendFile('../dist/index.html')
 })
 
 app.post('/api/get-img', (req, res) => {
