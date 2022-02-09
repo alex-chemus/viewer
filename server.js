@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const sharp = require('sharp')
 
 const app = express()
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 3000
 
 app.use(history())
 app.use(express.static('dist'))
