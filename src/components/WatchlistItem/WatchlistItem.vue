@@ -52,6 +52,7 @@ li {
   background-color: #fbfbfb;
   border-radius: .5rem;
   min-width: 0;
+  //border: 1px solid var(--secondary-color);
 }
 
 .wrapper {
