@@ -16,8 +16,8 @@ export default {
 
   setup(props) {
     const style = `
-      width: ${props.size}px;
-      height: ${props.size}px;
+      width: ${props.size ?? 180}px;
+      height: ${props.size ?? 180}px;
     `
 
     return { style }

@@ -95,7 +95,7 @@ export default {
   }
 
   main.light {
-    --main-bg-color: #f1f1f1;
+    --main-bg-color: #f5f5f5;
     --bg-color: #fbfbfb; // $light
     --shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
     --large-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
