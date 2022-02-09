@@ -7,8 +7,6 @@ const sharp = require('sharp')
 const app = express()
 const PORT = process.env.PORT || 80
 
-console.log(PORT)
-
 app.use(history())
 app.use(express.static('dist'))
 app.use(parser.json())

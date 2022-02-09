@@ -82,7 +82,7 @@ export default {
           router.push('/notfound')
         }
       } else {
-        //console.log('data:', data)
+        //console.log('data is passed:', data.type)
         //router.push(`/${data.type}/${data.id}`)
         return data.type
       }

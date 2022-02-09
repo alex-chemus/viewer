@@ -51,6 +51,7 @@ export default {
     const router = useRouter()
 
     const type = ref(route.params.type)
+    //console.log(route.params.type)
     const id = route.params.id
 
     if (type.value !== 'movies' && type.value !== 'series') {
@@ -59,7 +60,7 @@ export default {
     }
 
     if (getters.hasPage(id)) {
-      console.log('get Page data from storage')
+      //console.log('get Page data from storage')
       data.value = getters.getPage(id)
     } else {
       //console.log('fetch Page data')
