@@ -8,7 +8,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(history())
-//app.use(express.static('dist'))
+app.use(express.static('dist'))
 app.use(parser.json())
 
 app.post('/api/get-img', (req, res) => {
@@ -35,8 +35,8 @@ app.post('/api/get-img', (req, res) => {
 })
 
 app.get('/*', (req, res) => {
-  //res.sendFile('./dist/index.html')
-  res.send('hello world')
+  res.sendFile('./dist/index.html')
+  //res.send('hello world')
 })
 
 app.listen(PORT, () => {
