@@ -1,13 +1,15 @@
 {
   "name": "viewer",
   "version": "0.1.0",
+  "private": true,
+  "main": "server.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "nodemon": "nodemon server",
-    "start": "node server.js"
+    "start": "node server"
   },
   "dependencies": {
     "axios": "^0.25.0",
