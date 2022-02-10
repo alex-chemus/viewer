@@ -6,7 +6,6 @@
 
 <script>
 import { ref, onMounted } from 'vue'
-import imageCompression from 'browser-image-compression'
 
 export default {
   name: 'ImageItem',
