@@ -12,7 +12,6 @@ app.use(express.static('dist'))
 app.use(parser.json())
 
 app.post('/api/get-img', (req, res) => {
-  //console.log('request to /api/get-img')
   fetch(req.body.url)
     .then(response => response.blob())
     .then(blob => {
@@ -35,11 +34,9 @@ app.post('/api/get-img', (req, res) => {
     })
 })
 
-/*app.get('/*', express.static('dist'), (req, res) => {
-  console.log('request to /')
-  //res.sendFile('./dist/index.html')
-  res.send('hello world')
-})*/
+app.get('/*', (req, res) => {
+  res.sendFile('./dist/index.html')
+})
 
 app.listen(PORT, () => {
   console.log('Server has been started on port ' + PORT)
