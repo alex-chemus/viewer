@@ -1,7 +1,6 @@
 {
   "name": "viewer",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -72,5 +71,8 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "engines:": {
+    "node": "14.x"
+  } 
 }
