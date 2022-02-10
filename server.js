@@ -12,7 +12,7 @@ app.use(express.static('dist'))
 app.use(parser.json())
 
 app.post('/api/get-img', (req, res) => {
-  console.log('request to /api/get-img')
+  //console.log('request to /api/get-img')
   fetch(req.body.url)
     .then(response => response.blob())
     .then(blob => {
