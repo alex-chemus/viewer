@@ -1,6 +1,6 @@
 <template>
   <section v-if="cardsList?.length > 0" class="container pt-5">
-    <div class="row justify-content-center mb-3">
+    <div class="row justify-content-center mb-4">
       <div class="col-xl-6 col-lg-8 col-12">
         <Search 
           :type="type"
@@ -8,7 +8,9 @@
       </div>
     </div>
 
-    <div class="row justify-content-center mb-4">
+    <h1 class="mb-3 text-center">Popular {{ type }}</h1>
+
+    <div class="row justify-content-center mb-3">
       <div v-for="card in cardsList" :key="card.i" class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3">
         <Card :data="card"></Card>
       </div>
@@ -115,6 +117,10 @@ export default {
 
 <style lang='scss' scoped>
 @import '@/common.scss';
+
+h1 {
+  color: var(--text-color);
+}
 
 .container {
   min-width: 0;
