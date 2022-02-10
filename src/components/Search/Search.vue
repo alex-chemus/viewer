@@ -2,7 +2,7 @@
   <form @submit="onFormSubmit" ref="form">
     <input 
       type="text" 
-      class="form-control me-2"
+      class="form-control"
       :placeholder="`Search ${type}`"
       @input="onInput"
     />
