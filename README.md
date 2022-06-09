@@ -1,5 +1,7 @@
 # viewer
 
+This is a Vue app, which helps you to choose something to watch 🍿. You can browse through movies and TV-shows, see related ones and current trends. The app is built on IMDb API
+
 ## Project setup
 ```
 npm install
@@ -9,16 +11,3 @@ npm install
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
