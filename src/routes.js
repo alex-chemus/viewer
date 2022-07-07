@@ -15,6 +15,8 @@ const Watchlist = defineAsyncComponent({
   loadingComponent: Loader
 })
 
+console.log('from the routes')
+
 const routes = [
   { path: '/', redirect: '/popular/movies' },
   { path: '/popular/:type', component: Popular },
