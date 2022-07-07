@@ -24,7 +24,7 @@
       // Otherwise, leave pathSegmentsToKeep as 0.
       //var pathSegmentsToKeep = 0;
 
-      //var l = window.location;
+      var l = window.location;
       /*l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
@@ -34,9 +34,9 @@
       );*/
 
       // looking for the 1sm match so it replaces only repo name
-      //l.href = l.href.replace(/yoomer/, 'yoomer/#') 
+      l.href = l.href.replace(/viewer/, 'viewer/#') 
 
-      window.location.href = 'https://alex-chemus.github.io/viewer/'
+      //window.location.href = 'https://alex-chemus.github.io/viewer/'
 
     </script>
   </head>
