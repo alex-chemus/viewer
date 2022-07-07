@@ -1,7 +1,7 @@
 {
   "name": "viewer",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "https://alex-chemus.github.io/viewer/",  
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
