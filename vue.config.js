@@ -1,7 +1,7 @@
 const path = require('path')
 
 const publicPath = process.env.NODE_ENV === 'production'
-  ? '/viewer/'
+  ? 'https://alex-chemus.github.io/viewer/'
   : '/'
 
 module.exports = {
