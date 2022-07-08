@@ -1,33 +1,3 @@
-<template>
-  <section v-if="data" class="container-md pt-5">
-    <div class="row">
-      <div class="col-12 col-xl-4 col-md-6 poster-container">
-        <img :src="data.image" alt="Poster" class="poster">
-      </div>
-      <PageContent :data="data" :type="contentType" />
-    </div>
-
-    <div class="row justify-content-center mb-5">
-      <button class="col-auto btn btn-primary" @click="addToWatchList">Add to the watchlist</button>
-    </div>
-
-    <h3 class="text-center mb-3">Similars</h3>
-
-    <div class="row justify-content-center mb-4">
-      <div 
-        v-for="card in similars" 
-        :key="card.i" 
-        class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3"
-      >
-        <Card :data="card" />
-      </div>
-    </div>
-  </section>
-
-  <Loader v-else size="180" />
-</template>
-
-
 <script setup lang="ts">
 import { ref, inject, computed } from 'vue'
 import { useStore } from 'vuex'
@@ -42,7 +12,6 @@ import Card from '@/components/Card/Card.vue'
 const data = ref<any | null>(null)
 
 const key = inject<Key>('key')
-
 const { commit, getters } = useStore(key)
 const route = useRoute()
 const router = useRouter()
@@ -52,6 +21,7 @@ type Content = 'movies' | 'series'
 const contentType = ref<Content>(route.params.type as Content || 'movies')
 const contentId = route.params.id as string
 
+// вынести это в lyfecycle hook
 if (getters.hasPage(contentId)) { // if content data is cached
   data.value = getters.getPage(contentId)
 } else { // else fetch content data
@@ -97,9 +67,6 @@ const addToWatchList = async () => {
 const similars = computed(() => {
   return data.value.similars.map((item: any, i: number) => ({ ...item, i }))
 })
-
-//if (getters.hasPage(id))
-
 
 /*export default {
   name: 'Page',
@@ -172,6 +139,36 @@ const similars = computed(() => {
   }
 }*/
 </script>
+
+
+<template>
+  <section v-if="data" class="container-md pt-5">
+    <div class="row">
+      <div class="col-12 col-xl-4 col-md-6 poster-container">
+        <img :src="data.image" alt="Poster" class="poster">
+      </div>
+      <PageContent :data="data" :type="contentType" />
+    </div>
+
+    <div class="row justify-content-center mb-5">
+      <button class="col-auto btn btn-primary" @click="addToWatchList">Add to the watchlist</button>
+    </div>
+
+    <h3 class="text-center mb-3">Similars</h3>
+
+    <div class="row justify-content-center mb-4">
+      <div 
+        v-for="card in similars" 
+        :key="card.i" 
+        class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3"
+      >
+        <Card :data="card" />
+      </div>
+    </div>
+  </section>
+
+  <Loader v-else size="180" />
+</template>
 
 
 <style lang='scss' scoped>

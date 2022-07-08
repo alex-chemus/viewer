@@ -19,6 +19,7 @@ module.exports = {
     },
     port: process.env.PORT
   },
+  //transpileDependencies: true,
   publicPath,
   /*settings: {
     'vetur.completion.autoImport': false,
