@@ -1,3 +1,44 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const isDark = ref<boolean>(window.matchMedia('(prefers-color-scheme: dark)').matches)
+
+function toggleTheme() {
+  const main = document.querySelector('main') as HTMLElement
+  if (main.classList.contains('dark')) {
+        main.classList.remove('dark')
+        main.classList.add('light')
+      } else {
+        main.classList.remove('light')
+        main.classList.add('dark')
+      }
+}
+
+// todo: theme swither with svg
+/*export default {
+  name: 'App',
+
+  setup() {
+    const isDark = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
+
+    function toggleTheme(e) {
+      //console.log('click', e)
+      const main = document.querySelector('main')
+      if (main.classList.contains('dark')) {
+        main.classList.remove('dark')
+        main.classList.add('light')
+      } else {
+        main.classList.remove('light')
+        main.classList.add('dark')
+      }
+    }
+
+    return { isDark, toggleTheme }
+  }
+}*/
+</script>
+
+
 <template>
   <main :class="isDark ? 'dark' : 'light'">
     <nav class="nav justify-content-start">
@@ -51,35 +92,6 @@
     <router-view :key="$route.fullPath"></router-view>
   </main>
 </template>
-
-
-<script>
-import { ref } from 'vue'
-
-// todo: theme swither with svg
-
-export default {
-  name: 'App',
-
-  setup() {
-    const isDark = ref(window.matchMedia('(prefers-color-scheme: dark)').matches)
-
-    function toggleTheme(e) {
-      //console.log('click', e)
-      const main = document.querySelector('main')
-      if (main.classList.contains('dark')) {
-        main.classList.remove('dark')
-        main.classList.add('light')
-      } else {
-        main.classList.remove('light')
-        main.classList.add('dark')
-      }
-    }
-
-    return { isDark, toggleTheme }
-  }
-}
-</script>
 
 
 <style lang='scss' scoped>
