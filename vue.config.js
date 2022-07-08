@@ -1,12 +1,11 @@
 /* eslint-disable */
-const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
 
 const publicPath = process.env.NODE_ENV === 'production'
   ? 'https://alex-chemus.github.io/viewer/'
   : '/'
 
-module.exports = defineConfig({
+module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
@@ -21,7 +20,7 @@ module.exports = defineConfig({
     port: process.env.PORT
   },
   publicPath,
-  settings: {
+  /*settings: {
     'vetur.completion.autoImport': false,
     'vetur.experimental.templateInterpolationService': false,
     'vetur.validation.interpolation': false,
@@ -36,5 +35,5 @@ module.exports = defineConfig({
     'vetur.languageFeatures.updateImportOnFileMove': false,
     'vetur.trace.server': 'off',
     'vetur.underline.refValue': false,
-  }
-})
+  }*/
+}

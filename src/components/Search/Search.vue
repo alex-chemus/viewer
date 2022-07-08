@@ -27,7 +27,7 @@
 
 
 <script>
-import useDebounce from '@/hooks/useDebounce.js'
+import useDebounce from '@/hooks/useDebounce.ts'
 import axios from 'axios'
 import { useStore } from 'vuex'
 import { ref, onBeforeUnmount } from 'vue'

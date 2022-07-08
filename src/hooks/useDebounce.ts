@@ -1,7 +1,7 @@
-const useDebounce = (callback, delay) => {
+const useDebounce = (callback: any, delay: any) => {
   let timer = setTimeout(() => {});
 
-  const debounceCallback = (...args) => {
+  const debounceCallback = (...args: any) => {
     clearTimeout(timer)
     timer = setTimeout(() => {
       callback(...args)
