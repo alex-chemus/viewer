@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { ref, watch, inject } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { Key } from '@/store'
 
 import Loader from '@/components/Loader/Loader.vue'
@@ -13,7 +13,6 @@ import Search from '@/components/Search/Search.vue'
 const key = inject<Key>('key')
 const { getters } = useStore(key)
 const route = useRoute()
-const router = useRouter()
 
 const cardsList = ref<any | null>(null)
 const loadTo = ref(21)
