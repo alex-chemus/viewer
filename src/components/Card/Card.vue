@@ -9,7 +9,7 @@ import ImageItem from '@/components/ImageItem/ImageItem.vue'
 import { Content } from '@/types'
 
 const props = defineProps<{
-  data: any, // todo: create a card content type
+  data: any, // todo: create a card content type (ICard)
 }>()
 
 const key = inject<Key>('key')

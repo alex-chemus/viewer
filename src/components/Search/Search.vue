@@ -1,39 +1,62 @@
-<template>
-  <form @submit="onFormSubmit" ref="form">
-    <input 
-      type="text" 
-      class="form-control"
-      :placeholder="`Search ${type}`"
-      @input="onInput"
-    />
-    <!-- <button
-      class="btn btn-primary"
-    >
-      <svg class="svg-icon search-icon" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
-        <g class="search-path" fill="none" stroke="currentColor">
-          <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/>
-          <circle cx="8" cy="8" r="7"/>
-        </g>
-      </svg>
-    </button> --> 
-
-    <Popup 
-      v-if="isLoading && popupVisible"
-      :searchedList="searchedList"
-      :isLoading="isLoading"
-    />
-  </form>
-</template>
-
-
-<script>
-import useDebounce from '@/hooks/useDebounce.ts'
+<script setup lang="ts">
+import useDebounce from '@/hooks/useDebounce'
 import axios from 'axios'
 import { useStore } from 'vuex'
-import { ref, onBeforeUnmount } from 'vue'
+import { ref, onBeforeUnmount, defineProps, inject } from 'vue'
 import Popup from '@/components/Popup/Popup.vue'
+import { Content } from '@/types'
+import { Key } from '@/store'
 
-export default {
+const props = defineProps<{
+  contentType: Content
+}>()
+
+const key = inject<Key>('key')
+const { getters } = useStore(key)
+
+const searchedList = ref<any | null>(null)
+const isLoading = ref<boolean>(false)
+const popupVisible = ref<boolean>(true)
+const form = ref<HTMLFormElement | null>(null)
+
+const getSearchedData = (event: InputEvent) => {
+  const target = event.target as HTMLInputElement
+
+  if (target.value.trim() === '') return
+
+  isLoading.value = true
+  const inputValue = target.value
+  const urlType = props.contentType === 'movies' ? 'SearchMovie' : 'SearchSeries'
+
+  axios(`${getters.url}/${urlType}/${getters.apiKey}/${inputValue}`)
+    .then(res => {
+      if (res.data.errorMessage?.length || res.status !== 200) {
+        throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+      }
+      isLoading.value = false
+      searchedList.value = res.data
+    })
+    .catch(err => {
+      console.log(`failed to search ${props.contentType}`, err)
+    })
+}
+
+const onInput = useDebounce(getSearchedData, 1000) 
+
+const handleClick = (e: MouseEvent) => {
+  if (!form.value?.contains(e.target as Node)) {
+    popupVisible.value = false
+  } else {
+    popupVisible.value = true
+  }
+}
+
+document.addEventListener('click', handleClick)
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClick)
+})  
+
+/*export default {
   name: 'Search',
 
   props: ['type'],
@@ -87,8 +110,36 @@ export default {
 
     return { onFormSubmit, onInput, searchedList, isLoading, popupVisible, form }
   }
-}
+}*/
 </script>
+
+
+<template>
+  <form @submit.prevent="() => {}" ref="form">
+    <input 
+      type="text" 
+      class="form-control"
+      :placeholder="`Search ${contentType}`"
+      @input="onInput"
+    />
+    <!-- <button
+      class="btn btn-primary"
+    >
+      <svg class="svg-icon search-icon" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
+        <g class="search-path" fill="none" stroke="currentColor">
+          <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/>
+          <circle cx="8" cy="8" r="7"/>
+        </g>
+      </svg>
+    </button> --> 
+
+    <Popup 
+      v-if="isLoading && popupVisible"
+      :searchedList="searchedList"
+      :isLoading="isLoading"
+    />
+  </form>
+</template>
 
 
 <style lang="scss" scoped>

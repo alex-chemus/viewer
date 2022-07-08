@@ -10,7 +10,7 @@ import Loader from '@/components/Loader/Loader.vue'
 import PageContent from '@/components/PageContent/PageContent.vue'
 import Card from '@/components/Card/Card.vue'
 
-const data = ref<any | null>(null)
+const data = ref<any | null>(null) // IPage
 
 const key = inject<Key>('key')
 const { commit, getters } = useStore(key)
@@ -65,7 +65,7 @@ const addToWatchList = async () => {
 
 const similars = computed(() => {
   return data.value.similars.map((item: any, i: number) => ({ ...item, i }))
-})
+}) // ICard[]
 
 /*export default {
   name: 'Page',

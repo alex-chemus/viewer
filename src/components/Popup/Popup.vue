@@ -1,23 +1,27 @@
-<template>
-  <div class="popup">
-    <!-- <Loader v-if="isLoading === 'true'" size="70" /> -->
-    <div v-if="isLoading === 'true'" class="loader-container">
-      <Loader size="70" />
-    </div>
-
-    <ul v-else-if="isLoading === 'false' && list" class="list-group">
-      <PopupItem v-for="item in list" :key="item.i" :item="item" />
-    </ul>
-  </div>
-</template>
-
-
-<script>
-import { toRaw, watchEffect, ref } from 'vue'
+<script setup lang="ts">
+import { toRaw, watchEffect, watch, ref, defineProps } from 'vue'
 import Loader from '@/components/Loader/Loader.vue'
 import PopupItem from '@/components/PopupItem/PopupItem.vue'
+import { computed } from '@vue/reactivity';
 
-export default {
+const props = defineProps<{
+  searchedList: {
+    results: any[] // IPopupItem
+  },
+  isLoading: boolean
+}>()
+
+// list of search results (movies and series)
+const resultsList = computed(() => {
+  return props.searchedList.results
+    .map((item: any, i: number) => ({ i, ...item }))
+})
+
+/*watch(() => {
+  const searchedList = toRaw
+})*/
+
+/*export default {
   name: 'Popup',
 
   props: ['searchedList', 'isLoading'],
@@ -42,8 +46,23 @@ export default {
 
     return { list }
   }
-}
+}*/
 </script>
+
+
+<template>
+  <div class="popup">
+    <!-- <Loader v-if="isLoading === 'true'" size="70" /> -->
+    <div v-if="isLoading" class="loader-container">
+      <Loader size="70" />
+    </div>
+
+    <ul v-else-if="!isLoading && resultsList" class="list-group">
+      <PopupItem v-for="item in resultsList" :key="item.i" :item="item" />
+    </ul>
+  </div>
+</template>
+
 
 
 <style lang="scss" scoped>

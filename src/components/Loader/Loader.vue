@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 defineProps<{
-  size: number
+  size: number | string
 }>()
 </script>
 

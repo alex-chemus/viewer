@@ -15,7 +15,7 @@ const key = inject<Key>('key')
 const { getters } = useStore(key)
 const route = useRoute()
 
-const cardsList = ref<any | null>(null)
+const cardsList = ref<any | null>(null) // ICard[]
 const loadTo = ref(21)
 
 const contentType = ref<Content>(route.params.type as Content | 'movies')

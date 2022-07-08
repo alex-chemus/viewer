@@ -1,23 +1,16 @@
-<template>
-  <li class="group-list-item p-2">
-    <div class="wrapper me-3">
-      <h6 class="mb-2" :title="item.title">{{ item.title }}</h6>
-      <i class="m-0" :title="item.description">{{ item.description }}</i>
-    </div>
-
-    <router-link 
-      :to="`/${type}/${item.id}`"
-      class="btn btn-warning"
-    >Info</router-link>
-  </li>
-</template>
-
-
-<script>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, defineProps } from 'vue'
 import { useRoute } from 'vue-router'
+import { Content } from '@/types';
 
-export default {
+defineProps<{
+  item: any, // IPopupItem
+}>()
+
+const route = useRoute()
+const contentType = ref<Content>(route.params.type as Content || 'movies')
+
+/*export default {
   name: 'PopupItem',
 
   props: ['item'],
@@ -28,8 +21,23 @@ export default {
 
     return { type }
   }
-}
+}*/
 </script>
+
+
+<template>
+  <li class="group-list-item p-2">
+    <div class="wrapper me-3">
+      <h6 class="mb-2" :title="item.title">{{ item.title }}</h6>
+      <i class="m-0" :title="item.description">{{ item.description }}</i>
+    </div>
+
+    <router-link 
+      :to="`/${contentType}/${item.id}`"
+      class="btn btn-warning"
+    >Info</router-link>
+  </li>
+</template>
 
 
 <style lang="scss" scoped>
