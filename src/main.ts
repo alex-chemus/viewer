@@ -15,6 +15,7 @@ const router = createRouter({
 })
 
 createApp(App)
+  .provide('key', key)
   .use(router)
   .use(store, key)
   .mount('#app')

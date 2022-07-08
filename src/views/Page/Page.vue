@@ -4,18 +4,18 @@
       <div class="col-12 col-xl-4 col-md-6 poster-container">
         <img :src="data.image" alt="Poster" class="poster">
       </div>
-      <PageContent :data="data" :type="type" />
+      <PageContent :data="data" :type="contentType" />
     </div>
 
     <div class="row justify-content-center mb-5">
-      <button class="col-auto btn btn-primary" @click="add">Add to the watchlist</button>
+      <button class="col-auto btn btn-primary" @click="addToWatchList">Add to the watchlist</button>
     </div>
 
     <h3 class="text-center mb-3">Similars</h3>
 
     <div class="row justify-content-center mb-4">
       <div 
-        v-for="card in getSimilars()" 
+        v-for="card in similars" 
         :key="card.i" 
         class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3"
       >
@@ -28,17 +28,80 @@
 </template>
 
 
-<script>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, inject, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { Key } from '@/store'
 
 import Loader from '@/components/Loader/Loader.vue'
 import PageContent from '@/components/PageContent/PageContent.vue'
 import Card from '@/components/Card/Card.vue'
 
-export default {
+const data = ref<any | null>(null)
+
+const key = inject<Key>('key')
+
+const { commit, getters } = useStore(key)
+const route = useRoute()
+const router = useRouter()
+
+type Content = 'movies' | 'series'
+
+const contentType = ref<Content>(route.params.type as Content || 'movies')
+const contentId = route.params.id as string
+
+if (getters.hasPage(contentId)) { // if content data is cached
+  data.value = getters.getPage(contentId)
+} else { // else fetch content data
+  axios(`${getters.url}/Title/${getters.apiKey}/${contentId}`)
+    .then(res => {
+      if (res.data.errorMessage?.length || res.status !== 200)
+        throw new Error('failed to fetch ', res.data.errorMessage)
+      data.value = res.data
+      //console.log(data.value)
+      commit('addPage', data.value)
+    })
+    .catch(err => {
+      console.log('error in Page:', err)
+      router.push('/notfound')
+    })
+}
+
+// todo: make it shared
+const addToWatchList = async () => {
+  // create watchlist if there's none in the local storage
+  if (!localStorage.getItem('watchlist')) {
+    const watchlist = {
+      movies: [],
+      series: []
+    }
+    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+  }
+
+  const watchlist = JSON.parse(localStorage.getItem('watchlist')!)
+
+  const isInList = watchlist[contentType.value].find((item: any) => item.id === data.value.id)
+  if (isInList) return
+
+  watchlist[contentType.value].push({
+    title: data.value.title,
+    rating: data.value.imDbRating,
+    type: contentType.value,
+    id: data.value.id
+  })
+  localStorage.setItem('watchlist', JSON.stringify(watchlist))
+}
+
+const similars = computed(() => {
+  return data.value.similars.map((item: any, i: number) => ({ ...item, i }))
+})
+
+//if (getters.hasPage(id))
+
+
+/*export default {
   name: 'Page',
 
   components: { Loader, PageContent, Card },
@@ -107,7 +170,7 @@ export default {
 
     return { data, type, getSimilars, add }
   }
-}
+}*/
 </script>
 
 
