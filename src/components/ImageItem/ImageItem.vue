@@ -20,7 +20,7 @@ export default {
     const getLocalSrc = async () => {
       //fetch from server
       try {
-        const res = await fetch('/api/get-img', {
+        const res = await fetch('https://viewer-img.herokuapp.com/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
