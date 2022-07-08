@@ -8,7 +8,7 @@ import { Key } from '@/store'
 import ImageItem from '@/components/ImageItem/ImageItem.vue'
 import { Content } from '@/types'
 
-const { data } = defineProps<{
+const props = defineProps<{
   data: any, // todo: create a card content type
 }>()
 
@@ -17,10 +17,11 @@ const { getters, commit } = useStore(key)
 const router = useRouter()
 
 const defineType = async (): Promise<never | Content> => {
-  if (!data?.type) {
+  if (!props.data?.type) {
 
     try {
-      const res = await axios.get(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
+      const path = `${getters.url}/Title/${getters.apiKey}/${props.data.id}`
+      const res = await axios.get(path)
       if (res.data.errorMessage?.length || res.status !== 200) {
         throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
       }
@@ -37,7 +38,7 @@ const defineType = async (): Promise<never | Content> => {
   } else {
     //console.log('data is passed:', data.type)
     //router.push(`/${data.type}/${data.id}`)
-    return data.type
+    return props.data.type
   }
 }
 
@@ -45,7 +46,7 @@ const seeInfo = async (event: MouseEvent) => {
   event.preventDefault()
   const type = await defineType()
   //console.log(type)
-  router.push(`/${type}/${data.id}`)
+  router.push(`/${type}/${props.data.id}`)
 }
 
 const addCard = async () => {
@@ -59,21 +60,21 @@ const addCard = async () => {
 
   const watchlist = JSON.parse(localStorage.getItem('watchlist') as string)
   const contentType = await defineType()
-  if (watchlist[contentType].find((item: any) => item.id === data.id)) return
+  if (watchlist[contentType].find((item: any) => item.id === props.data.id)) return
   //console.log('type', type)
   watchlist[contentType].push({
-    title: data.title,
-    rating: data.imDbRating,
+    title: props.data.title,
+    rating: props.data.imDbRating,
     type: contentType,
-    id: data.id
+    id: props.data.id
   })
   localStorage.setItem('watchlist', JSON.stringify(watchlist))
 }
 
 const colorClass = computed(() => {
   let colorClass
-  if (data.imDbRating > 8) colorClass = 'text-success'
-  else if (data.imDbRating > 6) colorClass = 'text-warning'
+  if (props.data.imDbRating > 8) colorClass = 'text-success'
+  else if (props.data.imDbRating > 6) colorClass = 'text-warning'
   else colorClass = 'text-danger'
   return `card-text rating ${colorClass} m-0`
 })
