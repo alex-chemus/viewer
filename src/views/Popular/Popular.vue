@@ -5,6 +5,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { Key } from '@/store'
 
+import { Content } from '@/types'
 import Loader from '@/components/Loader/Loader.vue'
 import Card from '@/components/Card/Card.vue'
 import ConnectionError from '@/components/ConnectionError/ConnectionError.vue'
@@ -17,7 +18,6 @@ const route = useRoute()
 const cardsList = ref<any | null>(null)
 const loadTo = ref(21)
 
-type Content = 'movies' | 'series'
 const contentType = ref<Content>(route.params.type as Content | 'movies')
 const storageItem = contentType.value === 'movies' ? 'popularMovies' : 'popularSeries'
 const urlRequest = contentType.value === 'movies' ? 'MostPopularMovies' : 'MostPopularTVs'

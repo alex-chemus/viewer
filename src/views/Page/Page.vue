@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import { Key } from '@/store'
 
+import { Content } from '@/types'
 import Loader from '@/components/Loader/Loader.vue'
 import PageContent from '@/components/PageContent/PageContent.vue'
 import Card from '@/components/Card/Card.vue'
@@ -15,8 +16,6 @@ const key = inject<Key>('key')
 const { commit, getters } = useStore(key)
 const route = useRoute()
 const router = useRouter()
-
-type Content = 'movies' | 'series'
 
 const contentType = ref<Content>(route.params.type as Content || 'movies')
 const contentId = route.params.id as string

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Content } from '@/types'
 import WatchlistItem from '@/components/WatchlistItem/WatchlistItem.vue'
 
 const movies = ref<any[] | null>(null)
@@ -16,7 +17,6 @@ const getLocalData = () => {
 
 getLocalData()
 
-type Content = 'movies' | 'seires'
 type RemoveItemProps = {
   contentType: Content,
   id: string
