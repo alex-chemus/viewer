@@ -7,15 +7,15 @@
 
 
 <style lang="scss" scoped>
-  @import '@/common.scss';
+@import '@/common.scss';
 
-  .container {
-    @include flex(center, center);
-    flex-direction: column;
-  }
+.container {
+  @include flex(center, center);
+  flex-direction: column;
+}
 
-  h2, h3 {
-    text-align: center;
-    color: var(--text-color);
-  }
+h2, h3 {
+  text-align: center;
+  color: var(--text-color);
+}
 </style>

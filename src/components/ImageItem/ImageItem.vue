@@ -113,11 +113,11 @@ onMounted(() => {
 
 
 <style lang="scss" scoped>
-  @import '@/common.scss';
+@import '@/common.scss';
 
-  .placeholder {
-    height: 100%;
-    width: 100%;
-    background-color: var(--secondary-color);
-  }
+.placeholder {
+  height: 100%;
+  width: 100%;
+  background-color: var(--secondary-color);
+}
 </style>

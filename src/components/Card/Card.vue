@@ -196,47 +196,47 @@ const colorClass = computed(() => {
 
 
 <style lang="scss" scoped>
-  @import '@/common.scss';
+@import '@/common.scss';
 
-  .card {
-    box-shadow: var(--shadow);
-    background-color: #fbfbfb;
-    color: #262626;
+.card {
+  box-shadow: var(--shadow);
+  background-color: #fbfbfb;
+  color: #262626;
 
-    &-placeholder {
-      height: 350px;
-    }
+  &-placeholder {
+    height: 350px;
   }
+}
 
-  .image-container {
-    height: 200px;
-    width: 100%;
-    @include flex(center, center);
-  }
+.image-container {
+  height: 200px;
+  width: 100%;
+  @include flex(center, center);
+}
 
-  .wrapper {
-    @include flex(space-between, center);
-  }
+.wrapper {
+  @include flex(space-between, center);
+}
 
-  .text-wrapper {
-    min-height: 1em;
-  }
+.text-wrapper {
+  min-height: 1em;
+}
 
-  .year {
-    font-style: italic;
-  }
+.year {
+  font-style: italic;
+}
 
-  .rating {
-    font-weight: bold;
-  }
+.rating {
+  font-weight: bold;
+}
 
-  .card-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .btn {
-    box-shadow: var(--small-shadow);
-  }
+.btn {
+  box-shadow: var(--small-shadow);
+}
 </style>

@@ -171,27 +171,27 @@ const similars = computed(() => {
 
 
 <style lang='scss' scoped>
-  @import '@/common.scss';
+@import '@/common.scss';
 
-  .poster {
-    max-width: 100%;
-    border-radius: 1rem;
+.poster {
+  max-width: 100%;
+  border-radius: 1rem;
 
-    @media (max-width: 768px) {
-      max-height: 70vh;
-      box-shadow: var(--large-shadow);
-    }
+  @media (max-width: 768px) {
+    max-height: 70vh;
+    box-shadow: var(--large-shadow);
   }
+}
 
-  * {
-    color: var(--text-color);
+* {
+  color: var(--text-color);
+}
+
+.poster-container {
+  @include flex(center, flex-start);
+
+  @media (max-width: 768px) {
+    padding: 0;
   }
-
-  .poster-container {
-    @include flex(center, flex-start);
-
-    @media (max-width: 768px) {
-      padding: 0;
-    }
-  }
+}
 </style>

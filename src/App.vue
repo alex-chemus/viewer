@@ -72,80 +72,80 @@ function toggleTheme() {
 
 
 <style lang='scss' scoped>
-  @import '@/common.scss';
+@import '@/common.scss';
 
-  main.dark {
-    --main-bg-color: #212529;
-    --bg-color: #262626; // $dark
-    --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-    --large-shadow: 0 .5rem 2rem rgba(0, 0, 0, .25);
-    --text-color: #FBFBFB; //$light;
-    --secondary-color: #bbb;
+main.dark {
+  --main-bg-color: #212529;
+  --bg-color: #262626; // $dark
+  --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+  --large-shadow: 0 .5rem 2rem rgba(0, 0, 0, .25);
+  --text-color: #FBFBFB; //$light;
+  --secondary-color: #bbb;
+}
+
+main.light {
+  --main-bg-color: #f5f5f5;
+  --bg-color: #fbfbfb; // $light
+  --shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  --large-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+  --text-color: #262626; //$dark;
+  --secondary-color: #6c757d; //$secondary;
+}
+
+main {
+  --primary-color: #1266F1;
+  --accent-color: #FFA900;
+  --small-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+
+  background-color: var(--main-bg-color);
+  height: 100%;
+  max-width: 100vw;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  //@include flex(flex-start, stretch);
+  //flex-direction: column;
+}
+
+.nav {
+  box-shadow: var(--large-shadow);
+  background-color: var(--bg-color);
+  position: sticky;
+  top: 0;
+  //position: -webkit-sticky;
+  //align-self: flex-start;
+  flex-grow: 0;
+  width: 100%;
+  z-index: 1;
+  //justify-self: start;
+}
+
+.nav-item {
+  align-self: center;
+}
+
+.btn-hide {
+  @media (min-width: 0) {
+    display: none;
   }
-
-  main.light {
-    --main-bg-color: #f5f5f5;
-    --bg-color: #fbfbfb; // $light
-    --shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
-    --large-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-    --text-color: #262626; //$dark;
-    --secondary-color: #6c757d; //$secondary;
+  @include media-breakpoint-up(sm) {
+    display: block;
   }
+}
 
-  main {
-    --primary-color: #1266F1;
-    --accent-color: #FFA900;
-    --small-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+.toggle {
+  margin-left: auto;
+  align-self: center;
 
-    background-color: var(--main-bg-color);
-    height: 100%;
-    max-width: 100vw;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    //@include flex(flex-start, stretch);
-    //flex-direction: column;
+  button {
+    aspect-ratio: 1 / 1;
+    @include flex(center, center);
+    padding: .5rem;
+    border-radius: 20%;
+    //transition: all .15s, color none;
   }
+}
 
-  .nav {
-    box-shadow: var(--large-shadow);
-    background-color: var(--bg-color);
-    position: sticky;
-    top: 0;
-    //position: -webkit-sticky;
-    //align-self: flex-start;
-    flex-grow: 0;
-    width: 100%;
-    z-index: 1;
-    //justify-self: start;
-  }
-
-  .nav-item {
-    align-self: center;
-  }
-
-  .btn-hide {
-    @media (min-width: 0) {
-      display: none;
-    }
-    @include media-breakpoint-up(sm) {
-      display: block;
-    }
-  }
-
-  .toggle {
-    margin-left: auto;
-    align-self: center;
-
-    button {
-      aspect-ratio: 1 / 1;
-      @include flex(center, center);
-      padding: .5rem;
-      border-radius: 20%;
-      //transition: all .15s, color none;
-    }
-  }
-
-  .nav-link {
-    color: var(--secondary-color);
-  }
+.nav-link {
+  color: var(--secondary-color);
+}
 </style>
