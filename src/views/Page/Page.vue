@@ -29,7 +29,7 @@ if (getters.hasPage(contentId)) { // if content data is cached
       if (res.data.errorMessage?.length || res.status !== 200)
         throw new Error('failed to fetch ', res.data.errorMessage)
       data.value = res.data
-      //console.log(data.value)
+      console.log(data.value)
       commit('addPage', data.value)
     })
     .catch(err => {
