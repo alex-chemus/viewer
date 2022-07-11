@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { toRaw, watchEffect, watch, ref, defineProps } from 'vue'
+import { defineProps } from 'vue'
 import Loader from '@/components/Loader/Loader.vue'
 import PopupItem from '@/components/PopupItem/PopupItem.vue'
-import { computed } from '@vue/reactivity';
+import { computed } from '@vue/reactivity'
 
 const props = defineProps<{
   searchedList: {

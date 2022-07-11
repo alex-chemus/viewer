@@ -7,20 +7,24 @@ const publicPath = process.env.NODE_ENV === 'production'
 
 module.exports = {
   configureWebpack: {
+    //entry: './src/main.ts',
+
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src/')
       }
     },
   },
+
   devServer: {
     historyApiFallback: {
       index: '/index.html'
     },
     port: process.env.PORT
   },
+
   //transpileDependencies: true,
-  publicPath,
+  publicPath
   /*settings: {
     'vetur.completion.autoImport': false,
     'vetur.experimental.templateInterpolationService': false,
@@ -36,5 +40,7 @@ module.exports = {
     'vetur.languageFeatures.updateImportOnFileMove': false,
     'vetur.trace.server': 'off',
     'vetur.underline.refValue': false,
-  }*/
+  }*/,
+
+  //transpileDependencies: true
 }

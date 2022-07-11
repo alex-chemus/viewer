@@ -56,7 +56,7 @@ const getData = () => {
     const localData = JSON.parse(localStorage.getItem(storageItem) as string)
     cardsList.value = localData.list.slice(0, loadTo.value)
     // if the data is expired (1h), fetch it again
-    if (Date.now() - localData.time > 3_600_000) {
+    if (Date.now() - localData.time > 3600000) { // 3_600_000
       fetchData()
     }
   } else { // fetch data if it's not stored locally
@@ -152,7 +152,7 @@ const loadMore = () => {
     <div class="row justify-content-center mb-4">
       <div class="col-xl-6 col-lg-8 col-12">
         <Search 
-          :type="contentType"
+          :contentType="contentType"
         />
       </div>
     </div>

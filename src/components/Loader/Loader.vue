@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-defineProps<{
+import { defineProps, ref } from 'vue'
+const props =  defineProps<{
   size: number | string
 }>()
+
+//const size = ref<number | string>(props.size)
+const style = ref<any>({
+  width: `${props.size}px`,
+  height: `${props.size}px`
+})
 </script>
 
 <template>
-  <div class="wrapper" :style="{
-    width: `${size ?? 180}px`,
-    height: `${size ?? 180}px`
-  }">
+  <div class="wrapper" :style="style">
     <div class="lds-ripple">
       <div></div>
       <div></div>
