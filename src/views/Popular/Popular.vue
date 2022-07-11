@@ -29,7 +29,8 @@ const fetchData = async () => {
     if (isOk) throw new Error('Error')
 
     const list: any[] = []
-    res.data.items.forEach((item: any, i: number) => {
+    console.log('assign data locally')
+    res.data.items.forEach((item: any, i: number) => { // ICard
       list.push({
         title: item.title,
         year: item.year,
@@ -51,6 +52,7 @@ const fetchData = async () => {
 }
 
 const getData = () => {
+  console.log('get data')
   // if data is stored locally, retrieve it to the ref 
   if (JSON.parse(localStorage.getItem(storageItem) as string)) {
     const localData = JSON.parse(localStorage.getItem(storageItem) as string)
@@ -60,6 +62,7 @@ const getData = () => {
       fetchData()
     }
   } else { // fetch data if it's not stored locally
+    console.log('fetch new data')
     fetchData()
   }
 }
