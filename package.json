@@ -116,7 +116,8 @@
       }
     ],
     "parserOptions": {
-      "ecmaVersion": 2021
+      "ecmaVersion": 2021,
+      "parser": "@typescript-eslint/parser"
     }
   },
   "browserslist": [
