@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue'
 import { useRoute } from 'vue-router'
-import { Content } from '@/types';
+import { Content } from '@/types'
 
 defineProps<{
   item: any, // IPopupItem
@@ -10,7 +10,7 @@ defineProps<{
 const route = useRoute()
 const contentType = ref<Content>(route.params.type as Content || 'movies')
 
-/*export default {
+/* export default {
   name: 'PopupItem',
 
   props: ['item'],
@@ -21,9 +21,8 @@ const contentType = ref<Content>(route.params.type as Content || 'movies')
 
     return { type }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <li class="group-list-item p-2">
@@ -32,13 +31,12 @@ const contentType = ref<Content>(route.params.type as Content || 'movies')
       <i class="m-0" :title="item.description">{{ item.description }}</i>
     </div>
 
-    <router-link 
+    <router-link
       :to="`/${contentType}/${item.id}`"
       class="btn btn-warning"
     >Info</router-link>
   </li>
 </template>
-
 
 <style lang="scss" scoped>
 @import '@/common.scss';

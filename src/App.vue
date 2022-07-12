@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const isDark = ref<boolean>(window.matchMedia('(prefers-color-scheme: dark)').matches)
 
-function toggleTheme() {
+function toggleTheme () {
   const main = document.querySelector('main') as HTMLElement
   if (main.classList.contains('dark')) {
     main.classList.remove('dark')
@@ -15,35 +15,34 @@ function toggleTheme() {
 }
 </script>
 
-
 <template>
   <main :class="isDark ? 'dark' : 'light'">
     <nav class="nav justify-content-start">
       <div class="nav-item">
-        <router-link 
-          to='/watchlist' 
-          :class="$route.path==='/watchlist' 
-            ? 'nav-link text-primary' 
+        <router-link
+          to='/watchlist'
+          :class="$route.path==='/watchlist'
+            ? 'nav-link text-primary'
             : 'nav-link'"
         >
           Watchlist
         </router-link>
       </div>
       <div class="nav-item">
-        <router-link 
-          to="/popular/movies" 
-          :class="$route.path==='/popular-movies' || $route.path==='/' 
-            ? 'nav-link btn-hide text-primary' 
+        <router-link
+          to="/popular/movies"
+          :class="$route.path==='/popular-movies' || $route.path==='/'
+            ? 'nav-link btn-hide text-primary'
             : 'nav-link btn-hide'"
         >
           Popular movies
         </router-link>
       </div>
       <div class="nav-item">
-        <router-link 
-          to='/popular/series' 
-          :class="$route.path==='/popular-series' 
-            ? 'nav-link btn-hide text-primary' 
+        <router-link
+          to='/popular/series'
+          :class="$route.path==='/popular-series'
+            ? 'nav-link btn-hide text-primary'
             : 'nav-link btn-hide'"
         >
           Popular series
@@ -69,7 +68,6 @@ function toggleTheme() {
     <router-view :key="$route.fullPath"></router-view>
   </main>
 </template>
-
 
 <style lang='scss' scoped>
 @import '@/common.scss';

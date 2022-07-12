@@ -41,7 +41,7 @@ const fetchData = async () => {
         i
       })
     })
-    //console.log('assign cardsList', type.value)
+    // console.log('assign cardsList', type.value)
     cardsList.value = list.slice(0, loadTo.value)
     localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }))
     return null
@@ -53,7 +53,7 @@ const fetchData = async () => {
 
 const getData = () => {
   console.log('get data')
-  // if data is stored locally, retrieve it to the ref 
+  // if data is stored locally, retrieve it to the ref
   if (JSON.parse(localStorage.getItem(storageItem) as string)) {
     const localData = JSON.parse(localStorage.getItem(storageItem) as string)
     cardsList.value = localData.list.slice(0, loadTo.value)
@@ -74,8 +74,7 @@ const loadMore = () => {
   getData()
 }
 
-
-/*export default {
+/* export default {
   name: 'Popular',
 
   components: { Loader, Card, ConnectionError, Search },
@@ -124,7 +123,7 @@ const loadMore = () => {
     }
 
     const getData = () => {
-      // if data is stored locally, retrieve it to the ref 
+      // if data is stored locally, retrieve it to the ref
       if (JSON.parse(localStorage.getItem(storageItem))) {
         const localData = JSON.parse(localStorage.getItem(storageItem))
         cardsList.value = localData.list.slice(0, loadTo.value)
@@ -146,15 +145,14 @@ const loadMore = () => {
 
     return { cardsList, loadMore, type }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <section v-if="cardsList?.length > 0" class="container pt-5">
     <div class="row justify-content-center mb-4">
       <div class="col-xl-6 col-lg-8 col-12">
-        <Search 
+        <Search
           :contentType="contentType"
         />
       </div>
@@ -169,7 +167,7 @@ const loadMore = () => {
     </div>
 
     <div class="row justify-content-center">
-      <button 
+      <button
         v-if="cardsList.length < 100"
         class="btn btn-primary loadMore col-auto mb-3"
         @click="loadMore"
@@ -179,7 +177,6 @@ const loadMore = () => {
   <ConnectionError v-else-if="cardsList === 'Error'"></ConnectionError>
   <Loader v-else size="180" />
 </template>
-
 
 <style lang='scss' scoped>
 @import '@/common.scss';

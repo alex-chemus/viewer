@@ -8,11 +8,11 @@ const series = ref<any[] | null>(null)
 
 const getLocalData = () => {
   if (localStorage.getItem('watchlist')) {
-    //console.log('got watchlist from localstorage')
+    // console.log('got watchlist from localstorage')
     const localData = JSON.parse(localStorage.getItem('watchlist') as string)
     movies.value = localData.movies.map((item: any, i: number) => ({ ...item, i }))
     series.value = localData.series.map((item: any, i: number) => ({ ...item, i }))
-  } 
+  }
 }
 
 getLocalData()
@@ -33,7 +33,7 @@ const removeItem = ({ contentType, id }: RemoveItemProps) => {
   getLocalData()
 }
 
-/*export default {
+/* export default {
   name: 'Watchlist',
 
   components: { WatchlistItem },
@@ -48,11 +48,11 @@ const removeItem = ({ contentType, id }: RemoveItemProps) => {
         const localData = JSON.parse(localStorage.getItem('watchlist'))
         movies.value = localData.movies.map((item, i) => ({ ...item, i }))
         series.value = localData.series.map((item, i) => ({ ...item, i }))
-      } 
+      }
     }
 
     getLocalData()
-    
+
     const removeItem = ({ type, id }) => {
       const watchlist = JSON.parse(localStorage.getItem('watchlist'))
       const antiType = type === 'movies' ? 'series' : 'movies'
@@ -66,9 +66,8 @@ const removeItem = ({ contentType, id }: RemoveItemProps) => {
 
     return { removeItem, movies, series }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <section class="container pt-5">
@@ -76,7 +75,7 @@ const removeItem = ({ contentType, id }: RemoveItemProps) => {
       <div class="col-xxl-4 col-md-6 mb-5 mw-100vw">
         <h3 class="text-center mb-4">Movies</h3>
         <ul v-if="movies?.length" class="list-group">
-          <WatchlistItem 
+          <WatchlistItem
             v-for="movie in movies"
             :key="movie.i"
             :data="movie"
@@ -89,7 +88,7 @@ const removeItem = ({ contentType, id }: RemoveItemProps) => {
       <div class="col-xxl-4 col-md-6 mb-5 mw-100vw">
         <h3 class="text-center mb-4">Series</h3>
         <ul v-if="series?.length" class="list-group">
-          <WatchlistItem 
+          <WatchlistItem
             v-for="serie in series"
             :key="serie.i"
             :data="serie"
@@ -101,7 +100,6 @@ const removeItem = ({ contentType, id }: RemoveItemProps) => {
     </div>
   </section>
 </template>
-
 
 <style lang='scss' scoped>
 @import '@/common.scss';

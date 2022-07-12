@@ -26,8 +26,7 @@ if (getters.hasPage(contentId)) { // if content data is cached
 } else { // else fetch content data
   axios(`${getters.url}/Title/${getters.apiKey}/${contentId}`)
     .then(res => {
-      if (res.data.errorMessage?.length || res.status !== 200)
-        throw new Error('failed to fetch ', res.data.errorMessage)
+      if (res.data.errorMessage?.length || res.status !== 200) { throw new Error('failed to fetch ', res.data.errorMessage) }
       data.value = res.data
       console.log(data.value)
       commit('addPage', data.value)
@@ -67,7 +66,7 @@ const similars = computed(() => {
   return data.value.similars.map((item: any, i: number) => ({ ...item, i }))
 }) // ICard[]
 
-/*export default {
+/* export default {
   name: 'Page',
 
   components: { Loader, PageContent, Card },
@@ -136,9 +135,8 @@ const similars = computed(() => {
 
     return { data, type, getSimilars, add }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <section v-if="data" class="container-md pt-5">
@@ -156,9 +154,9 @@ const similars = computed(() => {
     <h3 class="text-center mb-3">Similars</h3>
 
     <div class="row justify-content-center mb-4">
-      <div 
-        v-for="card in similars" 
-        :key="card.i" 
+      <div
+        v-for="card in similars"
+        :key="card.i"
         class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3"
       >
         <Card :data="card" />
@@ -168,7 +166,6 @@ const similars = computed(() => {
 
   <Loader v-else size="180" />
 </template>
-
 
 <style lang='scss' scoped>
 @import '@/common.scss';

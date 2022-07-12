@@ -10,7 +10,7 @@ const src = ref<string | null>(null)
 const placeholder = ref<HTMLDivElement | null>(null)
 
 const getLocalSrc = async () => {
-  //fetch from server
+  // fetch from server
   try {
     const res = await fetch('https://viewer-img.herokuapp.com/', {
       method: 'POST',
@@ -22,12 +22,12 @@ const getLocalSrc = async () => {
       })
     })
     const buffer = await res.arrayBuffer()
-    //console.log(buffer, res.headers.get('Content-Type').split(';')[0])
+    // console.log(buffer, res.headers.get('Content-Type').split(';')[0])
     const blob = new Blob([buffer], {
-      //eslint-disable-next-line
+      // eslint-disable-next-line
       type: res.headers.get('Content-Type')!.split(';')[0]
     })
-    //console.log(blob)
+    // console.log(blob)
     return URL.createObjectURL(blob)
   } catch (err) {
     console.log('failed to get local src', err)
@@ -37,21 +37,20 @@ const getLocalSrc = async () => {
 
 const observer = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) {
-    //src.value = getLocalSrc()
+    // src.value = getLocalSrc()
     getLocalSrc()
       .then(url => src.value = url)
   }
 }, {
   threshold: 1,
-  rootMargin: '200px',
+  rootMargin: '200px'
 })
 
 onMounted(() => {
-  if (placeholder.value) 
-    observer.observe(placeholder.value)
+  if (placeholder.value) { observer.observe(placeholder.value) }
 })
 
-/*export default {
+/* export default {
   name: 'ImageItem',
 
   props: ['url', 'styles'],
@@ -102,15 +101,13 @@ onMounted(() => {
 
     return { src, img, placeholder }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <img v-if="src" :src="src" :style="styles" alt="Poster">
   <div v-else class="placeholder" ref="placeholder"></div>
 </template>
-
 
 <style lang="scss" scoped>
 @import '@/common.scss';

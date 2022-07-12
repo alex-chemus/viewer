@@ -18,7 +18,6 @@ const router = useRouter()
 
 const defineType = async (): Promise<never | Content> => {
   if (!props.data?.type) {
-
     try {
       const path = `${getters.url}/Title/${getters.apiKey}/${props.data.id}`
       const res = await axios.get(path)
@@ -27,17 +26,16 @@ const defineType = async (): Promise<never | Content> => {
       }
       commit('addPage', res.data)
       const type = res.data.type === 'Movie' ? 'movies' : 'series'
-      //console.log(res.data)
-        return type
+      // console.log(res.data)
+      return type
     } catch (err) {
       console.log('failed to fetch in Card:', err)
       router.push('/notfound')
       throw new Error()
     }
-
   } else {
-    //console.log('data is passed:', data.type)
-    //router.push(`/${data.type}/${data.id}`)
+    // console.log('data is passed:', data.type)
+    // router.push(`/${data.type}/${data.id}`)
     return props.data.type
   }
 }
@@ -45,7 +43,7 @@ const defineType = async (): Promise<never | Content> => {
 const seeInfo = async (event: MouseEvent) => {
   event.preventDefault()
   const type = await defineType()
-  //console.log(type)
+  // console.log(type)
   router.push(`/${type}/${props.data.id}`)
 }
 
@@ -61,7 +59,7 @@ const addCard = async () => {
   const watchlist = JSON.parse(localStorage.getItem('watchlist') as string)
   const contentType = await defineType()
   if (watchlist[contentType].find((item: any) => item.id === props.data.id)) return
-  //console.log('type', type)
+  // console.log('type', type)
   watchlist[contentType].push({
     title: props.data.title,
     rating: props.data.imDbRating,
@@ -79,7 +77,7 @@ const colorClass = computed(() => {
   return `card-text rating ${colorClass} m-0`
 })
 
-/*export default {
+/* export default {
   name: 'Card',
 
   props: ['data'],
@@ -159,16 +157,15 @@ const colorClass = computed(() => {
 
     return { seeInfo, addCard }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <article class="card" v-if="data" data-test="card">
     <div class="card-body">
       <div class="image-container mb-3">
-        <ImageItem 
-          :url="data.image" 
+        <ImageItem
+          :url="data.image"
           :styles="{
             maxHeight: '100%',
             maxWidth: '100%'
@@ -193,7 +190,6 @@ const colorClass = computed(() => {
   <article v-else class="card card-placeholder">
   </article>
 </template>
-
 
 <style lang="scss" scoped>
 @import '@/common.scss';

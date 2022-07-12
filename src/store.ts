@@ -1,5 +1,5 @@
-import { InjectionKey } from "vue"
-import { Store, createStore } from "vuex"
+import { InjectionKey } from 'vue'
+import { Store, createStore } from 'vuex'
 
 /*
   стор нужен для кеширования данных о фильме, чтобы не отправлять запрос.
@@ -22,32 +22,32 @@ export const store = createStore<State>({
     pages: [],
     apiKey: 'k_zealvkev',
     url: 'https://imdb-api.com/en/API',
-    isDarkTheme: false,
+    isDarkTheme: false
   },
 
   mutations: {
-    addPage(state, value) {
+    addPage (state, value) {
       state.pages.push(value)
-    },
+    }
   },
 
   getters: {
-    getPage(state) {
+    getPage (state) {
       return (id: string) => state.pages.find(item => item.id === id)
     },
 
-    hasPage(state) {
+    hasPage (state) {
       return (id: string) => !!state.pages.find(item => item.id === id)
     },
 
-    url(state) {
+    url (state) {
       return state.url
     },
 
-    apiKey(state) {
+    apiKey (state) {
       return state.apiKey
     }
   }
 })
 
-//export default initStore
+// export default initStore

@@ -17,11 +17,11 @@ const resultsList = computed(() => {
     .map((item: any, i: number) => ({ i, ...item }))
 })
 
-/*watch(() => {
+/* watch(() => {
   const searchedList = toRaw
-})*/
+}) */
 
-/*export default {
+/* export default {
   name: 'Popup',
 
   props: ['searchedList', 'isLoading'],
@@ -46,9 +46,8 @@ const resultsList = computed(() => {
 
     return { list }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <div class="popup">
@@ -62,8 +61,6 @@ const resultsList = computed(() => {
     </ul>
   </div>
 </template>
-
-
 
 <style lang="scss" scoped>
 @import '@/common.scss';

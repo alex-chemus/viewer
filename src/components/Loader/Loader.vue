@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
-const props =  defineProps<{
+const props = defineProps<{
   size: number | string
 }>()
 
-//const size = ref<number | string>(props.size)
+// const size = ref<number | string>(props.size)
 const style = ref<any>({
   width: `${props.size}px`,
   height: `${props.size}px`

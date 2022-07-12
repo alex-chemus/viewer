@@ -8,7 +8,7 @@ const props = defineProps<{
 }>()
 
 const badgeClasses = computed(() => {
-  let cls = ['badge', 'ms-2']
+  const cls = ['badge', 'ms-2']
   if (props.data.imDbRating > 8) {
     cls.push('bg-success')
   } else if (props.data.imDbRating > 6) {
@@ -25,7 +25,7 @@ const keyedGenres = computed(() => {
     .map((item: any, i: number) => ({ key: i, ...item }))
 })
 
-/*export default {
+/* export default {
   name: 'PageContent',
 
   props: ['data', 'type'],
@@ -55,9 +55,8 @@ const keyedGenres = computed(() => {
 
     return { getBadgeClasses, getKeyedGenres }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <div class="col content px-5 py-4">
@@ -73,8 +72,8 @@ const keyedGenres = computed(() => {
     <div class="wrapper mb-3">
       <h5 class="m-0">Genres:</h5>
       <p class="m-0 ms-2">
-        <span 
-          v-for="genre in keyedGenres" 
+        <span
+          v-for="genre in keyedGenres"
           :key="genre.key"
           class="badge bg-primary ms-2"
         >
@@ -86,19 +85,19 @@ const keyedGenres = computed(() => {
     <h5>Description</h5>
     <p class="mb-3">{{ data.plot }}</p>
 
-    <Paragraph 
+    <Paragraph
       v-if="data.year"
       title="Year"
       :data="(data.year as string)"
     />
 
-    <Paragraph 
+    <Paragraph
       v-if="data.directors"
       title="Directors"
       :data="(data.directors as string)"
     />
 
-    <Paragraph 
+    <Paragraph
       v-if="data.stars"
       title="Stars"
       :data="(data.stars as string)"
@@ -110,7 +109,7 @@ const keyedGenres = computed(() => {
       :data="(data.runtimeStr as string)"
     />
 
-    <Paragraph 
+    <Paragraph
       v-if="data.companies"
       title="Companies"
       :data="(data.companies as string)"
@@ -122,14 +121,13 @@ const keyedGenres = computed(() => {
       <p>Cumulative Worlwide Gross: {{ data.boxOffice.cumulativeWorldwideGross }}</p>
     </div>
 
-    <Paragraph 
+    <Paragraph
       v-if="data.countries"
       title="Countries"
       :data="data.countries"
     />
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 @import '@/common.scss';

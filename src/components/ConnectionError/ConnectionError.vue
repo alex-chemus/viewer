@@ -5,7 +5,6 @@
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 @import '@/common.scss';
 

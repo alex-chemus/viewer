@@ -41,7 +41,7 @@ const getSearchedData = (event: InputEvent) => {
     })
 }
 
-const onInput = useDebounce(getSearchedData, 1000) 
+const onInput = useDebounce(getSearchedData, 1000)
 
 const handleClick = (e: MouseEvent) => {
   if (!form.value?.contains(e.target as Node)) {
@@ -54,9 +54,9 @@ const handleClick = (e: MouseEvent) => {
 document.addEventListener('click', handleClick)
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClick)
-})  
+})
 
-/*export default {
+/* export default {
   name: 'Search',
 
   props: ['type'],
@@ -106,18 +106,17 @@ onBeforeUnmount(() => {
     document.addEventListener('click', handleClick)
     onBeforeUnmount(() => {
       document.removeEventListener('click', handleClick)
-    })    
+    })
 
     return { onFormSubmit, onInput, searchedList, isLoading, popupVisible, form }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <form @submit.prevent="() => {}" ref="form">
-    <input 
-      type="text" 
+    <input
+      type="text"
       class="form-control"
       :placeholder="`Search ${contentType}`"
       @input="onInput"
@@ -131,16 +130,15 @@ onBeforeUnmount(() => {
           <circle cx="8" cy="8" r="7"/>
         </g>
       </svg>
-    </button> --> 
+    </button> -->
 
-    <Popup 
+    <Popup
       v-if="isLoading && popupVisible"
       :searchedList="searchedList"
       :isLoading="isLoading"
     />
   </form>
 </template>
-
 
 <style lang="scss" scoped>
 @import '@/common.scss';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Content } from '@/types';
-import { defineProps, defineEmits, computed } from 'vue';
+import { Content } from '@/types'
+import { defineProps, defineEmits, computed } from 'vue'
 
 const props = defineProps<{
   data: any
@@ -18,15 +18,10 @@ const emit = defineEmits<{
 const remove = (event: Event) => emit('remove', event)
 
 const colorClasses = computed(() => {
-  if (props.data.rating > 8)
-    return 'bg-success badge m-0'
-  else if (props.data.rating > 6)
-    return 'bg-warning text-dark badge m-0'
-  else
-    return 'bg-danger badge m-0'
+  if (props.data.rating > 8) { return 'bg-success badge m-0' } else if (props.data.rating > 6) { return 'bg-warning text-dark badge m-0' } else { return 'bg-danger badge m-0' }
 })
 
-/*export default {
+/* export default {
   name: 'WatchlistItem',
 
   props: ['data'],
@@ -44,9 +39,8 @@ const colorClasses = computed(() => {
 
     return { remove, dye }
   }
-}*/
+} */
 </script>
-
 
 <template>
   <li class="group-list-item mb-3 p-3">
@@ -64,7 +58,6 @@ const colorClasses = computed(() => {
     </button>
   </li>
 </template>
-
 
 <style lang="scss" scoped>
 @import '@/common.scss';
