@@ -38,7 +38,7 @@ const contentType = ref<Content>(route.params.type as Content || 'movies')
   </li>
 </template>
 
-<style lang="scss" scoped>
+<!--<style lang="scss" scoped>
 @import '@/common.scss';
 
 li {
@@ -64,4 +64,4 @@ h6, i {
   min-width: 0;
   min-height: 0;
 }
-</style>
+</style>-->

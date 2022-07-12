@@ -178,8 +178,9 @@ const loadMore = () => {
   <Loader v-else size="180" />
 </template>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '@/common.scss';
+@debug $test;
 
 h1 {
   color: var(--text-color);

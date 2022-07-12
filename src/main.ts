@@ -6,6 +6,7 @@ import { store, Key } from './store'
 import routes from './routes'
 import './style.scss'
 
+// eslint-disable-next-line
 const key: Key = Symbol()
 
 // const store = createStore(initStore)

@@ -62,7 +62,7 @@ const resultsList = computed(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<!--<style lang="scss" scoped>
 @import '@/common.scss';
 
 .popup {
@@ -89,4 +89,4 @@ ul {
   min-width: 0;
   //border: 1px solid red;
 }
-</style>
+</style>-->

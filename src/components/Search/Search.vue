@@ -140,7 +140,7 @@ onBeforeUnmount(() => {
   </form>
 </template>
 
-<style lang="scss" scoped>
+<!--<style lang="scss" scoped>
 @import '@/common.scss';
 
 input {
@@ -162,4 +162,4 @@ input {
   min-width: 0;
   min-height: 0;
 }
-</style>
+</style>-->

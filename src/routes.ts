@@ -1,11 +1,12 @@
-import { defineAsyncComponent } from 'vue'
+/* eslint-disable */
+//import { defineAsyncComponent } from 'vue'
 
-import Popular from '@/views/Popular/Popular.vue'
-import Loader from '@/components/Loader/Loader.vue'
-import NotFound from '@/views/NotFound/NotFound.vue'
+//import Popular from '@/views/Popular/Popular.vue'
+//import Loader from '@/components/Loader/Loader.vue'
+//import NotFound from '@/views/NotFound/NotFound.vue'
 
 // import Page from '@/views/Page/Page.vue'
-const Page = defineAsyncComponent({
+/*const Page = defineAsyncComponent({
   loader: () => import('@/views/Page/Page.vue'),
   loadingComponent: Loader
 })
@@ -13,7 +14,18 @@ const Page = defineAsyncComponent({
 const Watchlist = defineAsyncComponent({
   loader: () => import('@/views/Watchlist/Watchlist.vue'),
   loadingComponent: Loader
-})
+})*/
+
+//const Popular = () => import('./views/Popular/Popular.vue')
+//const NotFound = () => import('./views/NotFound/NotFound.vue')
+//const Page = () => import('./views/Page/Page.vue')
+//const Watchlist = () => import('./views/Watchlist/Watchlist.vue')
+/* eslint-enable */
+
+import Popular from './views/Popular/Popular.vue'
+import NotFound from './views/NotFound/NotFound.vue'
+import Page from './views/Page/Page.vue'
+import Watchlist from './views/Watchlist/Watchlist.vue'
 
 // console.log('from the routes')
 

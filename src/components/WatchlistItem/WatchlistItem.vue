@@ -11,9 +11,11 @@ interface Event {
   contentType: Content
 }
 
+/* eslint-disable */
 const emit = defineEmits<{
   (e: 'remove', event: Event): void
 }>()
+/* eslint-enable */
 
 const remove = (event: Event) => emit('remove', event)
 
@@ -59,7 +61,7 @@ const colorClasses = computed(() => {
   </li>
 </template>
 
-<style lang="scss" scoped>
+<!--<style lang="scss" scoped>
 @import '@/common.scss';
 
 * {
@@ -89,4 +91,4 @@ h5 {
   min-width: 0;
   min-height: 0;
 }
-</style>
+</style>-->

@@ -167,7 +167,7 @@ const similars = computed(() => {
   <Loader v-else size="180" />
 </template>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '@/common.scss';
 
 .poster {

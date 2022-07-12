@@ -31,6 +31,7 @@ const getLocalSrc = async () => {
     return URL.createObjectURL(blob)
   } catch (err) {
     console.log('failed to get local src', err)
+    // eslint-disable-next-line
     return Promise.reject()
   }
 }
@@ -39,6 +40,7 @@ const observer = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) {
     // src.value = getLocalSrc()
     getLocalSrc()
+      // eslint-disable-next-line
       .then(url => src.value = url)
   }
 }, {
