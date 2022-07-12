@@ -1,29 +1,27 @@
 <script setup lang="ts">
-import { computed, defineProps } from 'vue'
-import Paragraph from '@/components/Paragraph/Paragraph.vue'
-import { Content } from '@/types'
+import { computed, defineProps } from 'vue';
+import Paragraph from '@/components/Paragraph/Paragraph.vue';
+import { Content } from '@/types';
 
 const props = defineProps<{
   data: any, // IPage
-}>()
+}>();
 
 const badgeClasses = computed(() => {
-  const cls = ['badge', 'ms-2']
+  const cls = ['badge', 'ms-2'];
   if (props.data.imDbRating > 8) {
-    cls.push('bg-success')
+    cls.push('bg-success');
   } else if (props.data.imDbRating > 6) {
-    cls.push('bg-warning')
-    cls.push('text-dark')
+    cls.push('bg-warning');
+    cls.push('text-dark');
   } else {
-    cls.push('bg-danger')
+    cls.push('bg-danger');
   }
-  return cls.join(' ')
-})
+  return cls.join(' ');
+});
 
-const keyedGenres = computed(() => {
-  return props.data.genreList
-    .map((item: any, i: number) => ({ key: i, ...item }))
-})
+const keyedGenres = computed(() => props.data.genreList
+  .map((item: any, i: number) => ({ key: i, ...item })));
 
 /* export default {
   name: 'PageContent',

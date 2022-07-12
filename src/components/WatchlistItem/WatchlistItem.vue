@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Content } from '@/types'
-import { defineProps, defineEmits, computed } from 'vue'
+import { Content } from '@/types';
+import { defineProps, defineEmits, computed } from 'vue';
 
 const props = defineProps<{
   data: any
-}>()
+}>();
 
 interface Event {
   id: string,
@@ -17,11 +17,11 @@ const emit = defineEmits<{
 }>()
 /* eslint-enable */
 
-const remove = (event: Event) => emit('remove', event)
+const remove = (event: Event) => emit('remove', event);
 
 const colorClasses = computed(() => {
-  if (props.data.rating > 8) { return 'bg-success badge m-0' } else if (props.data.rating > 6) { return 'bg-warning text-dark badge m-0' } else { return 'bg-danger badge m-0' }
-})
+  if (props.data.rating > 8) { return 'bg-success badge m-0'; } if (props.data.rating > 6) { return 'bg-warning text-dark badge m-0'; } return 'bg-danger badge m-0';
+});
 
 /* export default {
   name: 'WatchlistItem',

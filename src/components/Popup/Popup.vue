@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import Loader from '@/components/Loader/Loader.vue'
-import PopupItem from '@/components/PopupItem/PopupItem.vue'
-import { computed } from '@vue/reactivity'
+import { defineProps } from 'vue';
+import Loader from '@/components/Loader/Loader.vue';
+import PopupItem from '@/components/PopupItem/PopupItem.vue';
+import { computed } from '@vue/reactivity';
 
 const props = defineProps<{
   searchedList: {
     results: any[] // IPopupItem
   },
   isLoading: boolean
-}>()
+}>();
 
 // list of search results (movies and series)
-const resultsList = computed(() => {
-  return props.searchedList.results
-    .map((item: any, i: number) => ({ i, ...item }))
-})
+const resultsList = computed(() => props.searchedList.results
+  .map((item: any, i: number) => ({ i, ...item })));
 
 /* watch(() => {
   const searchedList = toRaw

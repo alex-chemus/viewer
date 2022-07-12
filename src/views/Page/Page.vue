@@ -1,40 +1,40 @@
 <script setup lang="ts">
-import { ref, inject, computed } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
-import { Key } from '@/store'
+import { ref, inject, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+import { Key } from '@/store';
 
-import { Content } from '@/types'
-import Loader from '@/components/Loader/Loader.vue'
-import PageContent from '@/components/PageContent/PageContent.vue'
-import Card from '@/components/Card/Card.vue'
+import { Content } from '@/types';
+import Loader from '@/components/Loader/Loader.vue';
+import PageContent from '@/components/PageContent/PageContent.vue';
+import Card from '@/components/Card/Card.vue';
 
-const data = ref<any | null>(null) // IPage
+const data = ref<any | null>(null); // IPage
 
-const key = inject<Key>('key')
-const { commit, getters } = useStore(key)
-const route = useRoute()
-const router = useRouter()
+const key = inject<Key>('key');
+const { commit, getters } = useStore(key);
+const route = useRoute();
+const router = useRouter();
 
-const contentType = ref<Content>(route.params.type as Content || 'movies')
-const contentId = route.params.id as string
+const contentType = ref<Content>(route.params.type as Content || 'movies');
+const contentId = route.params.id as string;
 
 // вынести это в lyfecycle hook
 if (getters.hasPage(contentId)) { // if content data is cached
-  data.value = getters.getPage(contentId)
+  data.value = getters.getPage(contentId);
 } else { // else fetch content data
   axios(`${getters.url}/Title/${getters.apiKey}/${contentId}`)
-    .then(res => {
-      if (res.data.errorMessage?.length || res.status !== 200) { throw new Error('failed to fetch ', res.data.errorMessage) }
-      data.value = res.data
-      console.log(data.value)
-      commit('addPage', data.value)
+    .then((res) => {
+      if (res.data.errorMessage?.length || res.status !== 200) { throw new Error('failed to fetch ', res.data.errorMessage); }
+      data.value = res.data;
+      console.log(data.value);
+      commit('addPage', data.value);
     })
-    .catch(err => {
-      console.log('error in Page:', err)
-      router.push('/notfound')
-    })
+    .catch((err) => {
+      console.log('error in Page:', err);
+      router.push('/notfound');
+    });
 }
 
 // todo: make it shared
@@ -43,28 +43,26 @@ const addToWatchList = async () => {
   if (!localStorage.getItem('watchlist')) {
     const watchlist = {
       movies: [],
-      series: []
-    }
-    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+      series: [],
+    };
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
   }
 
-  const watchlist = JSON.parse(localStorage.getItem('watchlist')!)
+  const watchlist = JSON.parse(localStorage.getItem('watchlist')!);
 
-  const isInList = watchlist[contentType.value].find((item: any) => item.id === data.value.id)
-  if (isInList) return
+  const isInList = watchlist[contentType.value].find((item: any) => item.id === data.value.id);
+  if (isInList) return;
 
   watchlist[contentType.value].push({
     title: data.value.title,
     rating: data.value.imDbRating,
     type: contentType.value,
-    id: data.value.id
-  })
-  localStorage.setItem('watchlist', JSON.stringify(watchlist))
-}
+    id: data.value.id,
+  });
+  localStorage.setItem('watchlist', JSON.stringify(watchlist));
+};
 
-const similars = computed(() => {
-  return data.value.similars.map((item: any, i: number) => ({ ...item, i }))
-}) // ICard[]
+const similars = computed(() => data.value.similars.map((item: any, i: number) => ({ ...item, i }))); // ICard[]
 
 /* export default {
   name: 'Page',

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps } from 'vue';
 
 defineProps<{
   title: string,
   data: string | number
-}>()
+}>();
 </script>
 
 <template>

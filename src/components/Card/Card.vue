@@ -1,81 +1,81 @@
 <script setup lang="ts">
-import { computed, defineProps, inject } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
-import { Key } from '@/store'
+import { computed, defineProps, inject } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { Key } from '@/store';
 
-import ImageItem from '@/components/ImageItem/ImageItem.vue'
-import { Content } from '@/types'
+import ImageItem from '@/components/ImageItem/ImageItem.vue';
+import { Content } from '@/types';
 
 const props = defineProps<{
   data: any, // todo: create a card content type (ICard)
-}>()
+}>();
 
-const key = inject<Key>('key')
-const { getters, commit } = useStore(key)
-const router = useRouter()
+const key = inject<Key>('key');
+const { getters, commit } = useStore(key);
+const router = useRouter();
 
 const defineType = async (): Promise<never | Content> => {
   if (!props.data?.type) {
     try {
-      const path = `${getters.url}/Title/${getters.apiKey}/${props.data.id}`
-      const res = await axios.get(path)
+      const path = `${getters.url}/Title/${getters.apiKey}/${props.data.id}`;
+      const res = await axios.get(path);
       if (res.data.errorMessage?.length || res.status !== 200) {
-        throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+        throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`);
       }
-      commit('addPage', res.data)
-      const type = res.data.type === 'Movie' ? 'movies' : 'series'
+      commit('addPage', res.data);
+      const type = res.data.type === 'Movie' ? 'movies' : 'series';
       // console.log(res.data)
-      return type
+      return type;
     } catch (err) {
-      console.log('failed to fetch in Card:', err)
-      router.push('/notfound')
-      throw new Error()
+      console.log('failed to fetch in Card:', err);
+      router.push('/notfound');
+      throw new Error();
     }
   } else {
     // console.log('data is passed:', data.type)
     // router.push(`/${data.type}/${data.id}`)
-    return props.data.type
+    return props.data.type;
   }
-}
+};
 
 const seeInfo = async (event: MouseEvent) => {
-  event.preventDefault()
-  const type = await defineType()
+  event.preventDefault();
+  const type = await defineType();
   // console.log(type)
-  router.push(`/${type}/${props.data.id}`)
-}
+  router.push(`/${type}/${props.data.id}`);
+};
 
 const addCard = async () => {
   if (!localStorage.getItem('watchlist')) {
     const watchlist = {
       movies: [],
-      series: []
-    }
-    localStorage.setItem('watchlist', JSON.stringify(watchlist))
+      series: [],
+    };
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
   }
 
-  const watchlist = JSON.parse(localStorage.getItem('watchlist') as string)
-  const contentType = await defineType()
-  if (watchlist[contentType].find((item: any) => item.id === props.data.id)) return
+  const watchlist = JSON.parse(localStorage.getItem('watchlist') as string);
+  const contentType = await defineType();
+  if (watchlist[contentType].find((item: any) => item.id === props.data.id)) return;
   // console.log('type', type)
   watchlist[contentType].push({
     title: props.data.title,
     rating: props.data.imDbRating,
     type: contentType,
-    id: props.data.id
-  })
-  localStorage.setItem('watchlist', JSON.stringify(watchlist))
-}
+    id: props.data.id,
+  });
+  localStorage.setItem('watchlist', JSON.stringify(watchlist));
+};
 
 const colorClass = computed(() => {
-  let colorClass
-  if (props.data.imDbRating > 8) colorClass = 'text-success'
-  else if (props.data.imDbRating > 6) colorClass = 'text-warning'
-  else colorClass = 'text-danger'
-  return `card-text rating ${colorClass} m-0`
-})
+  let colorClass;
+  if (props.data.imDbRating > 8) colorClass = 'text-success';
+  else if (props.data.imDbRating > 6) colorClass = 'text-warning';
+  else colorClass = 'text-danger';
+  return `card-text rating ${colorClass} m-0`;
+});
 
 /* export default {
   name: 'Card',

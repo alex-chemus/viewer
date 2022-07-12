@@ -4,14 +4,14 @@ const useDebounce = (callback: any, delay: any) => {
   /* eslint-enable */
 
   const debounceCallback = (...args: any) => {
-    clearTimeout(timer)
+    clearTimeout(timer);
     timer = setTimeout(() => {
       // eslint-disable-next-line
       callback(...args)
-    }, delay)
-  }
+    }, delay);
+  };
 
-  return debounceCallback
-}
+  return debounceCallback;
+};
 
-export default useDebounce
+export default useDebounce;

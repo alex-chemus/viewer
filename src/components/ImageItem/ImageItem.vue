@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, defineProps } from 'vue'
+import { ref, onMounted, defineProps } from 'vue';
 
 const props = defineProps<{
   url: string,
   styles: any
-}>()
+}>();
 
-const src = ref<string | null>(null)
-const placeholder = ref<HTMLDivElement | null>(null)
+const src = ref<string | null>(null);
+const placeholder = ref<HTMLDivElement | null>(null);
 
 const getLocalSrc = async () => {
   // fetch from server
@@ -15,28 +15,28 @@ const getLocalSrc = async () => {
     const res = await fetch('https://viewer-img.herokuapp.com/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        url: props.url
-      })
-    })
-    const buffer = await res.arrayBuffer()
+        url: props.url,
+      }),
+    });
+    const buffer = await res.arrayBuffer();
     // console.log(buffer, res.headers.get('Content-Type').split(';')[0])
     const blob = new Blob([buffer], {
       // eslint-disable-next-line
       type: res.headers.get('Content-Type')!.split(';')[0]
-    })
+    });
     // console.log(blob)
-    return URL.createObjectURL(blob)
+    return URL.createObjectURL(blob);
   } catch (err) {
-    console.log('failed to get local src', err)
+    console.log('failed to get local src', err);
     // eslint-disable-next-line
     return Promise.reject()
   }
-}
+};
 
-const observer = new IntersectionObserver(entries => {
+const observer = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
     // src.value = getLocalSrc()
     getLocalSrc()
@@ -45,12 +45,12 @@ const observer = new IntersectionObserver(entries => {
   }
 }, {
   threshold: 1,
-  rootMargin: '200px'
-})
+  rootMargin: '200px',
+});
 
 onMounted(() => {
-  if (placeholder.value) { observer.observe(placeholder.value) }
-})
+  if (placeholder.value) { observer.observe(placeholder.value); }
+});
 
 /* export default {
   name: 'ImageItem',

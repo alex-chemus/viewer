@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
-import { useRoute } from 'vue-router'
-import { Content } from '@/types'
+import { ref, defineProps } from 'vue';
+import { useRoute } from 'vue-router';
+import { Content } from '@/types';
 
 defineProps<{
   item: any, // IPopupItem
-}>()
+}>();
 
-const route = useRoute()
-const contentType = ref<Content>(route.params.type as Content || 'movies')
+const route = useRoute();
+const contentType = ref<Content>(route.params.type as Content || 'movies');
 
 /* export default {
   name: 'PopupItem',

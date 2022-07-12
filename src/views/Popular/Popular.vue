@@ -1,35 +1,35 @@
 <script setup lang="ts">
-import axios from 'axios'
-import { ref, watch, inject } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
-import { Key } from '@/store'
+import axios from 'axios';
+import { ref, watch, inject } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+import { Key } from '@/store';
 
-import { Content } from '@/types'
-import Loader from '@/components/Loader/Loader.vue'
-import Card from '@/components/Card/Card.vue'
-import ConnectionError from '@/components/ConnectionError/ConnectionError.vue'
-import Search from '@/components/Search/Search.vue'
+import { Content } from '@/types';
+import Loader from '@/components/Loader/Loader.vue';
+import Card from '@/components/Card/Card.vue';
+import ConnectionError from '@/components/ConnectionError/ConnectionError.vue';
+import Search from '@/components/Search/Search.vue';
 
-const key = inject<Key>('key')
-const { getters } = useStore(key)
-const route = useRoute()
+const key = inject<Key>('key');
+const { getters } = useStore(key);
+const route = useRoute();
 
-const cardsList = ref<any | null>(null) // ICard[]
-const loadTo = ref(21)
+const cardsList = ref<any | null>(null); // ICard[]
+const loadTo = ref(21);
 
-const contentType = ref<Content>(route.params.type as Content | 'movies')
-const storageItem = contentType.value === 'movies' ? 'popularMovies' : 'popularSeries'
-const urlRequest = contentType.value === 'movies' ? 'MostPopularMovies' : 'MostPopularTVs'
+const contentType = ref<Content>(route.params.type as Content | 'movies');
+const storageItem = contentType.value === 'movies' ? 'popularMovies' : 'popularSeries';
+const urlRequest = contentType.value === 'movies' ? 'MostPopularMovies' : 'MostPopularTVs';
 
 const fetchData = async () => {
   try {
-    const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`)
-    const isOk = res.data.errorMessage !== '' || res.status !== 200
-    if (isOk) throw new Error('Error')
+    const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`);
+    const isOk = res.data.errorMessage !== '' || res.status !== 200;
+    if (isOk) throw new Error('Error');
 
-    const list: any[] = []
-    console.log('assign data locally')
+    const list: any[] = [];
+    console.log('assign data locally');
     res.data.items.forEach((item: any, i: number) => { // ICard
       list.push({
         title: item.title,
@@ -38,41 +38,41 @@ const fetchData = async () => {
         image: item.image,
         id: item.id,
         type: contentType.value,
-        i
-      })
-    })
+        i,
+      });
+    });
     // console.log('assign cardsList', type.value)
-    cardsList.value = list.slice(0, loadTo.value)
-    localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }))
-    return null
+    cardsList.value = list.slice(0, loadTo.value);
+    localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }));
+    return null;
   } catch (err) {
-    cardsList.value = 'Error'
-    return null
+    cardsList.value = 'Error';
+    return null;
   }
-}
+};
 
 const getData = () => {
-  console.log('get data')
+  console.log('get data');
   // if data is stored locally, retrieve it to the ref
   if (JSON.parse(localStorage.getItem(storageItem) as string)) {
-    const localData = JSON.parse(localStorage.getItem(storageItem) as string)
-    cardsList.value = localData.list.slice(0, loadTo.value)
+    const localData = JSON.parse(localStorage.getItem(storageItem) as string);
+    cardsList.value = localData.list.slice(0, loadTo.value);
     // if the data is expired (1h), fetch it again
     if (Date.now() - localData.time > 3600000) { // 3_600_000
-      fetchData()
+      fetchData();
     }
   } else { // fetch data if it's not stored locally
-    console.log('fetch new data')
-    fetchData()
+    console.log('fetch new data');
+    fetchData();
   }
-}
+};
 
-watch(() => route.params, getData)
+watch(() => route.params, getData);
 
 const loadMore = () => {
-  loadTo.value += 20
-  getData()
-}
+  loadTo.value += 20;
+  getData();
+};
 
 /* export default {
   name: 'Popular',

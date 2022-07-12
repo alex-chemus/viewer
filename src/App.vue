@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const isDark = ref<boolean>(window.matchMedia('(prefers-color-scheme: dark)').matches)
+const isDark = ref<boolean>(window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-function toggleTheme () {
-  const main = document.querySelector('main') as HTMLElement
+function toggleTheme() {
+  const main = document.querySelector('main') as HTMLElement;
   if (main.classList.contains('dark')) {
-    main.classList.remove('dark')
-    main.classList.add('light')
+    main.classList.remove('dark');
+    main.classList.add('light');
   } else {
-    main.classList.remove('light')
-    main.classList.add('dark')
+    main.classList.remove('light');
+    main.classList.add('dark');
   }
 }
 </script>

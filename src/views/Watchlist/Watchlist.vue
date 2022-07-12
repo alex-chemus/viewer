@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Content } from '@/types'
-import WatchlistItem from '@/components/WatchlistItem/WatchlistItem.vue'
+import { ref } from 'vue';
+import { Content } from '@/types';
+import WatchlistItem from '@/components/WatchlistItem/WatchlistItem.vue';
 
-const movies = ref<any[] | null>(null)
-const series = ref<any[] | null>(null)
+const movies = ref<any[] | null>(null);
+const series = ref<any[] | null>(null);
 
 const getLocalData = () => {
   if (localStorage.getItem('watchlist')) {
     // console.log('got watchlist from localstorage')
-    const localData = JSON.parse(localStorage.getItem('watchlist') as string)
-    movies.value = localData.movies.map((item: any, i: number) => ({ ...item, i }))
-    series.value = localData.series.map((item: any, i: number) => ({ ...item, i }))
+    const localData = JSON.parse(localStorage.getItem('watchlist') as string);
+    movies.value = localData.movies.map((item: any, i: number) => ({ ...item, i }));
+    series.value = localData.series.map((item: any, i: number) => ({ ...item, i }));
   }
-}
+};
 
-getLocalData()
+getLocalData();
 
 type RemoveItemProps = {
   contentType: Content,
@@ -23,15 +23,15 @@ type RemoveItemProps = {
 }
 
 const removeItem = ({ contentType, id }: RemoveItemProps) => {
-  const watchlist = JSON.parse(localStorage.getItem('watchlist') as string)
-  const antiType = contentType === 'movies' ? 'series' : 'movies'
+  const watchlist = JSON.parse(localStorage.getItem('watchlist') as string);
+  const antiType = contentType === 'movies' ? 'series' : 'movies';
   const updWatchlist = {
     [antiType]: watchlist[antiType],
-    [contentType]: watchlist[contentType].filter((item: any) => item.id !== id)
-  }
-  localStorage.setItem('watchlist', JSON.stringify(updWatchlist))
-  getLocalData()
-}
+    [contentType]: watchlist[contentType].filter((item: any) => item.id !== id),
+  };
+  localStorage.setItem('watchlist', JSON.stringify(updWatchlist));
+  getLocalData();
+};
 
 /* export default {
   name: 'Watchlist',

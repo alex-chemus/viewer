@@ -1,60 +1,62 @@
 <script setup lang="ts">
-import useDebounce from '@/hooks/useDebounce'
-import axios from 'axios'
-import { useStore } from 'vuex'
-import { ref, onBeforeUnmount, defineProps, inject } from 'vue'
-import Popup from '@/components/Popup/Popup.vue'
-import { Content } from '@/types'
-import { Key } from '@/store'
+import useDebounce from '@/hooks/useDebounce';
+import axios from 'axios';
+import { useStore } from 'vuex';
+import {
+  ref, onBeforeUnmount, defineProps, inject,
+} from 'vue';
+import Popup from '@/components/Popup/Popup.vue';
+import { Content } from '@/types';
+import { Key } from '@/store';
 
 const props = defineProps<{
   contentType: Content
-}>()
+}>();
 
-const key = inject<Key>('key')
-const { getters } = useStore(key)
+const key = inject<Key>('key');
+const { getters } = useStore(key);
 
-const searchedList = ref<any | null>(null)
-const isLoading = ref<boolean>(false)
-const popupVisible = ref<boolean>(true)
-const form = ref<HTMLFormElement | null>(null)
+const searchedList = ref<any | null>(null);
+const isLoading = ref<boolean>(false);
+const popupVisible = ref<boolean>(true);
+const form = ref<HTMLFormElement | null>(null);
 
 const getSearchedData = (event: InputEvent) => {
-  const target = event.target as HTMLInputElement
+  const target = event.target as HTMLInputElement;
 
-  if (target.value.trim() === '') return
+  if (target.value.trim() === '') return;
 
-  isLoading.value = true
-  const inputValue = target.value
-  const urlType = props.contentType === 'movies' ? 'SearchMovie' : 'SearchSeries'
+  isLoading.value = true;
+  const inputValue = target.value;
+  const urlType = props.contentType === 'movies' ? 'SearchMovie' : 'SearchSeries';
 
   axios(`${getters.url}/${urlType}/${getters.apiKey}/${inputValue}`)
-    .then(res => {
+    .then((res) => {
       if (res.data.errorMessage?.length || res.status !== 200) {
-        throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
+        throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`);
       }
-      isLoading.value = false
-      searchedList.value = res.data
+      isLoading.value = false;
+      searchedList.value = res.data;
     })
-    .catch(err => {
-      console.log(`failed to search ${props.contentType}`, err)
-    })
-}
+    .catch((err) => {
+      console.log(`failed to search ${props.contentType}`, err);
+    });
+};
 
-const onInput = useDebounce(getSearchedData, 1000)
+const onInput = useDebounce(getSearchedData, 1000);
 
 const handleClick = (e: MouseEvent) => {
   if (!form.value?.contains(e.target as Node)) {
-    popupVisible.value = false
+    popupVisible.value = false;
   } else {
-    popupVisible.value = true
+    popupVisible.value = true;
   }
-}
+};
 
-document.addEventListener('click', handleClick)
+document.addEventListener('click', handleClick);
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClick)
-})
+  document.removeEventListener('click', handleClick);
+});
 
 /* export default {
   name: 'Search',
