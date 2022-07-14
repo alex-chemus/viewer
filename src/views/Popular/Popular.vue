@@ -24,12 +24,12 @@ const urlRequest = contentType.value === 'movies' ? 'MostPopularMovies' : 'MostP
 
 const fetchData = async () => {
   try {
+    console.log('assign data locally');
     const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`);
     const isOk = res.data.errorMessage !== '' || res.status !== 200;
     if (!isOk) throw new Error('Error');
 
     const list: any[] = [];
-    console.log('assign data locally');
     console.log('res.data: ', res.data)
 
     res.data.items.forEach((item: any, i: number) => { // ICard
