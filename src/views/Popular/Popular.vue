@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, watch, inject } from 'vue';
+import { ref, watch, inject, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Key } from '@/store';
@@ -26,11 +26,12 @@ const fetchData = async () => {
   try {
     const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`);
     const isOk = res.data.errorMessage !== '' || res.status !== 200;
-    if (isOk) throw new Error('Error');
+    if (!isOk) throw new Error('Error');
 
     const list: any[] = [];
     console.log('assign data locally');
     console.log('res.data: ', res.data)
+
     res.data.items.forEach((item: any, i: number) => { // ICard
       list.push({
         title: item.title,
@@ -42,6 +43,7 @@ const fetchData = async () => {
         i,
       });
     });
+
     // console.log('assign cardsList', type.value)
     cardsList.value = list.slice(0, loadTo.value);
     localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }));
@@ -69,6 +71,7 @@ const getData = () => {
 };
 
 watch(() => route.params, getData);
+onMounted(getData)
 
 const loadMore = () => {
   loadTo.value += 20;
@@ -108,7 +111,6 @@ const loadMore = () => {
 
 <style lang="scss" scoped>
 @import '@/common.scss';
-@debug $test;
 
 h1 {
   color: var(--text-color);
