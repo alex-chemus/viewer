@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { computed, defineProps } from 'vue';
 import Paragraph from '@/components/Paragraph/Paragraph.vue';
-import { Content } from '@/types';
+import { IPage } from '@/types';
 
 const props = defineProps<{
-  data: any, // IPage
+  data: IPage, // IPage
 }>();
 
 const badgeClasses = computed(() => {
+  if (!props.data.imDbRating) return ''
+
   const cls = ['badge', 'ms-2'];
-  if (props.data.imDbRating > 8) {
+  if (+props.data.imDbRating > 8) {
     cls.push('bg-success');
-  } else if (props.data.imDbRating > 6) {
+  } else if (+props.data.imDbRating > 6) {
     cls.push('bg-warning');
     cls.push('text-dark');
   } else {
@@ -22,45 +24,13 @@ const badgeClasses = computed(() => {
 
 const keyedGenres = computed(() => props.data.genreList
   .map((item: any, i: number) => ({ key: i, ...item })));
-
-/* export default {
-  name: 'PageContent',
-
-  props: ['data', 'type'],
-
-  components: { Paragraph },
-
-  setup(props) {
-    const getBadgeClasses = () => {
-      let cls = ['badge', 'ms-2']
-      if (props.data.imDbRating > 8) {
-        cls.push('bg-success')
-      } else if (props.data.imDbRating > 6) {
-        cls.push('bg-warning')
-        cls.push('text-dark')
-      } else {
-        cls.push('bg-danger')
-      }
-      return cls.join(' ')
-    }
-
-    const getKeyedGenres = () => {
-      return props.data.genreList.map((item, i) => {
-        item.key = i
-        return item
-      })
-    }
-
-    return { getBadgeClasses, getKeyedGenres }
-  }
-} */
 </script>
 
 <template>
   <div class="col content px-5 py-4">
     <h1 class="mb-4">{{ data.title }}</h1>
 
-    <h5 class="mb-3">
+    <h5 class="mb-3" v-if="data.imDbRating">
       Rating:
       <span :class="badgeClasses">
         {{ data.imDbRating }}

@@ -5,7 +5,7 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Key } from '@/store';
 
-import { Content } from '@/types';
+import { Content, ICard } from '@/types';
 import Loader from '@/components/Loader/Loader.vue';
 import Card from '@/components/Card/Card.vue';
 import ConnectionError from '@/components/ConnectionError/ConnectionError.vue';
@@ -15,7 +15,7 @@ const key = inject<Key>('key');
 const { getters } = useStore(key);
 const route = useRoute();
 
-const cardsList = ref<any | null>(null); // ICard[]
+const cardsList = ref<ICard[] | 'Error' | null>(null); // ICard[]
 const loadTo = ref(21);
 
 const contentType = ref<Content>(route.params.type as Content | 'movies');
@@ -29,7 +29,7 @@ const fetchData = async () => {
     const isError = res.data.errorMessage !== '' || res.status !== 200;
     if (isError) throw new Error('Error');
 
-    const list: any[] = [];
+    const list: ICard[] = [];
     console.log('res.data: ', res.data)
 
     res.data.items.forEach((item: any, i: number) => { // ICard
@@ -41,7 +41,7 @@ const fetchData = async () => {
         id: item.id,
         type: contentType.value,
         i,
-      });
+      } as ICard);
     });
 
     // console.log('assign cardsList', type.value)
@@ -80,7 +80,9 @@ const loadMore = () => {
 </script>
 
 <template>
-  <section v-if="cardsList?.length > 0" class="container pt-5">
+  <ConnectionError v-if="cardsList === 'Error'" />
+
+  <section v-else-if="cardsList && cardsList.length > 0" class="container pt-5">
     <div class="row justify-content-center mb-4">
       <div class="col-xl-6 col-lg-8 col-12">
         <Search
@@ -105,7 +107,7 @@ const loadMore = () => {
       >Load more</button>
     </div>
   </section>
-  <ConnectionError v-else-if="cardsList === 'Error'"></ConnectionError>
+
   <Loader v-else size="180" />
 </template>
 

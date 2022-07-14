@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, inject, computed } from 'vue';
+import { ref, inject, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { Key } from '@/store';
 
-import { Content } from '@/types';
+import { Content, ICard, IPage } from '@/types';
 import Loader from '@/components/Loader/Loader.vue';
 import PageContent from '@/components/PageContent/PageContent.vue';
 import Card from '@/components/Card/Card.vue';
@@ -20,14 +20,28 @@ const router = useRouter();
 const contentType = ref<Content>(route.params.type as Content || 'movies');
 const contentId = route.params.id as string;
 
+const fillPageData = (data: any) => ({
+  genreList: data.genreList,
+  imDbRating: data.imDbRating,
+  plot: data.plot,
+  year: data.year,
+  directors: data.directors,
+  stars: data.stars,
+  runtimeStr: data.runtimeStr,
+  companies: data.companies,
+  boxOffice: data.boxOffice,
+  countries: data.countries,
+  similars: data.similars
+} as IPage)
+
 // вынести это в lyfecycle hook
 if (getters.hasPage(contentId)) { // if content data is cached
   data.value = getters.getPage(contentId);
 } else { // else fetch content data
   axios(`${getters.url}/Title/${getters.apiKey}/${contentId}`)
     .then((res) => {
-      if (res.data.errorMessage?.length || res.status !== 200) { throw new Error('failed to fetch ', res.data.errorMessage); }
-      data.value = res.data;
+      if (res.data.errorMessage?.length || res.status !== 200) throw new Error('failed to fetch ', res.data.errorMessage)
+      data.value = fillPageData(res.data);
       console.log(data.value);
       commit('addPage', data.value);
     })
@@ -62,78 +76,16 @@ const addToWatchList = async () => {
   localStorage.setItem('watchlist', JSON.stringify(watchlist));
 };
 
-const similars = computed(() => data.value.similars.map((item: any, i: number) => ({ ...item, i }))); // ICard[]
-
-/* export default {
-  name: 'Page',
-
-  components: { Loader, PageContent, Card },
-
-  setup() {
-    const data = ref(null)
-
-    const { commit, getters } = useStore()
-    const route = useRoute()
-    const router = useRouter()
-
-    const type = ref(route.params.type)
-    //console.log(route.params.type)
-    const id = route.params.id
-
-    if (type.value !== 'movies' && type.value !== 'series') {
-      //console.log('redirect from type check. type.value:', type.value)
-      router.push('/notfound')
-    }
-
-    if (getters.hasPage(id)) {
-      //console.log('get Page data from storage')
-      data.value = getters.getPage(id)
-    } else {
-      //console.log('fetch Page data')
-      axios(`${getters.url}/Title/${getters.apiKey}/${id}`)
-        .then(res => {
-          if (res.data.errorMessage?.length || res.status !== 200) {
-            //console.log('error message length', res.data.errorMessage?.length)
-            //console.log('res.data', res.data)
-            throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
-          }
-          data.value = res.data
-          //console.log(data.value)
-          commit('addPage', data.value)
-        })
-        .catch(err => {
-          console.log('error in Page:', err)
-          router.push('/notfound')
-        })
-    }
-
-    const add = async () => {
-      if (!localStorage.getItem('watchlist')) {
-        const watchlist = {
-          movies: [],
-          series: []
-        }
-        localStorage.setItem('watchlist', JSON.stringify(watchlist))
-      }
-      const watchlist = JSON.parse(localStorage.getItem('watchlist'))
-      if (watchlist[type.value].find(item => item.id === data.value.id)) return
-      //console.log('type', type)
-      watchlist[type.value].push({
-        title: data.value.title,
-        rating: data.value.imDbRating,
-        type: type.value,
-        id: data.value.id
-      })
-      localStorage.setItem('watchlist', JSON.stringify(watchlist))
-    }
-
-    const getSimilars = () => {
-      return data.value.similars.map((item, i) => ({ ...item, i }))
-    }
-
-    return { data, type, getSimilars, add }
-  }
-} */
+const similars = computed(() => 
+  data.value.similars
+    .map((item: any, i: number) => ({
+      title: item.title,
+      imDbRating: item.imDbRating,
+      image: item.image,
+      id: item.id,
+      i
+    } as ICard))
+)
 </script>
 
 <template>

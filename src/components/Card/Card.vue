@@ -6,10 +6,10 @@ import axios from 'axios';
 import { Key } from '@/store';
 
 import ImageItem from '@/components/ImageItem/ImageItem.vue';
-import { Content } from '@/types';
+import { Content, ICard } from '@/types';
 
 const props = defineProps<{
-  data: any, // todo: create a card content type (ICard)
+  data: ICard, // todo: create a card content type (ICard)
 }>();
 
 const key = inject<Key>('key');
@@ -71,8 +71,8 @@ const addCard = async () => {
 
 const colorClass = computed(() => {
   let colorClass;
-  if (props.data.imDbRating > 8) colorClass = 'text-success';
-  else if (props.data.imDbRating > 6) colorClass = 'text-warning';
+  if (+props.data.imDbRating > 8) colorClass = 'text-success';
+  else if (+props.data.imDbRating > 6) colorClass = 'text-warning';
   else colorClass = 'text-danger';
   return `card-text rating ${colorClass} m-0`;
 });

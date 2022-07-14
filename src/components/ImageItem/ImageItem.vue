@@ -107,7 +107,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <img v-if="src" :src="src" :style="styles" alt="Poster">
+  <img v-if="url" :src="url" :style="styles" alt="Poster">
   <div v-else class="placeholder" ref="placeholder"></div>
 </template>
 

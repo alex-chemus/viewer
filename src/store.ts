@@ -1,5 +1,6 @@
 import { InjectionKey } from 'vue';
 import { Store, createStore } from 'vuex';
+import { IPage } from './types';
 
 /*
   стор нужен для кеширования данных о фильме, чтобы не отправлять запрос.
@@ -26,7 +27,7 @@ export const store = createStore<State>({
   },
 
   mutations: {
-    addPage(state, value) {
+    addPage(state, value: IPage) {
       state.pages.push(value);
     },
   },

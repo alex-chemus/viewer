@@ -22,7 +22,7 @@ const Watchlist = defineAsyncComponent({
 //const Watchlist = () => import('./views/Watchlist/Watchlist.vue')
 /* eslint-enable */
 
-import Popular from './views/Popular/Popular.vue';
+import Feed from './views/Feed/Feed.vue';
 import NotFound from './views/NotFound/NotFound.vue';
 import Page from './views/Page/Page.vue';
 import Watchlist from './views/Watchlist/Watchlist.vue';
@@ -31,7 +31,7 @@ import Watchlist from './views/Watchlist/Watchlist.vue';
 
 const routes = [
   { path: '/', redirect: '/popular/movies' },
-  { path: '/popular/:type', component: Popular },
+  { path: '/popular/:type', component: Feed },
   { path: '/:type/:id', component: Page },
   { path: '/watchlist', component: Watchlist },
   { path: '/:pathMatch(.*)', component: NotFound, alias: '/notfound' },
