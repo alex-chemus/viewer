@@ -48,7 +48,7 @@ const addToWatchList = async () => {
     localStorage.setItem('watchlist', JSON.stringify(watchlist));
   }
 
-  const watchlist = JSON.parse(localStorage.getItem('watchlist')!);
+  const watchlist = JSON.parse(localStorage.getItem('watchlist') as string);
 
   const isInList = watchlist[contentType.value].find((item: any) => item.id === data.value.id);
   if (isInList) return;
