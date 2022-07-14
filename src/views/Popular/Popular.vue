@@ -27,7 +27,7 @@ const fetchData = async () => {
     console.log('assign data locally');
     const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`);
     const isOk = res.data.errorMessage !== '' || res.status !== 200;
-    if (!isOk) throw new Error('Error');
+    if (isOk) throw new Error('Error');
 
     const list: any[] = [];
     console.log('res.data: ', res.data)
