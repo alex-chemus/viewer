@@ -3,10 +3,10 @@ import useDebounce from '@/hooks/useDebounce';
 import axios from 'axios';
 import { useStore } from 'vuex';
 import {
-  ref, onBeforeUnmount, defineProps, inject,
+  ref, defineProps, inject, computed, watch
 } from 'vue';
 import Popup from '@/components/Popup/Popup.vue';
-import { Content } from '@/types';
+import { Content, IPopupItem } from '@/types';
 import { Key } from '@/store';
 
 const props = defineProps<{
@@ -16,17 +16,18 @@ const props = defineProps<{
 const key = inject<Key>('key');
 const { getters } = useStore(key);
 
-const searchedList = ref<any | null>(null);
+const searchedList = ref<IPopupItem[] | null>(null);
 const isLoading = ref<boolean>(false);
-const popupVisible = ref<boolean>(true);
 const form = ref<HTMLFormElement | null>(null);
+const isOpened = ref<boolean>(false)
 
 const getSearchedData = (event: InputEvent) => {
   const target = event.target as HTMLInputElement;
 
   if (target.value.trim() === '') return;
 
-  isLoading.value = true;
+  isLoading.value = true
+  isOpened.value = true
   const inputValue = target.value;
   const urlType = props.contentType === 'movies' ? 'SearchMovie' : 'SearchSeries';
 
@@ -35,8 +36,20 @@ const getSearchedData = (event: InputEvent) => {
       if (res.data.errorMessage?.length || res.status !== 200) {
         throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`);
       }
-      isLoading.value = false;
-      searchedList.value = res.data;
+      isLoading.value = false
+      console.log('search data: ', res.data)
+
+      const list: IPopupItem[] = []
+      res.data.results.forEach((item: any) => {
+        list.push({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          image: item.image,
+          resultType: item.resultType
+        } as IPopupItem)
+      })
+      searchedList.value = list //toIPopupItem(res.data.results)
     })
     .catch((err) => {
       console.log(`failed to search ${props.contentType}`, err);
@@ -45,74 +58,14 @@ const getSearchedData = (event: InputEvent) => {
 
 const onInput = useDebounce(getSearchedData, 1000);
 
-const handleClick = (e: MouseEvent) => {
-  if (!form.value?.contains(e.target as Node)) {
-    popupVisible.value = false;
-  } else {
-    popupVisible.value = true;
-  }
-};
+const closePopup = () => {
+  console.log('close popup')
+  isOpened.value = false
+}
 
-document.addEventListener('click', handleClick);
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClick);
-});
-
-/* export default {
-  name: 'Search',
-
-  props: ['type'],
-
-  components: { Popup },
-
-  setup(props) {
-    const searchedList = ref(null)
-    const isLoading = ref(null)
-    const popupVisible = ref(true)
-    const form = ref(null)
-    const { getters } = useStore()
-
-    const onFormSubmit = e => { e.preventDefault() }
-
-    const getSearchedData = e => {
-      if (e.target.value.trim() === '') return
-      isLoading.value = 'true'
-      //console.log('debounced', isLoading.value)
-      const inputValue = e.target.value
-      const urlType = props.type === 'movies' ? 'SearchMovie' : 'SearchSeries'
-      axios(`${getters.url}/${urlType}/${getters.apiKey}/${inputValue}`)
-        .then(res => {
-          if (res.data.errorMessage?.length || res.status !== 200) {
-            throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
-          }
-          //console.log('response:', res)
-          isLoading.value = 'false'
-          searchedList.value = res.data
-        })
-        .catch(err => {
-          console.log(`failed to search ${props.type}`, err)
-        })
-    }
-
-    const onInput = useDebounce(getSearchedData, 1000)
-
-    const handleClick = e => {
-      if (!form.value.contains(e.target)) {
-        popupVisible.value = false
-      }
-      else {
-        popupVisible.value = true
-      }
-    }
-
-    document.addEventListener('click', handleClick)
-    onBeforeUnmount(() => {
-      document.removeEventListener('click', handleClick)
-    })
-
-    return { onFormSubmit, onInput, searchedList, isLoading, popupVisible, form }
-  }
-} */
+const backdropClasses = computed(() => {
+  return ['backdrop', { '--open': isOpened.value }]
+})
 </script>
 
 <template>
@@ -123,26 +76,16 @@ onBeforeUnmount(() => {
       :placeholder="`Search ${contentType}`"
       @input="onInput"
     />
-    <!-- <button
-      class="btn btn-primary"
-    >
-      <svg class="svg-icon search-icon" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7">
-        <g class="search-path" fill="none" stroke="currentColor">
-          <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/>
-          <circle cx="8" cy="8" r="7"/>
-        </g>
-      </svg>
-    </button> -->
 
     <Popup
-      v-if="isLoading && popupVisible"
+      v-if="isOpened"
       :searchedList="searchedList"
-      :isLoading="isLoading"
     />
   </form>
+  <div :class="backdropClasses" @click="closePopup"></div>
 </template>
 
-<!--<style lang="scss" scoped>
+<style lang="scss" scoped>
 @import '@/common.scss';
 
 input {
@@ -157,6 +100,7 @@ svg {
 form {
   @include flex(center, center);
   position: relative;
+  z-index: 2;
   //max-width: 100vw;
 }
 
@@ -164,4 +108,19 @@ input {
   min-width: 0;
   min-height: 0;
 }
-</style>-->
+
+.backdrop {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(0 0 0 / .5);
+  display: none;
+
+  &.--open {
+    display: block;
+  }
+}
+</style>

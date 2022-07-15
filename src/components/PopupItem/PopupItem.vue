@@ -1,27 +1,14 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
 import { useRoute } from 'vue-router';
-import { Content } from '@/types';
+import { Content, IPopupItem } from '@/types';
 
 defineProps<{
-  item: any, // IPopupItem
+  item: IPopupItem, // IPopupItem
 }>();
 
 const route = useRoute();
 const contentType = ref<Content>(route.params.type as Content || 'movies');
-
-/* export default {
-  name: 'PopupItem',
-
-  props: ['item'],
-
-  setup() {
-    const route = useRoute()
-    const type = ref(route.params.type ?? 'movies')
-
-    return { type }
-  }
-} */
 </script>
 
 <template>
@@ -38,7 +25,7 @@ const contentType = ref<Content>(route.params.type as Content || 'movies');
   </li>
 </template>
 
-<!--<style lang="scss" scoped>
+<style lang="scss" scoped>
 @import '@/common.scss';
 
 li {
@@ -64,4 +51,4 @@ h6, i {
   min-width: 0;
   min-height: 0;
 }
-</style>-->
+</style>
