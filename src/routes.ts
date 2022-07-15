@@ -22,10 +22,14 @@ const Watchlist = defineAsyncComponent({
 //const Watchlist = () => import('./views/Watchlist/Watchlist.vue')
 /* eslint-enable */
 
-import Feed from './views/Feed/Feed.vue';
-import NotFound from './views/NotFound/NotFound.vue';
-import Page from './views/Page/Page.vue';
-import Watchlist from './views/Watchlist/Watchlist.vue';
+//import Feed from './views/Feed/Feed.vue';
+//import NotFound from './views/NotFound/NotFound.vue';
+//import Page from './views/Page/Page.vue';
+//import Watchlist from './views/Watchlist/Watchlist.vue';
+const Feed = () => import('./views/Feed/Feed.vue')
+const NotFound = () => import('./views/NotFound/NotFound.vue')
+const Page = () => import('./views/Page/Page.vue')
+const Watchlist = () => import('./views/Watchlist/Watchlist.vue')
 
 // console.log('from the routes')
 

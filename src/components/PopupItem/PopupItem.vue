@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
 import { useRoute } from 'vue-router';
-import { Content, IPopupItem } from '@/types';
+import { IPopupItem } from '@/types';
+import { Content } from '@shared'
 
 defineProps<{
   item: IPopupItem, // IPopupItem

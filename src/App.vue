@@ -71,7 +71,6 @@ function toggleTheme() {
 
 <style lang="scss" scoped>
 @import '@/common.scss';
-@debug $test;
 
 main.dark {
   --main-bg-color: #212529;

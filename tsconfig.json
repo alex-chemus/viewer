@@ -18,9 +18,8 @@
       "jest"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"],
+      //"@shared": ["src/shared/index.ts"]
     },
     "lib": [
       "esnext",

@@ -3,11 +3,12 @@ import useDebounce from '@/hooks/useDebounce';
 import axios from 'axios';
 import { useStore } from 'vuex';
 import {
-  ref, defineProps, inject, computed, watch
+  ref, defineProps, inject, computed
 } from 'vue';
 import Popup from '@/components/Popup/Popup.vue';
-import { Content, IPopupItem } from '@/types';
-import { Key } from '@/store';
+import { IPopupItem } from '@/types'
+import { Key } from '@/store'
+import { Content, Loader, useWatchlist } from '@shared';
 
 const props = defineProps<{
   contentType: Content

@@ -1,5 +1,6 @@
 import { ComputedRef, Ref } from 'vue'
-import { Content, IStorage } from '@/types'
+import { IStorage } from '@/types'
+import { Content } from '@shared'
 
 type Watchlist = {
   movies: IStorage[],

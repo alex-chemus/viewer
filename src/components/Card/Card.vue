@@ -6,9 +6,9 @@ import axios from 'axios';
 import { Key } from '@/store';
 
 import ImageItem from '@/components/ImageItem/ImageItem.vue';
-import { Content, ICard, IStorage } from '@/types';
-import useWatchlist from '@/hooks/useWatchlist';
+import { ICard, IStorage } from '@/types';
 import toIPage from '@/utils/toIPage';
+import { Content, useWatchlist } from '@shared'
 
 const props = defineProps<{
   data: ICard, // todo: create a card content type (ICard)

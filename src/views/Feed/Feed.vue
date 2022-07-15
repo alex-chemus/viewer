@@ -5,8 +5,8 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Key } from '@/store';
 
-import { Content, ICard } from '@/types';
-import Loader from '@/components/Loader/Loader.vue';
+import { ICard } from '@/types';
+import { Content, Loader } from '@shared';
 import Card from '@/components/Card/Card.vue';
 import ConnectionError from '@/components/ConnectionError/ConnectionError.vue';
 import Search from '@/components/Search/Search.vue';

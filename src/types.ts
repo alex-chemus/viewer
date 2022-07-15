@@ -1,4 +1,4 @@
-export type Content = 'movies' | 'series'
+import { Content } from '@shared'
 
 export interface IPage {
   title: string,
