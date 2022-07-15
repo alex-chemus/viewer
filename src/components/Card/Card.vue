@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed, defineProps, inject } from 'vue';
+import { computed, defineProps, inject, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { Key } from '@/store';
 
 import ImageItem from '@/components/ImageItem/ImageItem.vue';
-import { Content, ICard } from '@/types';
+import { Content, ICard, IStorage } from '@/types';
+import useWatchlist from '@/hooks/useWatchlist';
+import toIPage from '@/utils/toIPage';
 
 const props = defineProps<{
   data: ICard, // todo: create a card content type (ICard)
@@ -15,149 +17,51 @@ const props = defineProps<{
 const key = inject<Key>('key');
 const { getters, commit } = useStore(key);
 const router = useRouter();
+const contentType = ref<Content | null>(null)
 
-const defineType = async (): Promise<never | Content> => {
-  if (!props.data?.type) {
+// define content type if none
+onMounted(async () => {
+  if (!props.data.type) {
     try {
       const path = `${getters.url}/Title/${getters.apiKey}/${props.data.id}`;
       const res = await axios.get(path);
       if (res.data.errorMessage?.length || res.status !== 200) {
         throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`);
       }
-      commit('addPage', res.data);
-      const type = res.data.type === 'Movie' ? 'movies' : 'series';
-      // console.log(res.data)
-      return type;
+      commit('addPage', toIPage(res.data));
+      contentType.value = res.data.type === 'Movie' ? 'movies' : 'series';
     } catch (err) {
       console.log('failed to fetch in Card:', err);
       router.push('/notfound');
       throw new Error();
     }
   } else {
-    // console.log('data is passed:', data.type)
-    // router.push(`/${data.type}/${data.id}`)
-    return props.data.type;
+    contentType.value = props.data.type;
   }
-};
+})
 
-const seeInfo = async (event: MouseEvent) => {
-  event.preventDefault();
-  const type = await defineType();
-  // console.log(type)
-  router.push(`/${type}/${props.data.id}`);
-};
+const seeInfo = () => {
+  if (contentType.value)
+    router.push(`/${contentType.value}/${props.data.id}`)
+}
 
-const addCard = async () => {
-  if (!localStorage.getItem('watchlist')) {
-    const watchlist = {
-      movies: [],
-      series: [],
-    };
-    localStorage.setItem('watchlist', JSON.stringify(watchlist));
-  }
+const toStorageData = computed(() => ({
+  title: props.data.title,
+  imDbRating: props.data.imDbRating,
+  type: props.data.type,
+  id: props.data.id
+} as IStorage))
 
-  const watchlist = JSON.parse(localStorage.getItem('watchlist') as string);
-  const contentType = await defineType();
-  if (watchlist[contentType].find((item: any) => item.id === props.data.id)) return;
-  // console.log('type', type)
-  watchlist[contentType].push({
-    title: props.data.title,
-    rating: props.data.imDbRating,
-    type: contentType,
-    id: props.data.id,
-  });
-  localStorage.setItem('watchlist', JSON.stringify(watchlist));
-};
+const addToWatchList = useWatchlist(contentType, toStorageData)
 
 const colorClass = computed(() => {
+  if (!props.data.imDbRating) return ''
   let colorClass;
   if (+props.data.imDbRating > 8) colorClass = 'text-success';
   else if (+props.data.imDbRating > 6) colorClass = 'text-warning';
   else colorClass = 'text-danger';
   return `card-text rating ${colorClass} m-0`;
-});
-
-/* export default {
-  name: 'Card',
-
-  props: ['data'],
-
-  components: { ImageItem },
-
-  methods: {
-    dyeCard(rating) {
-      let colorClass
-      if (rating > 8) colorClass = 'text-success'
-      else if (rating > 6) colorClass = 'text-warning'
-      else colorClass = 'text-danger'
-      return `card-text rating ${colorClass} m-0`
-    }
-  },
-
-  setup(props) {
-    // check if data has title and other fields
-    // if not, get full page by id and set it to the store
-
-    const { getters, commit } = useStore()
-    const router = useRouter()
-
-    const data = toRaw(props.data)
-    //console.log('data.value is', props.data.value)
-
-    const defineType = async () => {
-      if (!data?.type) {
-        //console.log('data is not defined')
-        try {
-          const res = await axios.get(`${getters.url}/Title/${getters.apiKey}/${data.id}`)
-          if (res.data.errorMessage?.length || res.status !== 200) {
-            throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`)
-          }
-          commit('addPage', res.data)
-          const type = res.data.type === 'Movie' ? 'movies' : 'seires'
-          //console.log(res.data)
-           return type
-        } catch (err) {
-          console.log('failed to fetch in Card:', err)
-          router.push('/notfound')
-        }
-      } else {
-        //console.log('data is passed:', data.type)
-        //router.push(`/${data.type}/${data.id}`)
-        return data.type
-      }
-    }
-
-    const seeInfo = async event => {
-      event.preventDefault()
-      const type = await defineType()
-      //console.log(type)
-      router.push(`/${type}/${data.id}`)
-    }
-
-    const addCard = async () => {
-      if (!localStorage.getItem('watchlist')) {
-        const watchlist = {
-          movies: [],
-          series: []
-        }
-        localStorage.setItem('watchlist', JSON.stringify(watchlist))
-      }
-      const watchlist = JSON.parse(localStorage.getItem('watchlist'))
-      const type = await defineType()
-      if (watchlist[type].find(item => item.id === data.id)) return
-      //console.log('type', type)
-      watchlist[type].push({
-        title: data.title,
-        rating: data.imDbRating,
-        type,
-        id: data.id
-      })
-      localStorage.setItem('watchlist', JSON.stringify(watchlist))
-    }
-
-    return { seeInfo, addCard }
-  }
-} */
+})
 </script>
 
 <template>
@@ -181,7 +85,7 @@ const colorClass = computed(() => {
       </div>
 
       <div class="wrapper">
-        <button @click="addCard" class="btn btn-primary" data-test="addBtn">Add</button>
+        <button @click.prevent="addToWatchList" class="btn btn-primary" data-test="addBtn">Add</button>
         <button @click="seeInfo" class="btn btn-warning">Info</button>
       </div>
     </div>

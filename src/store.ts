@@ -10,7 +10,7 @@ import { IPage } from './types';
 */
 
 export interface State {
-  pages: any[],
+  pages: IPage[],
   apiKey: string,
   url: string,
   isDarkTheme: boolean

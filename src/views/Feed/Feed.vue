@@ -15,7 +15,8 @@ const key = inject<Key>('key');
 const { getters } = useStore(key);
 const route = useRoute();
 
-const cardsList = ref<ICard[] | 'Error' | null>(null); // ICard[]
+const cardsList = ref<ICard[] | null>(null); // ICard[]
+const isError = ref<boolean>(false)
 const loadTo = ref(21);
 
 const contentType = ref<Content>(route.params.type as Content | 'movies');
@@ -24,13 +25,11 @@ const urlRequest = contentType.value === 'movies' ? 'MostPopularMovies' : 'MostP
 
 const fetchData = async () => {
   try {
-    console.log('assign data locally');
     const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`);
     const isError = res.data.errorMessage !== '' || res.status !== 200;
     if (isError) throw new Error('Error');
 
     const list: ICard[] = [];
-    console.log('res.data: ', res.data)
 
     res.data.items.forEach((item: any, i: number) => { // ICard
       list.push({
@@ -44,18 +43,16 @@ const fetchData = async () => {
       } as ICard);
     });
 
-    // console.log('assign cardsList', type.value)
     cardsList.value = list.slice(0, loadTo.value);
     localStorage.setItem(storageItem, JSON.stringify({ list, time: Date.now() }));
     return null;
   } catch (err) {
-    cardsList.value = 'Error';
+    isError.value = true
     return null;
   }
 };
 
 const getData = () => {
-  console.log('get data');
   // if data is stored locally, retrieve it to the ref
   if (JSON.parse(localStorage.getItem(storageItem) as string)) {
     const localData = JSON.parse(localStorage.getItem(storageItem) as string);
@@ -65,7 +62,6 @@ const getData = () => {
       fetchData();
     }
   } else { // fetch data if it's not stored locally
-    console.log('fetch new data');
     fetchData();
   }
 };
@@ -80,7 +76,7 @@ const loadMore = () => {
 </script>
 
 <template>
-  <ConnectionError v-if="cardsList === 'Error'" />
+  <ConnectionError v-if="isError" />
 
   <section v-else-if="cardsList && cardsList.length > 0" class="container pt-5">
     <div class="row justify-content-center mb-4">

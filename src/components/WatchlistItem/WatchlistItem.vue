@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Content } from '@/types';
+import { Content, IStorage } from '@/types';
 import { defineProps, defineEmits, computed } from 'vue';
 
 const props = defineProps<{
-  data: any
+  data: IStorage
 }>();
 
 interface Event {
@@ -20,28 +20,11 @@ const emit = defineEmits<{
 const remove = (event: Event) => emit('remove', event);
 
 const colorClasses = computed(() => {
-  if (props.data.rating > 8) { return 'bg-success badge m-0'; } if (props.data.rating > 6) { return 'bg-warning text-dark badge m-0'; } return 'bg-danger badge m-0';
+  if (!props.data.imDbRating) return ''
+  if (+props.data.imDbRating > 8) return 'bg-success badge m-0'
+  if (+props.data.imDbRating > 6) return 'bg-warning text-dark badge m-0' 
+  return 'bg-danger badge m-0';
 });
-
-/* export default {
-  name: 'WatchlistItem',
-
-  props: ['data'],
-
-  setup(props, ctx) {
-    const remove = event => ctx.emit('remove', event)
-
-    const dye = (rating) => {
-      let colorClass
-      if (rating > 8) colorClass = 'bg-success'
-      else if (rating > 6) colorClass = 'bg-warning text-dark'
-      else colorClass = 'bg-danger'
-      return `badge ${colorClass} m-0`
-    }
-
-    return { remove, dye }
-  }
-} */
 </script>
 
 <template>
@@ -51,7 +34,7 @@ const colorClasses = computed(() => {
        {{ data.title }}
       </h5>
       <p :class="colorClasses">
-        {{ data.rating }}
+        {{ data.imDbRating }}
       </p>
     </div>
 
@@ -61,7 +44,7 @@ const colorClasses = computed(() => {
   </li>
 </template>
 
-<!--<style lang="scss" scoped>
+<style lang="scss" scoped>
 @import '@/common.scss';
 
 * {
@@ -91,4 +74,4 @@ h5 {
   min-width: 0;
   min-height: 0;
 }
-</style>-->
+</style>

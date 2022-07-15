@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted, defineProps, computed } from 'vue';
 
 const props = defineProps<{
   url: string,
@@ -8,6 +8,10 @@ const props = defineProps<{
 
 const src = ref<string | null>(null);
 const placeholder = ref<HTMLDivElement | null>(null);
+
+const source = computed(() => {
+  return process.env.NODE_ENV === 'production' ? src.value : props.url
+})
 
 const getLocalSrc = async () => {
   // fetch from server
@@ -107,7 +111,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <img v-if="url" :src="url" :style="styles" alt="Poster">
+  <img v-if="source" :src="source" :style="styles" alt="Poster">
   <div v-else class="placeholder" ref="placeholder"></div>
 </template>
 

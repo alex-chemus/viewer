@@ -18,25 +18,32 @@ export interface IPage {
     budget: string,
     cumulativeWorldwideGross: string
   },
-  similars?: {
+  similars: {
     title: string,
     imDbRating: string | null,
     image: string,
     id: string,
     i: number
-  }[]
+  }[],
+  id: string,
+  image: string
 }
 
 export interface ICard {
   title: string,
   year?: string,
-  imDbRating: string,
+  imDbRating?: string,
   image: string,
   id: string,
   type?: Content,
   i?: number
 }
 
-// export interface IStorage {}
+export interface IStorage {
+  title: string,
+  imDbRating?: string,
+  type: Content,
+  id: string 
+}
 
 // export interface IPopupItem {}
