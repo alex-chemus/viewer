@@ -5,10 +5,10 @@ import { useStore } from 'vuex';
 import {
   ref, defineProps, inject, computed
 } from 'vue';
-import Popup from '@/components/Popup/Popup.vue';
-import { IPopupItem } from '@/types'
+import Popup from '../Popup/Popup.vue';
+import { IPopupItem } from '../types'
 import { Key } from '@/store'
-import { Content, Loader, useWatchlist } from '@shared';
+import { Content, } from '@shared';
 
 const props = defineProps<{
   contentType: Content

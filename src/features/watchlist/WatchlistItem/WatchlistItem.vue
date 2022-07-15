@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { IStorage } from '@/types';
 import { defineProps, defineEmits, computed } from 'vue';
-import { Content } from '@shared';
+import { Content, IStorage } from '@shared';
 
 const props = defineProps<{
   data: IStorage

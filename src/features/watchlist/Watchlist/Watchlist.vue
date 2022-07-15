@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Content, IStorage } from '@/types';
-import WatchlistItem from '@/components/WatchlistItem/WatchlistItem.vue';
+import { Content, IStorage } from '@shared';
+import WatchlistItem from '../WatchlistItem/WatchlistItem.vue';
 
 type List = {
   i: number,
@@ -13,10 +13,7 @@ const series = ref<List[] | null>(null);
 
 const getLocalData = () => {
   if (localStorage.getItem('watchlist')) {
-    // console.log('got watchlist from localstorage')
     const localData = JSON.parse(localStorage.getItem('watchlist') as string);
-    //movies.value = localData.movies.map((item: any, i: number) => ({ ...item, i }));
-    //series.value = localData.series.map((item: any, i: number) => ({ ...item, i }));
     movies.value = localData.movies
       .map((item: IStorage, i: number) => ({ data: item, i }))
     series.value = localData.series

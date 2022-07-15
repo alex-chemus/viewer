@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, defineProps } from 'vue';
-import Paragraph from '@/components/Paragraph/Paragraph.vue';
-import { IPage } from '@/types';
+import Paragraph from '../Paragraph/Paragraph.vue';
+import { IPage } from '../types';
 
 const props = defineProps<{
   data: IPage, // IPage

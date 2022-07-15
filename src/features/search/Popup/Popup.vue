@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { defineProps, watch } from 'vue';
-import Loader from '@/components/Loader/Loader.vue';
-import PopupItem from '@/components/PopupItem/PopupItem.vue';
-import { computed } from '@vue/reactivity';
-import { IPopupItem } from '@/types';
+import { defineProps, watch, computed } from 'vue';
+import PopupItem from '../PopupItem/PopupItem.vue';
+import { IPopupItem } from '../types';
+import { Loader } from '@shared';
 
 const props = defineProps<{
   searchedList: IPopupItem[] | null

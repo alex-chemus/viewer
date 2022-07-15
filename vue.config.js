@@ -11,8 +11,9 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '/src/'), //resolvePath('src/'),
-        //'@shared': path.resolve(__dirname, '/src/shared/index') //resolvePath('src/shared')
+        '@': path.resolve(__dirname, 'src/'), //resolvePath('src/'),
+        '@shared': path.resolve(__dirname, 'src/shared'), //resolvePath('src/shared')
+        '@features': path.resolve(__dirname, 'src/features/')
       },
     },
   },

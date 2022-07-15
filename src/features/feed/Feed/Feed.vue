@@ -5,11 +5,10 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Key } from '@/store';
 
-import { ICard } from '@/types';
 import { Content, Loader } from '@shared';
-import Card from '@/components/Card/Card.vue';
-import ConnectionError from '@/components/ConnectionError/ConnectionError.vue';
-import Search from '@/components/Search/Search.vue';
+import { ICard, Card } from '@features/card';
+import { Search } from '@features/search';
+import ConnectionError from '../ConnectionError/ConnectionError.vue';
 
 const key = inject<Key>('key');
 const { getters } = useStore(key);

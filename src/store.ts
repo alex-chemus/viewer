@@ -1,7 +1,6 @@
 import { InjectionKey } from 'vue';
 import { Store, createStore } from 'vuex';
-import { IPage } from './types';
-
+import { IPage } from "./features/page"
 /*
   стор нужен для кеширования данных о фильме, чтобы не отправлять запрос.
   данные:

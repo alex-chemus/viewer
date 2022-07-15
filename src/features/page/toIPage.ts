@@ -1,4 +1,4 @@
-import { IPage } from "@/types"
+import { IPage } from "./types"
 
 const toIPage = (data: any) => ({
   genreList: data.genreList,

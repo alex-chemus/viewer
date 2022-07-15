@@ -5,10 +5,10 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { Key } from '@/store';
 
-import ImageItem from '@/components/ImageItem/ImageItem.vue';
-import { ICard, IStorage } from '@/types';
-import toIPage from '@/utils/toIPage';
-import { Content, useWatchlist } from '@shared'
+import ImageItem from '../ImageItem/ImageItem.vue';
+import { ICard } from '../types';
+import { toIPage } from '@features/page';
+import { Content, useWatchlist, IStorage } from '@shared'
 
 const props = defineProps<{
   data: ICard, // todo: create a card content type (ICard)

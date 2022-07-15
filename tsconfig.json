@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["src/*"],
-      //"@shared": ["src/shared/index.ts"]
+      "@shared": ["src/shared/index.ts"],
+      "@features": ["src/features/*"]
     },
     "lib": [
       "esnext",

@@ -5,12 +5,11 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { Key } from '@/store';
 
-import { ICard, IPage, IStorage } from '@/types'
-import toIPage from '@/utils/toIPage';
-//import useWatchlist from '@/hooks/useWatchlist';
-import PageContent from '@/components/PageContent/PageContent.vue';
-import Card from '@/components/Card/Card.vue';
-import { useWatchlist, Loader, Content } from '@shared'
+import { IPage } from '../types'
+import toIPage from '../toIPage';
+import PageContent from '../PageContent/PageContent.vue';
+import { Card, ICard } from '@features/card';
+import { useWatchlist, Loader, Content, IStorage } from '@shared'
 
 const data = ref<IPage | null>(null); // IPage
 

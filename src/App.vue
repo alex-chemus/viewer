@@ -70,6 +70,7 @@ function toggleTheme() {
 </template>
 
 <style lang="scss" scoped>
+//@import '@/common.scss';
 @import '@/common.scss';
 
 main.dark {
