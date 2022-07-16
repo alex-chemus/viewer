@@ -5,13 +5,14 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { Key } from '@/store';
 
-import ImageItem from '../ImageItem/ImageItem.vue';
 import { ICard } from '../types';
 import { toIPage } from '@features/page';
 import { Content, useWatchlist, IStorage } from '@shared'
+import CardContent from '../CardContent/CardContent.vue'
+
 
 const props = defineProps<{
-  data: ICard, // todo: create a card content type (ICard)
+  data: ICard,
 }>();
 
 const key = inject<Key>('key');
@@ -53,90 +54,12 @@ const toStorageData = computed(() => ({
 } as IStorage))
 
 const addToWatchList = useWatchlist(contentType, toStorageData)
-
-const colorClass = computed(() => {
-  if (!props.data.imDbRating) return ''
-  let colorClass;
-  if (+props.data.imDbRating > 8) colorClass = 'text-success';
-  else if (+props.data.imDbRating > 6) colorClass = 'text-warning';
-  else colorClass = 'text-danger';
-  return `card-text rating ${colorClass} m-0`;
-})
 </script>
 
 <template>
-  <article class="card" v-if="data" data-test="card">
-    <div class="card-body">
-      <div class="image-container mb-3">
-        <ImageItem
-          :url="data.image"
-          :styles="{
-            maxHeight: '100%',
-            maxWidth: '100%'
-          }"
-        ></ImageItem>
-      </div>
-
-      <h5 class="card-title mb-1" :title="data.title">{{ data.title }}</h5>
-
-      <div class="wrapper mb-3 text-wrapper">
-        <p v-if="data.year" class="card-text year m-0">{{ data.year }}</p>
-        <p :class="colorClass">{{ data.imDbRating }}</p>
-      </div>
-
-      <div class="wrapper">
-        <button @click.prevent="addToWatchList" class="btn btn-primary" data-test="addBtn">Add</button>
-        <button @click="seeInfo" class="btn btn-warning">Info</button>
-      </div>
-    </div>
-  </article>
-
-  <article v-else class="card card-placeholder">
-  </article>
+  <CardContent 
+    :cardData="data" 
+    @add-to-watchlist="addToWatchList" 
+    @see-info="seeInfo" 
+  />
 </template>
-
-<style lang="scss" scoped>
-@import '@/common.scss';
-
-.card {
-  box-shadow: var(--shadow);
-  background-color: #fbfbfb;
-  color: #262626;
-
-  &-placeholder {
-    height: 350px;
-  }
-}
-
-.image-container {
-  height: 200px;
-  width: 100%;
-  @include flex(center, center);
-}
-
-.wrapper {
-  @include flex(space-between, center);
-}
-
-.text-wrapper {
-  min-height: 1em;
-}
-
-.year {
-  font-style: italic;
-}
-
-.rating {
-  font-weight: bold;
-}
-
-.card-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.btn {
-  box-shadow: var(--small-shadow);
-}
-</style>
