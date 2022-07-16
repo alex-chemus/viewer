@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, watch, inject, onMounted, onUpdated } from 'vue';
+import { ref, watch, inject, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Key } from '@/store';
 
-import { Content, Loader } from '@shared';
-import { ICard, Card } from '@features/card';
-import { Search } from '@features/search';
-import ConnectionError from '../ConnectionError/ConnectionError.vue';
+import { Content } from '@shared';
+import { ICard } from '@features/card';
+import FeedContent from '../FeedContent/FeedContent.vue'
 
 const key = inject<Key>('key');
 const { getters } = useStore(key);
@@ -19,12 +18,9 @@ type ListItem = {
   i: number
 }
 
-const cardsList = ref<ListItem[] | null>(null); // ICard[]
+const cardsList = ref<ListItem[] | null>(null);
 const isError = ref<boolean>(false)
 const loadTo = ref(21);
-
-const divRef = ref<HTMLDivElement | null>(null)
-const isObserving = ref<boolean>(false)
 
 const contentType = ref<Content>(route.params.type as Content | 'movies');
 const storageItem = contentType.value === 'movies' 
@@ -79,65 +75,17 @@ const getData = () => {
 watch(() => route.params, getData);
 onMounted(getData)
 
-const observer = new IntersectionObserver((entries) => {
-  if (entries.some(i => i.isIntersecting)) {
-    console.log('observe!')
-    loadTo.value += 20
-    getData()
-  }
-}, { // options
-  threshold: 0,
-  rootMargin: '10px'
-})
-
-const setObserver = () => {
-  if (divRef.value && !isObserving.value) {
-    observer.observe(divRef.value)
-    isObserving.value = true
-  }
+const onObserve = () => {
+  loadTo.value += 20
+  getData()
 }
-onMounted(setObserver)
-onUpdated(setObserver)
 </script>
 
 <template>
-  <ConnectionError v-if="isError" />
-
-  <section v-else-if="cardsList && cardsList.length > 0" class="container pt-5">
-    <div class="row justify-content-center mb-4">
-      <div class="col-xl-6 col-lg-8 col-12">
-        <Search
-          :contentType="contentType"
-        />
-      </div>
-    </div>
-
-    <h1 class="mb-3 text-center">Popular {{ contentType }}</h1>
-
-    <div class="row justify-content-center mb-3">
-      <div v-for="card in cardsList" :key="card.i" class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3">
-        <Card :data="card.data" />
-      </div>
-    </div>
-
-    <div class="row justify-content-center" ref="divRef"></div>
-  </section>
-
-  <Loader v-else size="180" />
+  <FeedContent 
+    :cardsList="cardsList"
+    :isError="isError"
+    :contentType="contentType"
+    @observe="onObserve"
+  />
 </template>
-
-<style lang="scss" scoped>
-@import '@/common.scss';
-
-h1 {
-  color: var(--text-color);
-}
-
-.container {
-  min-width: 0;
-}
-
-.loadMore {
-  margin: 0 auto;
-}
-</style>
