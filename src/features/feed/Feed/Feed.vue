@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, watch, inject, onMounted } from 'vue';
+import { ref, watch, inject, onMounted, onUpdated } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Key } from '@/store';
@@ -23,9 +23,14 @@ const cardsList = ref<ListItem[] | null>(null); // ICard[]
 const isError = ref<boolean>(false)
 const loadTo = ref(21);
 
+const divRef = ref<HTMLDivElement | null>(null)
+const isObserving = ref<boolean>(false)
+
 const contentType = ref<Content>(route.params.type as Content | 'movies');
-const storageItem = contentType.value === 'movies' ? 'popularMovies' : 'popularSeries';
-const urlRequest = contentType.value === 'movies' ? 'MostPopularMovies' : 'MostPopularTVs';
+const storageItem = contentType.value === 'movies' 
+  ? 'popularMovies' : 'popularSeries';
+const urlRequest = contentType.value === 'movies' 
+  ? 'MostPopularMovies' : 'MostPopularTVs';
 
 const fetchData = async () => {
   try {
@@ -36,15 +41,6 @@ const fetchData = async () => {
     const list: ListItem[] = [];
 
     res.data.items.forEach((item: any, i: number) => { // ICard
-      /*list.push({
-        title: item.title,
-        year: item.year,
-        imDbRating: item.imDbRating,
-        image: item.image,
-        id: item.id,
-        type: contentType.value,
-        i,
-      } as ICard);*/
       list.push({
         data: {
           title: item.title,
@@ -83,10 +79,25 @@ const getData = () => {
 watch(() => route.params, getData);
 onMounted(getData)
 
-const loadMore = () => {
-  loadTo.value += 20;
-  getData();
-};
+const observer = new IntersectionObserver((entries) => {
+  if (entries.some(i => i.isIntersecting)) {
+    console.log('observe!')
+    loadTo.value += 20
+    getData()
+  }
+}, { // options
+  threshold: 0,
+  rootMargin: '10px'
+})
+
+const setObserver = () => {
+  if (divRef.value && !isObserving.value) {
+    observer.observe(divRef.value)
+    isObserving.value = true
+  }
+}
+onMounted(setObserver)
+onUpdated(setObserver)
 </script>
 
 <template>
@@ -109,13 +120,7 @@ const loadMore = () => {
       </div>
     </div>
 
-    <div class="row justify-content-center">
-      <button
-        v-if="cardsList.length < 100"
-        class="btn btn-primary loadMore col-auto mb-3"
-        @click="loadMore"
-      >Load more</button>
-    </div>
+    <div class="row justify-content-center" ref="divRef"></div>
   </section>
 
   <Loader v-else size="180" />

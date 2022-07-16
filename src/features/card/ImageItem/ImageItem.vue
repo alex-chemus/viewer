@@ -53,7 +53,9 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 onMounted(() => {
-  if (placeholder.value) { observer.observe(placeholder.value); }
+  console.log('observe ImageItem', placeholder.value)
+  if (placeholder.value) 
+    observer.observe(placeholder.value)
 });
 </script>
 
