@@ -23,7 +23,13 @@ const badgeClasses = computed(() => {
 });
 
 const keyedGenres = computed(() => props.data.genreList
-  .map((item: any, i: number) => ({ key: i, ...item })));
+  .map((item: any, i: number) => ({ key: i, ...item }))
+);
+
+const showBox = computed(() => {
+  return props.data.boxOffice.budget 
+    && props.data.boxOffice.cumulativeWorldwideGross
+})
 </script>
 
 <template>
@@ -83,7 +89,7 @@ const keyedGenres = computed(() => props.data.genreList
       :data="(data.companies as string)"
     />
 
-    <div v-if="data.boxOffice" class="mb-3">
+    <div v-if="showBox" class="mb-3">
       <h5 class="mb-2">Box Office:</h5>
       <p class="mb-1">Budget: {{ data.boxOffice.budget }}</p>
       <p>Cumulative Worlwide Gross: {{ data.boxOffice.cumulativeWorldwideGross }}</p>

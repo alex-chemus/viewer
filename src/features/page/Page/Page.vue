@@ -58,12 +58,14 @@ const similars = computed(() => {
   if (!data.value) return data.value
   return data.value.similars
     .map((item: any, i: number) => ({
-      title: item.title,
-      imDbRating: item.imDbRating,
-      image: item.image,
-      id: item.id,
+      data: {
+        title: item.title,
+        imDbRating: item.imDbRating,
+        image: item.image,
+        id: item.id
+      } as ICard,
       i
-    } as ICard))
+    }))
 })
 </script>
 
@@ -88,7 +90,7 @@ const similars = computed(() => {
         :key="card.i"
         class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3"
       >
-        <Card :data="card" />
+        <Card :data="card.data" />
       </div>
     </div>
   </section>

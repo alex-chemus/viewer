@@ -20,7 +20,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@shared": ["src/shared/index.ts"],
-      "@features": ["src/features/*"]
+      "@features/*": ["src/features/*"]
     },
     "lib": [
       "esnext",

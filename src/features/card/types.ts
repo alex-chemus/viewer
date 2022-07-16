@@ -7,5 +7,5 @@ export interface ICard {
   image: string,
   id: string,
   type?: Content,
-  i?: number
+  //i?: number
 }

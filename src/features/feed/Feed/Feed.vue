@@ -14,7 +14,12 @@ const key = inject<Key>('key');
 const { getters } = useStore(key);
 const route = useRoute();
 
-const cardsList = ref<ICard[] | null>(null); // ICard[]
+type ListItem = {
+  data: ICard,
+  i: number
+}
+
+const cardsList = ref<ListItem[] | null>(null); // ICard[]
 const isError = ref<boolean>(false)
 const loadTo = ref(21);
 
@@ -28,10 +33,10 @@ const fetchData = async () => {
     const isError = res.data.errorMessage !== '' || res.status !== 200;
     if (isError) throw new Error('Error');
 
-    const list: ICard[] = [];
+    const list: ListItem[] = [];
 
     res.data.items.forEach((item: any, i: number) => { // ICard
-      list.push({
+      /*list.push({
         title: item.title,
         year: item.year,
         imDbRating: item.imDbRating,
@@ -39,7 +44,17 @@ const fetchData = async () => {
         id: item.id,
         type: contentType.value,
         i,
-      } as ICard);
+      } as ICard);*/
+      list.push({
+        data: {
+          title: item.title,
+          year: item.year,
+          imDbRating: item.imDbRating,
+          image: item.image,
+          id: item.id
+        } as ICard,
+        i
+      })
     });
 
     cardsList.value = list.slice(0, loadTo.value);
@@ -90,7 +105,7 @@ const loadMore = () => {
 
     <div class="row justify-content-center mb-3">
       <div v-for="card in cardsList" :key="card.i" class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3">
-        <Card :data="card"></Card>
+        <Card :data="card.data" />
       </div>
     </div>
 
