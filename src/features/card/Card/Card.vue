@@ -58,7 +58,7 @@ const addToWatchList = useWatchlist(contentType, toStorageData)
 
 <template>
   <CardContent 
-    :cardData="data" 
+    :card-data="data" 
     @add-to-watchlist="addToWatchList" 
     @see-info="seeInfo" 
   />

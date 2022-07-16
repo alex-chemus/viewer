@@ -7,9 +7,8 @@ import { Key } from '@/store';
 
 import { IPage } from '../types'
 import toIPage from '../toIPage';
-import PageContent from '../PageContent/PageContent.vue';
-import { Card, ICard } from '@features/card';
-import { useWatchlist, Loader, Content, IStorage } from '@shared'
+import { useWatchlist, Content, IStorage } from '@shared'
+import PageContent from '../PageContent/PageContent.vue'
 
 const data = ref<IPage | null>(null); // IPage
 
@@ -51,75 +50,13 @@ const toStorageData = computed(() => {
   } as IStorage
 })
 
-// todo: make it shared
 const addToWatchList = useWatchlist(contentType.value, toStorageData)
-
-const similars = computed(() => {
-  if (!data.value) return data.value
-  return data.value.similars
-    .map((item: any, i: number) => ({
-      data: {
-        title: item.title,
-        imDbRating: item.imDbRating,
-        image: item.image,
-        id: item.id
-      } as ICard,
-      i
-    }))
-})
 </script>
 
 <template>
-  <section v-if="data" class="container-md pt-5">
-    <div class="row">
-      <div class="col-12 col-xl-4 col-md-6 poster-container">
-        <img :src="data.image" alt="Poster" class="poster">
-      </div>
-      <PageContent :data="data" :type="contentType" />
-    </div>
-
-    <div class="row justify-content-center mb-5">
-      <button class="col-auto btn btn-primary" @click="addToWatchList">Add to the watchlist</button>
-    </div>
-
-    <h3 class="text-center mb-3">Similars</h3>
-
-    <div class="row justify-content-center mb-4">
-      <div
-        v-for="card in similars"
-        :key="card.i"
-        class="col-xl-2 col-lg-3 col-sm-4 col-8 py-3"
-      >
-        <Card :data="card.data" />
-      </div>
-    </div>
-  </section>
-
-  <Loader v-else size="180" />
+  <PageContent 
+    :page-data="data"
+    :content-type="contentType"
+    @add-to-watchlist="addToWatchList"
+  />
 </template>
-
-<style lang="scss" scoped>
-@import '@/common.scss';
-
-.poster {
-  max-width: 100%;
-  border-radius: 1rem;
-
-  @media (max-width: 768px) {
-    max-height: 70vh;
-    box-shadow: var(--large-shadow);
-  }
-}
-
-* {
-  color: var(--text-color);
-}
-
-.poster-container {
-  @include flex(center, flex-start);
-
-  @media (max-width: 768px) {
-    padding: 0;
-  }
-}
-</style>
