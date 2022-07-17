@@ -2,7 +2,7 @@
 import { defineProps, defineEmits, computed } from 'vue';
 import { IPage } from '../types';
 import { Loader, Content } from '@shared'
-import { ICard } from '@features/card'
+import { ICard, Card } from '@features/card'
 import PageInfo from '../PageInfo/PageInfo.vue'
 
 const props = defineProps<{

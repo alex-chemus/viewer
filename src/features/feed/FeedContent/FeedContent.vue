@@ -1,4 +1,4 @@
-<script setup="" lang="ts">
+<script setup lang="ts">
 import { defineProps, defineEmits, ref, onMounted, onUpdated } from 'vue'
 import { ICard, Card } from '@features/card'
 import { Loader, Content } from '@shared'

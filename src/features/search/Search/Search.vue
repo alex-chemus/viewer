@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useDebounce from '@/hooks/useDebounce';
+import useDebounce from '../useDebounce';
 import axios from 'axios';
 import { useStore } from 'vuex';
 import { ref, defineProps, inject } from 'vue';
