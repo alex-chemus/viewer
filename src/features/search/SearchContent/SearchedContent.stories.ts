@@ -1,28 +1,26 @@
 import SearchContent from './SearchContent.vue'
 import { Meta, StoryFn } from '@storybook/vue3'
-import { action } from '@storybook/addon-actions'
+
+import routes from '@/routes'
+import VueRouter from 'storybook-vue3-router'
 
 export default {
   title: 'Search/SearchContent',
   component: SearchContent,
   argTypes: {
-    input: {},
-    closePopup: {}
+    onInput: {},
+    onClosePopup: {}
   }
 } as Meta<typeof SearchContent>
 
-export const actionsData = {
-  input: action('input'),
-  closePopup: action('close-popup')
-}
-
 const Template: StoryFn<typeof SearchContent> = (args) => ({
   components: { SearchContent },
-  setup() { return { args, ...actionsData } },
+  setup() { return { args } },
   template: `<SearchContent v-bind="args" />`
 })
 
 export const Default = Template.bind({})
+Default.decorators = [ VueRouter(routes) ]
 Default.args = {
   isOpened: true,
   contentType: 'movies',

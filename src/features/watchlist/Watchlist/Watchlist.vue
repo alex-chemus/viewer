@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Content, IStorage } from '@shared';
-import WatchlistItem from '../WatchlistItem/WatchlistItem.vue';
+import WatchlistContent from '../WatchlistContent/WatchlistContent.vue'
 
 type List = {
   i: number,
@@ -41,49 +41,9 @@ const removeItem = ({ contentType, id }: RemoveItemProps) => {
 </script>
 
 <template>
-  <section class="container pt-5">
-    <div class="row justify-content-around">
-      <div class="col-xxl-4 col-md-6 mb-5 mw-100vw">
-        <h3 class="text-center mb-4">Movies</h3>
-        <ul v-if="movies?.length" class="list-group">
-          <WatchlistItem
-            v-for="item in movies"
-            :key="item.i"
-            :data="item.data"
-            @remove="removeItem"
-          />
-        </ul>
-        <h4 v-else class="text-center">¯\_(ツ)_/¯</h4>
-      </div>
-
-      <div class="col-xxl-4 col-md-6 mb-5 mw-100vw">
-        <h3 class="text-center mb-4">Series</h3>
-        <ul v-if="series?.length" class="list-group">
-          <WatchlistItem
-            v-for="item in series"
-            :key="item.i"
-            :data="item.data"
-            @remove="removeItem"
-          />
-        </ul>
-        <h4 v-else class="text-center">¯\_(ツ)_/¯</h4>
-      </div>
-    </div>
-  </section>
+  <WatchlistContent 
+    :movies="movies"
+    :series="series"
+    @remove-item="removeItem"
+  />
 </template>
-
-<style lang="scss" scoped>
-@import '@/common.scss';
-
-* {
-  color: var(--text-color);
-}
-
-div, ul {
-  min-width: 0;
-}
-
-.mw-100vw {
-  max-width: 100vw;
-}
-</style>

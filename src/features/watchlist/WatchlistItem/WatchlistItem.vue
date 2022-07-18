@@ -6,18 +6,18 @@ const props = defineProps<{
   data: IStorage
 }>();
 
-interface Event {
+interface Item {
   id: string,
   contentType: Content
 }
 
 /* eslint-disable */
 const emit = defineEmits<{
-  (e: 'remove', event: Event): void
+  (e: 'remove', item: Item): void
 }>()
 /* eslint-enable */
 
-const remove = (event: Event) => emit('remove', event);
+const remove = (item: Item) => emit('remove', item);
 
 const colorClasses = computed(() => {
   if (!props.data.imDbRating) return ''
