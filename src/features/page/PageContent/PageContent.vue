@@ -32,7 +32,7 @@ const similars = computed(() => {
 </script>
 
 <template>
-  <section v-if="pageData" class="container-md pt-5">
+  <section v-if="pageData" class="container-md pt-sm-5">
     <div class="row my-4">
       <div class="col-12 col-xl-4 col-md-6 poster-container">
         <img :src="pageData.image" alt="Poster" class="poster">

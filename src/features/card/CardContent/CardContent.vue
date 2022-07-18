@@ -94,6 +94,10 @@ const colorClass = computed(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media(max-width: 576px) {
+    white-space: normal;
+  }
 }
 
 .btn {
