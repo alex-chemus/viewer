@@ -33,7 +33,7 @@ const showBox = computed(() => {
 </script>
 
 <template>
-  <div class="col content px-5 py-4">
+  <div class="col content px-5">
     <h1 class="mb-4">{{ data.title }}</h1>
 
     <h5 class="mb-3" v-if="data.imDbRating">
