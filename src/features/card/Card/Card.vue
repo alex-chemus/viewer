@@ -24,6 +24,7 @@ const contentType = ref<Content | null>(null)
 onMounted(async () => {
   if (!props.data.type) {
     try {
+      console.log('card data: ', props.data)
       const path = `${getters.url}/Title/${getters.apiKey}/${props.data.id}`;
       const res = await axios.get(path);
       if (res.data.errorMessage?.length || res.status !== 200) {

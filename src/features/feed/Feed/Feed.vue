@@ -65,6 +65,7 @@ const getData = () => {
     cardsList.value = localData.list.slice(0, loadTo.value);
     // if the data is expired (1h), fetch it again
     if (Date.now() - localData.time > 3600000) { // 3_600_000
+      console.log('fetch data')
       fetchData();
     }
   } else { // fetch data if it's not stored locally
