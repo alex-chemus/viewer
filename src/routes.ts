@@ -30,6 +30,7 @@ const Feed = () => import('./views/Feed.vue')
 const NotFound = () => import('./views/NotFound.vue')
 const Page = () => import('./views/Page.vue')
 const Watchlist = () => import('./views/Watchlist.vue')
+const ErrorView = () => import('./views/ErrorView.vue')
 
 // console.log('from the routes')
 
@@ -38,6 +39,7 @@ const routes = [
   { path: '/popular/:type', component: Feed },
   { path: '/:type/:id', component: Page },
   { path: '/watchlist', component: Watchlist },
+  { path: '/error', component: ErrorView },
   { path: '/:pathMatch(.*)', component: NotFound, alias: '/notfound' },
 ];
 

@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { ref, watch, inject, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { Key } from '@/store';
 
 import { Content } from '@shared';
@@ -12,6 +12,7 @@ import FeedContent from '../FeedContent/FeedContent.vue'
 const key = inject<Key>('key');
 const { getters } = useStore(key);
 const route = useRoute();
+const router = useRouter()
 
 type ListItem = {
   data: ICard,
@@ -32,7 +33,7 @@ const fetchData = async () => {
   try {
     const res = await axios.get(`${getters.url}/${urlRequest}/${getters.apiKey}`);
     const isError = res.data.errorMessage !== '' || res.status !== 200;
-    if (isError) throw new Error('Error');
+    if (isError) throw new Error(res.data.errorMessage);
 
     const list: ListItem[] = [];
 
@@ -54,6 +55,8 @@ const fetchData = async () => {
     return null;
   } catch (err) {
     isError.value = true
+    localStorage.setItem('errorMessage', err)
+    router.push('/error')
     return null;
   }
 };

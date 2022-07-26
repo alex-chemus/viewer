@@ -27,14 +27,15 @@ onMounted(() => {
     axios(`${getters.url}/Title/${getters.apiKey}/${contentId}`)
       .then((res) => {
         if (res.data.errorMessage?.length || res.status !== 200) 
-          throw new Error('failed to fetch ', res.data.errorMessage)
+          throw new Error(res.data.errorMessage)
           
         data.value = toIPage(res.data);
         commit('addPage', data.value);
       })
       .catch((err) => {
         console.log('error in Page:', err);
-        router.push('/notfound');
+        localStorage.setItem('errorMessage', err)
+        router.push('/error');
       });
   }
 })

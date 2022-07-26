@@ -33,7 +33,7 @@ const getSearchedData = (event: InputEvent) => {
   axios(`${getters.url}/${urlType}/${getters.apiKey}/${inputValue}`)
     .then((res) => {
       if (res.data.errorMessage?.length || res.status !== 200) {
-        throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`);
+        throw new Error(res.data.errorMessage);
       }
       isLoading.value = false
       console.log('search data: ', res.data)

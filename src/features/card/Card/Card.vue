@@ -23,18 +23,19 @@ const contentType = ref<Content | null>(null)
 // define content type if none
 onMounted(async () => {
   if (!props.data.type) {
-    console.log('card data: ', props.data)
+    //console.log('card data: ', props.data)
     try {
       const path = `${getters.url}/Title/${getters.apiKey}/${props.data.id}`;
       const res = await axios.get(path);
       if (res.data.errorMessage?.length || res.status !== 200) {
-        throw new Error(`The server sent errorMessage: ${res.data.errorMessage}`);
+        throw new Error(res.data.errorMessage);
       }
       commit('addPage', toIPage(res.data));
       contentType.value = res.data.type === 'Movie' ? 'movies' : 'series';
     } catch (err) {
       console.log('failed to fetch in Card:', err);
-      router.push('/notfound');
+      localStorage.setItem('errorMessage', err)
+      router.push('/error');
       throw new Error();
     }
   } else {
